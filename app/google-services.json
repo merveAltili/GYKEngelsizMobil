@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "62529507772",
+    "firebase_url": "https://gykmobil-f313b.firebaseio.com",
+    "project_id": "gykmobil-f313b",
+    "storage_bucket": "gykmobil-f313b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62529507772:android:a690f3d51e56f384",
+        "android_client_info": {
+          "package_name": "com.gelecegiyazanlar.mervegulsah.engelsizmobil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62529507772-gebekmggpm3fqqurccv8du0me05f7023.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gelecegiyazanlar.mervegulsah.engelsizmobil",
+            "certificate_hash": "96ad8500e4b21db5a7cf1ab6eb131baeca7833ed"
+          }
+        },
+        {
+          "client_id": "62529507772-eormti1t0pcib07nc6ogvj5jjfb687bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7eXHum6khlPFj7u8xppeg3nH50b6MFC0"
+        },
+        {
+          "current_key": "AIzaSyB7KEnm0RM9Wymc2j3jKJAAdZzoRoLr9IQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62529507772-eormti1t0pcib07nc6ogvj5jjfb687bh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
