@@ -2,11 +2,8 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,13 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
 
 public class Post extends AppCompatActivity {
 
