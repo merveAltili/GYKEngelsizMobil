@@ -41,7 +41,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="8dp"
             android:inputType="textPassword"
-            android:hint="Sifre"
+            android:hint="Şifre"
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -2,6 +2,7 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -67,6 +68,7 @@ public class Giris extends AppCompatActivity {
         mProgress = new ProgressDialog(this);
         giriskullaniciad = (EditText) findViewById(R.id.giriskullaniciad);
         girissifre = (EditText) findViewById(R.id.girissifre);
+        girissifre.setTypeface(Typeface.DEFAULT);
         girisbutton = (Button) findViewById(R.id.girisbutton);
         //  imgfacebook= (ImageButton) findViewById(R.id.imgfacebook);
         // imgtwitter= (ImageButton) findViewById(R.id.imgtwitter);

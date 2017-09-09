@@ -1,6 +1,7 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,8 @@ public class KayitActivity extends AppCompatActivity {
         edtTelefon = (EditText)findViewById(R.id.edtTelefon);
         edtMail = (EditText)findViewById(R.id.edtMail);
         edtSifre = (EditText)findViewById(R.id.edtSifre);
+
+        edtSifre.setTypeface(Typeface.DEFAULT);
         rdoDernek = (RadioButton)findViewById(R.id.rdoDernek);
         rdoGönüllü = (RadioButton)findViewById(R.id.rdoGönüllü);
 
