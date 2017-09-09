@@ -11,11 +11,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import static com.gelecegiyazanlar.mervegulsah.engelsizmobil.R.id.edtKullaniciAdi;
 
 public class Post extends AppCompatActivity {
 
@@ -26,13 +34,17 @@ public class Post extends AppCompatActivity {
     private Button mBtnEtkinlik;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
-    private  Uri mImageUri =null;
+    private  Uri mImageUri= null;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+
         mStorage= FirebaseStorage.getInstance().getReference();
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mEtkinlikAd=(EditText)findViewById(R.id.edtEtkinlikAd) ;
         mAciklama=(EditText)findViewById(R.id.edtAciklama);
         mBtnEtkinlik=(Button)findViewById(R.id.btnEtkinlikOlustur);
@@ -41,47 +53,59 @@ public class Post extends AppCompatActivity {
         mSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent galleryIntent =new Intent(Intent.ACTION_GET_CONTENT);
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent,GALERY_REQUEST);
+                startActivityForResult(galleryIntent, GALERY_REQUEST);
 
+                    }
+                });
+                mBtnEtkinlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startPosting();
+                    }
+                });
             }
-        });
-        mBtnEtkinlik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPosting();
-            }
-        });
-    }
-    private void startPosting(){
-        mProgress.setMessage("Etkinlik oluşturuluyor ...");
-        mProgress.show();
-        String etkinlik_Ad=mEtkinlikAd.getText().toString().trim();
-        String aciklama=mAciklama.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(etkinlik_Ad) && !TextUtils.isEmpty(aciklama)&& mImageUri!=null)
-        {
-            StorageReference filepath=mStorage.child("Etkinlik_resimleri").child(mImageUri.getLastPathSegment());
-            filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    mProgress.dismiss();
+            private void startPosting() {
+
+                final String etkinlikAd = mEtkinlikAd.getText().toString().trim();
+                final String aciklama = mAciklama.getText().toString().trim();
+
+                if (!TextUtils.isEmpty(etkinlikAd) && !TextUtils.isEmpty(aciklama) && mImageUri != null) {
+                    mProgress.setMessage("Etkinlik oluşturuluyor ...");
+                    mProgress.show();
+                    StorageReference filepath = mStorage.child("Etkinlik resimleri").child(mImageUri.getLastPathSegment());
+
+                    filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                          DatabaseReference newPost=mDatabase.push();
+                            newPost.child("etkinlikad").setValue(etkinlikAd);
+                            newPost.child("aciklama").setValue(aciklama);
+                            newPost.child("image").setValue(downloadUrl.toString());
+                            mProgress.dismiss();
+                            startActivity(new Intent(Post.this,Anasayfa.class));
+
+                        }
+                    });
                 }
-            });
+
+            }
+
+            @Override
+            protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+                super.onActivityResult(requestCode, resultCode, data);
+
+                if (requestCode == GALERY_REQUEST && resultCode == RESULT_OK) {
+                    mImageUri = data.getData();
+                    mSelectImage.setImageURI(mImageUri);
+                }
+            }
         }
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
-
-    if(requestCode==GALERY_REQUEST && resultCode== RESULT_OK)
-    {
-       mImageUri=data.getData();
-        mSelectImage.setImageURI(mImageUri);
-    }
-    }
-}
