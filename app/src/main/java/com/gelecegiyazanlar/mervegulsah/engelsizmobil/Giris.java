@@ -132,8 +132,7 @@ public class Giris extends AppCompatActivity {
         kayit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intocan = new Intent(getApplicationContext(),KayitActivity.class);
-                startActivity(intocan);
+                startActivity(new Intent(Giris.this,KayitActivity.class));
             }
         });
     }
