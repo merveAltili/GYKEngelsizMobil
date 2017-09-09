@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+   android:layout_marginTop="10dp"
+    android:layout_height="100dp">
+
+
+            <ImageView
+                android:id="@+id/imgEtkinlik"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/android_image_1"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/txtEtkinlikAdi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="18dp"
+                android:layout_toEndOf="@+id/imgEtkinlik"
+                android:text="Etkinlik Adı"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="25dp"/>
+
+            <TextView
+                android:id="@+id/txtEtkinlikİcerigi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="İçerik"
+                android:textSize="20dp"
+                android:layout_marginTop="13dp"
+                android:layout_below="@+id/txtEtkinlikAdi"
+                android:layout_alignStart="@+id/txtEtkinlikAdi"/>
+
+</RelativeLayout>
