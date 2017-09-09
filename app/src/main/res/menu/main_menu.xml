@@ -8,7 +8,11 @@
         app:showAsAction="always"
         ></item>
 
+    <item android:id="@+id/action_profil"
+        android:title="Profile"
+        app:showAsAction="never"></item>
     <item android:id="@+id/action_settings"
         android:title="Settings"
         app:showAsAction="never"></item>
+
 </menu>

@@ -31,6 +31,9 @@ public class Anasayfa extends AppCompatActivity {
         if(item.getItemId()== R.id.action_add){
             startActivity(new Intent(Anasayfa.this,Post.class));
         }
+        else if(item.getItemId() == R.id.action_profil){
+            startActivity(new Intent(Anasayfa.this,Profile.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 }

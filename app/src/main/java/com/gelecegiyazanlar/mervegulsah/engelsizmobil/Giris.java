@@ -92,7 +92,7 @@ public class Giris extends AppCompatActivity {
                             kullanici.setSifre(dataSnapshot.child(key).getValue(Kullanici.class).getSifre().toString());
                             if(kullaniciAdi.equals(kullanici.getKullaniciAdi().toString()) && sifre.equals(kullanici.getSifre().toString()))
                             {
-                                Intent intocan = new Intent(Giris.this, Profil.class);
+                                Intent intocan = new Intent(Giris.this, Anasayfa.class);
                                 startActivity(intocan);
                             }
                         }
