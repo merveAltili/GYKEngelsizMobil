@@ -1,25 +1,12 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
-import android.widget.ImageView;
-
 public class Etkinlik {
-    ImageView etkinlikResmi;
+
     String etkinlikAdi;
-    String etkinlikİcerik;
+    String etkinlikİcerigi;
+    String etkinlikSaati;
 
-    public Etkinlik(String etkinlikAdi,String etkinlikİcerik)
-    {
-        this.etkinlikAdi = etkinlikAdi;
-        this.etkinlikİcerik = etkinlikİcerik;
-    }
-    public ImageView getEtkinlikResmi() {
-        return etkinlikResmi;
-    }
-
-    public void setEtkinlikResmi(ImageView etkinlikResmi) {
-        this.etkinlikResmi = etkinlikResmi;
-    }
 
     public String getEtkinlikAdi() {
         return etkinlikAdi;
@@ -29,11 +16,19 @@ public class Etkinlik {
         this.etkinlikAdi = etkinlikAdi;
     }
 
-    public String getEtkinlikİcerik() {
-        return etkinlikİcerik;
+    public String getEtkinlikİcerigi() {
+        return etkinlikİcerigi;
     }
 
-    public void setEtkinlikİcerik(String etkinlikİcerik) {
-        this.etkinlikİcerik = etkinlikİcerik;
+    public void setEtkinlikİcerigi(String etkinlikİcerigi) {
+        this.etkinlikİcerigi = etkinlikİcerigi;
+    }
+
+    public String getEtkinlikSaati() {
+        return etkinlikSaati;
+    }
+
+    public void setEtkinlikSaati(String etkinlikSaati) {
+        this.etkinlikSaati = etkinlikSaati;
     }
 }

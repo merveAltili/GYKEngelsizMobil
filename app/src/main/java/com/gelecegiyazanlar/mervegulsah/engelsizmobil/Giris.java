@@ -59,59 +59,52 @@ public class Giris extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giris);
 
-        mAuth= FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        mData=FirebaseDatabase.getInstance().getReference().child("kullaniciAdi");
+        mData = FirebaseDatabase.getInstance().getReference().child("kullaniciAdi");
         mData.keepSynced(true);
 
-        mProgress=new ProgressDialog(this);
-        giriskullaniciad= (EditText) findViewById(R.id.giriskullaniciad);
-        girissifre= (EditText) findViewById(R.id.girissifre);
-        girisbutton= (Button) findViewById(R.id.girisbutton);
-      //  imgfacebook= (ImageButton) findViewById(R.id.imgfacebook);
-       // imgtwitter= (ImageButton) findViewById(R.id.imgtwitter);
-        Mimggoogle= (ImageButton) findViewById(R.id.imggoogle);
-        kayit= (TextView) findViewById(R.id.edtkayit);
+        mProgress = new ProgressDialog(this);
+        giriskullaniciad = (EditText) findViewById(R.id.giriskullaniciad);
+        girissifre = (EditText) findViewById(R.id.girissifre);
+        girisbutton = (Button) findViewById(R.id.girisbutton);
+        //  imgfacebook= (ImageButton) findViewById(R.id.imgfacebook);
+        // imgtwitter= (ImageButton) findViewById(R.id.imgtwitter);
+        Mimggoogle = (ImageButton) findViewById(R.id.imggoogle);
+        kayit = (TextView) findViewById(R.id.edtkayit);
         girisbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String kullaniciAdi = giriskullaniciad.getText().toString();
                 final String sifre = girissifre.getText().toString();
-                if(!kullaniciAdi.equals("") || !sifre.equals(""))
-                {
+                if (!kullaniciAdi.equals("") || !sifre.equals("")) {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Kullanıcılar");
                     reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot data : dataSnapshot.getChildren())
-                        {
-                            String key = data.getKey();
-                            Kullanici kullanici = new Kullanici();
-                            kullanici.setKullaniciAdi(dataSnapshot.child(key).getValue(Kullanici.class).getKullaniciAdi().toString());
-                            kullanici.setSifre(dataSnapshot.child(key).getValue(Kullanici.class).getSifre().toString());
-                            if(kullaniciAdi.equals(kullanici.getKullaniciAdi().toString()) && sifre.equals(kullanici.getSifre().toString()))
-                            {
-                                Intent intocan = new Intent(Giris.this, Profil.class);
-                                startActivity(intocan);
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                String key = data.getKey();
+                                Kullanici kullanici = new Kullanici();
+                                kullanici.setKullaniciAdi(dataSnapshot.child(key).getValue(Kullanici.class).getKullaniciAdi().toString());
+                                kullanici.setSifre(dataSnapshot.child(key).getValue(Kullanici.class).getSifre().toString());
+                                if (kullaniciAdi.equals(kullanici.getKullaniciAdi().toString()) && sifre.equals(kullanici.getSifre().toString())) {
+                                    Intent intocan = new Intent(Giris.this, Anasayfa.class);
+                                    startActivity(intocan);
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });}
-                else
-                {
-                    if(kullaniciAdi.equals(""))
-                    {
-                        Toast.makeText(getApplicationContext(),"Lütfen kullanıcı adınızı giriniz.",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),"Lütfen şifrenizi giriniz.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    if (kullaniciAdi.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -120,13 +113,13 @@ public class Giris extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleApiClient=new GoogleApiClient.Builder(this).enableAutoManage(this,new GoogleApiClient.OnConnectionFailedListener() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
             @Override
             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
             }
         })
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         Mimggoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +128,15 @@ public class Giris extends AppCompatActivity {
 
             }
         });
-        }
+
+        kayit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intocan = new Intent(getApplicationContext(),KayitActivity.class);
+                startActivity(intocan);
+            }
+        });
+    }
 
 
     private void signIn() {

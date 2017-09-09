@@ -10,24 +10,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.EtkinlikViewHolder> {
+public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyViewHolder> {
 
     private ArrayList<Etkinlik> myEtkinlik;
 
-    public class EtkinlikViewHolder extends RecyclerView.ViewHolder {
-
-        //public CardView cv;
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         public ImageView imgEtkinlik;
-        public TextView txtEtkinlikAdi,txtEtkinlikİcerigi;
-        public EtkinlikViewHolder(View itemView)
-        {
-            super(itemView);
-            //cv = (CardView)itemView.findViewById(R.id.cv);
-            imgEtkinlik = (ImageView)itemView.findViewById(R.id.imgEtkinlik);
-            txtEtkinlikAdi = (TextView) itemView.findViewById(R.id.txtEtkinlikAdi);
-            txtEtkinlikİcerigi = (TextView)itemView.findViewById(R.id.txtEtkinlikİcerigi);
-        }
+        public TextView txtEtkinlikAdi,txtEtkinlikİceriği,txtEtkinlikSaati;
 
+        public MyViewHolder (View itemView){
+            super(itemView);
+            imgEtkinlik = (ImageView)itemView.findViewById(R.id.imgEtkinlik);
+            txtEtkinlikAdi = (TextView)itemView.findViewById(R.id.txtEtkinlikAdi);
+            txtEtkinlikİceriği = (TextView)itemView.findViewById(R.id.txtEtkinlikİcerigi);
+            txtEtkinlikSaati = (TextView)itemView.findViewById(R.id.txtEtkinlikSaati);
+
+
+        }
     }
 
     public EtkinlikAdapter(ArrayList<Etkinlik> myEtkinlik)
@@ -36,25 +35,22 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.Etkinl
     }
 
     @Override
-    public EtkinlikViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row,parent,false);
-        return new EtkinlikViewHolder(itemView);
+        return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(EtkinlikViewHolder holder, int position) {
-
-        //holder.imgEtkinlik.setImageResource(myEtkinlik.get(position).getEtkinlikResmi().getId());
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.txtEtkinlikAdi.setText(myEtkinlik.get(position).getEtkinlikAdi());
-        holder.txtEtkinlikİcerigi.setText(myEtkinlik.get(position).getEtkinlikİcerik());
-
-
-
+        holder.txtEtkinlikİceriği.setText(myEtkinlik.get(position).getEtkinlikİcerigi());
+        holder.txtEtkinlikSaati.setText(myEtkinlik.get(position).getEtkinlikSaati());
     }
-
 
     @Override
     public int getItemCount() {
         return myEtkinlik.size();
     }
+
+
 }
