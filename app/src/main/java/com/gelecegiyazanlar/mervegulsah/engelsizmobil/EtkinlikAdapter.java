@@ -1,8 +1,6 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
-import android.media.Image;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +37,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.Etkinl
 
     @Override
     public EtkinlikViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_design,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row,parent,false);
         return new EtkinlikViewHolder(itemView);
     }
 

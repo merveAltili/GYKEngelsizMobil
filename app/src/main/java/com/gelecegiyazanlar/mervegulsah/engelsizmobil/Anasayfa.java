@@ -28,7 +28,7 @@ public class Anasayfa extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==R.id.action_add){
+        if(item.getItemId()== R.id.action_add){
             startActivity(new Intent(Anasayfa.this,Post.class));
         }
         return super.onOptionsItemSelected(item);
