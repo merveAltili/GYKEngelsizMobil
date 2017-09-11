@@ -1,6 +1,7 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 
@@ -10,7 +11,15 @@ public class Etkinlik {
     String etkinlikİcerigi;
     String etkinlikSaati;
     String etkinlikResmi;
+    Context context;
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public String getEtkinlikResmi() {
         return etkinlikResmi;
