@@ -5,150 +5,177 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_bg"
-    tools:context="com.gelecegiyazanlar.mervegulsah.engelsizmobil.KayitActivity">
-    <LinearLayout
+    android:padding="16dp"
+
+    tools:context="com.gelecegiyazanlar.mervegulsah.engelsizmobil.Kayit">
+
+
+    <EditText
+        android:drawableLeft="@drawable/ic_kullanici_24dp"
+        android:drawablePadding="16dp"
+        android:drawableTint="@color/white"
+        android:id="@+id/edtKullaniciAdi"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:padding="10dp"
+        android:inputType="textPersonName"
+        android:text=""
+        android:hint="Kullanıcı Adı"
+        android:background="@color/gri"
+        android:textColorHint="@color/white"
+        android:layout_alignParentTop="true" />
+
+    <EditText
+        android:drawableLeft="@drawable/ic_kalem_24dp"
+        android:drawablePadding="16dp"
+        android:drawableTint="@color/white"
+        android:id="@+id/edtİsim"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtKullaniciAdi"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:hint="İsim"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:background="@color/gri"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:drawableLeft="@drawable/ic_kalem_24dp"
+        android:drawablePadding="16dp"
+        android:drawableTint="@color/white"
+        android:id="@+id/edtSoyisim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:hint="Soyisim"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:background="@color/gri"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/edtİsim"
+        android:layout_alignParentStart="true" />
 
-        <EditText
-            android:drawableLeft="@drawable/ic_kullanici_24dp"
-            android:drawablePadding="16dp"
-            android:drawableTint="@color/white"
-            android:id="@+id/edtKullaniciAdi"
-            android:layout_width="match_parent"
+    <EditText
+        android:drawableLeft="@drawable/ic_email_24dp"
+        android:drawableTint="@color/white"
+        android:drawablePadding="16dp"
+        android:id="@+id/edtMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtSoyisim"
+        android:ems="10"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:background="@color/gri"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress"
+        android:text=""
+        android:hint="Email"/>
+
+    <EditText
+        android:drawableLeft="@drawable/ic_telefon_24dp"
+        android:drawableTint="@color/white"
+        android:drawablePadding="16dp"
+        android:id="@+id/edtTelefon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtMail"
+        android:ems="10"
+        android:inputType="textPhonetic"
+        android:text=""
+        android:hint="Telefon"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:background="@color/gri"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"/>
+
+    <EditText
+        android:drawableLeft="@drawable/ic_kilit_24dp"
+        android:drawablePadding="16dp"
+        android:drawableTint="@color/white"
+        android:id="@+id/edtSifre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtTelefon"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text=""
+        android:hint="Şifre"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:background="@color/gri"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtSifre"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/rdoDernek"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text=""
-            android:hint="Kullanıcı Adı"
-            android:padding="10dp"
+            android:layout_weight="1"
+            android:text="Dernek"
             android:textColor="@color/white"
-            android:background="@color/gri"
-            android:textColorHint="@color/white"/>
+            android:textSize="18dp"/>
 
-        <EditText
-            android:drawableLeft="@drawable/ic_kalem_24dp"
-            android:drawablePadding="16dp"
-            android:drawableTint="@color/white"
-            android:id="@+id/edtİsim"
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/rdoGönüllü"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text=""
-            android:hint="İsim"
+            android:layout_weight="1"
+            android:text="Gönüllü"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:background="@color/gri"
-            android:layout_marginTop="16dp"
-            android:padding="10dp"/>
+            android:textSize="18dp"/>
+    </RadioGroup>
 
-        <EditText
-            android:drawableLeft="@drawable/ic_kalem_24dp"
-            android:drawablePadding="16dp"
-            android:drawableTint="@color/white"
-            android:id="@+id/edtSoyisim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text=""
-            android:hint="Soyisim"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:background="@color/gri"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"
-            />
+    <Button
+        android:id="@+id/btnKayıtOl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/radioGroup"
+        android:text="Kayıt Ol"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:background="@color/gri"/>
 
-        <EditText
-            android:drawableLeft="@drawable/ic_email_24dp"
-            android:drawablePadding="16dp"
-            android:drawableTint="@color/white"
-            android:id="@+id/edtMail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:text=""
-            android:hint="Email"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:background="@color/gri"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"
-            />
-        <EditText
-            android:drawableLeft="@drawable/ic_telefon_24dp"
-            android:drawablePadding="16dp"
-            android:drawableTint="@color/white"
-            android:id="@+id/edtTelefon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPhonetic"
-            android:text=""
-            android:hint="Telefon"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:background="@color/gri"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"
-            />
-        <EditText
-            android:drawableLeft="@drawable/ic_kilit_24dp"
-            android:drawablePadding="16dp"
-            android:drawableTint="@color/white"
-            android:id="@+id/edtSifre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:text=""
-            android:hint="Şifre"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:background="@color/gri"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"
-            />
+    <ImageButton
+        android:id="@+id/btnResimEkle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/gri"
+        android:padding="10dp"
+        app:srcCompat="@mipmap/ic_add_a_photo_white_24dp"
+        android:layout_alignTop="@+id/imgProfilResmi"
+        android:layout_alignParentEnd="true" />
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:padding="10dp">
-
-            <RadioButton
-                android:id="@+id/rdoDernek"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Dernek"
-                android:textColor="@color/white"
-                android:textSize="18dp"/>
-
-            <RadioButton
-                android:id="@+id/rdoGönüllü"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Gönüllü"
-                android:textColor="@color/white"
-                android:textSize="18dp"/>
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/btnKayıtOl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kayıt Ol"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/white"
-            android:background="@color/gri"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/imgProfilResmi"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignStart="@+id/btnResimEkle"
+        android:layout_alignTop="@+id/edtKullaniciAdi" />
 
 </RelativeLayout>

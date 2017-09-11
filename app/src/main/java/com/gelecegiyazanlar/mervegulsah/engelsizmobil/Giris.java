@@ -3,9 +3,8 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.provider.ContactsContract;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,26 +20,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.util.concurrent.TimeUnit;
 
 public class Giris extends AppCompatActivity {
 
@@ -51,6 +42,7 @@ public class Giris extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog mProgress;
     private DatabaseReference mData;
+    private String imgProfilResmi;
     TextView kayit;
     EditText giriskullaniciad,girissifre;
     Button  girisbutton;
@@ -95,15 +87,29 @@ public class Giris extends AppCompatActivity {
                                 kullanici.setMail(dataSnapshot.child(key).getValue(Kullanici.class).getMail());
                                 kullanici.setSoyisim(dataSnapshot.child(key).getValue(Kullanici.class).getSoyisim());
                                 kullanici.setDernek_gönüllü(dataSnapshot.child(key).getValue(Kullanici.class).getDernek_gönüllü());
+                                kullanici.setResim(dataSnapshot.child(key).getValue(Kullanici.class).getResim());
+                                imgProfilResmi = kullanici.getResim();
                                 if (kullaniciAdi.equals(kullanici.getKullaniciAdi()) && sifre.equals(kullanici.getSifre()))
                                 {
                                     if(kullanici.getDernek_gönüllü().equals("Gönüllü"))
                                     {
-                                       startActivity(new Intent(Giris.this,Anasayfa.class));
+                                        Intent intocan = new Intent(Giris.this,Anasayfa.class);
+                                        intocan.putExtra("Kullanıcı Adı",kullanici.getKullaniciAdi());
+                                        intocan.putExtra("Şifre",kullanici.getSifre());
+                                        intocan.putExtra("Resim",kullanici.getResim());
+                                        intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        startActivity(intocan);
+                                        finish();
                                     }
                                     else
                                     {
-                                       //startActivity(new Intent(Giris.this,Anasayfa.class));
+                                        Intent intocan = new Intent(Giris.this,Anasayfa.class);
+                                        intocan.putExtra("Kullanici_Adi",kullanici.getKullaniciAdi());
+                                        intocan.putExtra("Sifre",kullanici.getSifre());
+                                        intocan.putExtra("Resim",kullanici.getResim());
+                                        intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        startActivity(intocan);
+                                        finish();
                                     }
 
                                 }
@@ -147,7 +153,7 @@ public class Giris extends AppCompatActivity {
         kayit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Giris.this,KayitActivity.class));
+                startActivity(new Intent(Giris.this,Kayit.class));
             }
         });
     }

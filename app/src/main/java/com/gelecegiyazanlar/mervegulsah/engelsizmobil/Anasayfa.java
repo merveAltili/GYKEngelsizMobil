@@ -1,7 +1,10 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ public class Anasayfa extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     private FirebaseAuth mAuth;
+    public ProgressDialog mProgress;
     private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,8 @@ public class Anasayfa extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Intent intocan = new Intent();
+
         if(item.getItemId()==R.id.action_logout){
             logout();
         }
@@ -108,13 +114,26 @@ public class Anasayfa extends AppCompatActivity {
             startActivity(new Intent(Anasayfa.this,Post.class));
         }
         else if(item.getItemId() == R.id.action_profil){
-            startActivity(new Intent(Anasayfa.this,Profil.class));
+            Intent into = new Intent(Anasayfa.this,Profil.class);
+            Bundle bundle = getIntent().getExtras();
+            Kullanici kullanici = new Kullanici();
+            kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
+            kullanici.setSifre(bundle.getString("Sifre"));
+            kullanici.setResim(bundle.getString("Resim"));
+            into.putExtra("Kullanici_Adi",kullanici.getIsim());
+            into.putExtra("Sifre",kullanici.getSifre());
+            into.putExtra("Resim",kullanici.getResim());
+            startActivity(into);
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void logout() {
         mAuth.signOut();
+        Intent into = new Intent(getApplicationContext(),Giris.class);
+        into.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(into);
+        finish();
     }
 }
 

@@ -6,31 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.gelecegiyazanlar.mervegulsah.engelsizmobil.Profil">
 
-    <ImageView
-        android:id="@+id/imgProfil"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        app:srcCompat="@drawable/android_image_2" />
-
-    <TextView
-        android:id="@+id/txtPuan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgProfil"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
-        android:background="@drawable/input_outline"
-        android:text="PUAN"
-        android:textStyle="bold"/>
+        android:id="@+id/recyclerProfil" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerEtkinlik"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtPuan"
-        android:layout_marginTop="39dp" />
+        android:layout_below="@+id/recyclerProfil" />
+
 </RelativeLayout>

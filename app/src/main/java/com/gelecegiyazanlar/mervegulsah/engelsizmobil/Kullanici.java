@@ -1,8 +1,36 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
+import android.content.Context;
+import android.net.Uri;
+
 public class Kullanici {
-    String kullaniciAdi,isim,soyisim,mail,telefon,sifre,dernek_gönüllü;
+    String kullaniciAdi,isim,soyisim,mail,telefon,sifre,dernek_gönüllü,resim,puan;
+    Context context;
+
+    public String getPuan() {
+        return puan;
+    }
+
+    public void setPuan(String puan) {
+        this.puan = puan;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public String getResim() {
+        return resim;
+    }
+
+    public void setResim(String resim) {
+        this.resim = resim;
+    }
 
     public String getKullaniciAdi() {
         return kullaniciAdi;
