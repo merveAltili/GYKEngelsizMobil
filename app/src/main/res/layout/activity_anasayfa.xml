@@ -14,11 +14,12 @@
     android:fitsSystemWindows="true"
     tools:context="com.gelecegiyazanlar.mervegulsah.engelsizmobil.Anasayfa">
 
-    <Button
-        android:id="@+id/btnProfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+  <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/etkinlik_list">
+
+  </android.support.v7.widget.RecyclerView>
 </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.AppBarLayout

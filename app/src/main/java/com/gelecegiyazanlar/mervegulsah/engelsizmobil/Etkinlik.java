@@ -6,6 +6,7 @@ public class Etkinlik {
     String etkinlikAdi;
     String etkinlikİcerigi;
     String etkinlikSaati;
+    String etkinlikImage;
 
 
     public String getEtkinlikAdi() {
@@ -23,6 +24,14 @@ public class Etkinlik {
     public void setEtkinlikİcerigi(String etkinlikİcerigi) {
         this.etkinlikİcerigi = etkinlikİcerigi;
     }
+    public String getEtkinlikImage() {
+        return etkinlikImage;
+    }
+
+    public void setEtkinlikImage(String etkinlikImage) {
+        this.etkinlikImage = etkinlikImage;
+    }
+
 
     public String getEtkinlikSaati() {
         return etkinlikSaati;

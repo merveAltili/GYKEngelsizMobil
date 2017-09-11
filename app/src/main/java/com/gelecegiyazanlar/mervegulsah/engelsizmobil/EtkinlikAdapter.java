@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyViewHolder> {
@@ -16,7 +18,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public ImageView imgEtkinlik;
-        public TextView txtEtkinlikAdi,txtEtkinlikİceriği,txtEtkinlikSaati;
+        public TextView txtEtkinlikAdi,txtEtkinlikİceriği,txtEtkinlikSaati,txtEtkinlikImge;
 
         public MyViewHolder (View itemView){
             super(itemView);
@@ -24,7 +26,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
             txtEtkinlikAdi = (TextView)itemView.findViewById(R.id.txtEtkinlikAdi);
             txtEtkinlikİceriği = (TextView)itemView.findViewById(R.id.txtEtkinlikİcerigi);
             txtEtkinlikSaati = (TextView)itemView.findViewById(R.id.txtEtkinlikSaati);
-
+            txtEtkinlikImge=(TextView)itemView.findViewById(R.id.txtEtkinlikImage);
 
         }
     }
@@ -45,6 +47,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
         holder.txtEtkinlikAdi.setText(myEtkinlik.get(position).getEtkinlikAdi());
         holder.txtEtkinlikİceriği.setText(myEtkinlik.get(position).getEtkinlikİcerigi());
         holder.txtEtkinlikSaati.setText(myEtkinlik.get(position).getEtkinlikSaati());
+        holder.txtEtkinlikImge.setText(myEtkinlik.get(position).getEtkinlikImage());
     }
 
     @Override
