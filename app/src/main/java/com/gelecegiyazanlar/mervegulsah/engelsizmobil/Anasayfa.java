@@ -3,6 +3,7 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -21,21 +23,39 @@ import com.squareup.picasso.Picasso;
 public class Anasayfa extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anasayfa);
 
+        mAuth =FirebaseAuth.getInstance();
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()==null){
+                    Intent loginIntent=new Intent(Anasayfa.this,KayitActivity.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(loginIntent);
+                }
+            }
+        };
+
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
+        mDatabase.keepSynced(true);
         mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
 
     }
-    
+
     @Override
     protected void onStart() {
         super.onStart();
+
+        mAuth.addAuthStateListener(mAuthListener);
         FirebaseRecyclerAdapter<Etkinlik,EtkinlikViewHolder> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, EtkinlikViewHolder>(
 
                 Etkinlik.class,
@@ -82,6 +102,9 @@ public class Anasayfa extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        if(item.getItemId()==R.id.action_logout){
+            logout();
+        }
         if(item.getItemId()== R.id.action_add){
             startActivity(new Intent(Anasayfa.this,Post.class));
         }
@@ -89,6 +112,10 @@ public class Anasayfa extends AppCompatActivity {
             startActivity(new Intent(Anasayfa.this,Profile.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        mAuth.signOut();
     }
 }
 
