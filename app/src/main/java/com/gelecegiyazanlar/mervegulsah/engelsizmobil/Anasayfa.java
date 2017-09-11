@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -109,7 +108,7 @@ public class Anasayfa extends AppCompatActivity {
             startActivity(new Intent(Anasayfa.this,Post.class));
         }
         else if(item.getItemId() == R.id.action_profil){
-            startActivity(new Intent(Anasayfa.this,Profile.class));
+            startActivity(new Intent(Anasayfa.this,Profil.class));
         }
         return super.onOptionsItemSelected(item);
     }

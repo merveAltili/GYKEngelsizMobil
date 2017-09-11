@@ -2,7 +2,9 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.MediaCodec;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class KayitActivity extends AppCompatActivity {
     EditText edtKullaniciAdi,edtİsim,edtSoyisim,edtTelefon,edtMail,edtSifre;
@@ -60,9 +65,6 @@ public class KayitActivity extends AppCompatActivity {
                 String telefon = edtTelefon.getText().toString().trim();
                 String sifre = edtSifre.getText().toString().trim();
 
-
-
-
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference reference = database.getReference("Kullanıcılar");
                 reference.addValueEventListener(new ValueEventListener() {
@@ -95,6 +97,8 @@ public class KayitActivity extends AppCompatActivity {
                 else
                 {
 
+                    if(isValid(mail) == true)
+                    {
                     if(rdoDernek.isChecked() == false && rdoGönüllü.isChecked() == false)
                     {
                         Toast.makeText(getApplicationContext(),"Lütfen Dernek/Gönüllü seçimini yapınız.",Toast.LENGTH_SHORT).show();
@@ -119,9 +123,9 @@ public class KayitActivity extends AppCompatActivity {
                                 }
 
 
-                            reference.child(reference.push().getKey()).setValue(kullanici);
+                                reference.child(reference.push().getKey()).setValue(kullanici);
                                 Intent i = new Intent(getApplicationContext(), Giris.class);
-                           i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
 
                             }
@@ -130,7 +134,26 @@ public class KayitActivity extends AppCompatActivity {
                         }
                     }
                 }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Lütfen mail adresinizi doğru giriniz.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
+    }
+    public static boolean isValid(String email) {
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

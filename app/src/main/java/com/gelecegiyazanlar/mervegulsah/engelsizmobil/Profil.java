@@ -13,11 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class Profile extends AppCompatActivity {
+public class Profil extends AppCompatActivity {
 
     ImageView imgProfil;
     TextView txtPuan;
@@ -26,7 +24,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profil);
 
         imgProfil = (ImageView)findViewById(R.id.imgProfil);
         txtPuan = (TextView)findViewById(R.id.txtPuan);
@@ -45,13 +43,12 @@ public class Profile extends AppCompatActivity {
                 {
                     String key = data.getKey();
                     Etkinlik etkinlik = new Etkinlik();
-                    etkinlik.setEtkinlikSaati("08:00");
+                    etkinlik.setEtkinlikSaati(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikSaati());
                     etkinlik.setEtkinlikAdi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikAdi());
                     etkinlik.setEtkinlikİcerigi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikİcerigi());
                     etkinlik.setEtkinlikResmi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikResmi());
                     etkinlik.setContext(getApplicationContext());
                     myEtkinlik.add(etkinlik);
-
                     EtkinlikAdapter adapter = new EtkinlikAdapter(myEtkinlik);
                     mRecyclerView.setAdapter(adapter);
 

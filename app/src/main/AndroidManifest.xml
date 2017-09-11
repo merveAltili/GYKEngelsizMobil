@@ -11,13 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".KayitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +29,7 @@
         </activity>
         <activity android:name=".Anasayfa" />
         <activity android:name=".Post" />
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".Profil"></activity>
     </application>
 
 </manifest>

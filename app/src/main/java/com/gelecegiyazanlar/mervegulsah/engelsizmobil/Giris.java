@@ -88,11 +88,24 @@ public class Giris extends AppCompatActivity {
                             for (DataSnapshot data : dataSnapshot.getChildren()) {
                                 String key = data.getKey();
                                 Kullanici kullanici = new Kullanici();
-                                kullanici.setKullaniciAdi(dataSnapshot.child(key).getValue(Kullanici.class).getKullaniciAdi().toString());
-                                kullanici.setSifre(dataSnapshot.child(key).getValue(Kullanici.class).getSifre().toString());
-                                if (kullaniciAdi.equals(kullanici.getKullaniciAdi().toString()) && sifre.equals(kullanici.getSifre().toString())) {
-                                    Intent intocan = new Intent(Giris.this, Anasayfa.class);
-                                    startActivity(intocan);
+                                kullanici.setKullaniciAdi(dataSnapshot.child(key).getValue(Kullanici.class).getKullaniciAdi());
+                                kullanici.setSifre(dataSnapshot.child(key).getValue(Kullanici.class).getSifre());
+                                kullanici.setTelefon(dataSnapshot.child(key).getValue(Kullanici.class).getTelefon());
+                                kullanici.setIsim(dataSnapshot.child(key).getValue(Kullanici.class).getIsim());
+                                kullanici.setMail(dataSnapshot.child(key).getValue(Kullanici.class).getMail());
+                                kullanici.setSoyisim(dataSnapshot.child(key).getValue(Kullanici.class).getSoyisim());
+                                kullanici.setDernek_gönüllü(dataSnapshot.child(key).getValue(Kullanici.class).getDernek_gönüllü());
+                                if (kullaniciAdi.equals(kullanici.getKullaniciAdi()) && sifre.equals(kullanici.getSifre()))
+                                {
+                                    if(kullanici.getDernek_gönüllü().equals("Gönüllü"))
+                                    {
+                                       startActivity(new Intent(Giris.this,Anasayfa.class));
+                                    }
+                                    else
+                                    {
+                                       //startActivity(new Intent(Giris.this,Anasayfa.class));
+                                    }
+
                                 }
                             }
                         }
