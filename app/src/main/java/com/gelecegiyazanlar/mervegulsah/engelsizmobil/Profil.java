@@ -13,11 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class Profile extends AppCompatActivity {
+public class Profil extends AppCompatActivity {
 
     ImageView imgProfil;
     TextView txtPuan;
@@ -26,7 +24,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profil);
 
         imgProfil = (ImageView)findViewById(R.id.imgProfil);
         txtPuan = (TextView)findViewById(R.id.txtPuan);

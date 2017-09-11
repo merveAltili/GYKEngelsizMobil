@@ -36,7 +36,7 @@
         </activity>
         <activity android:name=".Anasayfa" />
         <activity android:name=".Post" />
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".Profil"></activity>
     </application>
 
 </manifest>
