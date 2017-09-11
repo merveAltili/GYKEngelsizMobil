@@ -6,7 +6,15 @@ public class Etkinlik {
     String etkinlikAdi;
     String etkinlikİcerigi;
     String etkinlikSaati;
+    String etkinlikResmi;
 
+    public String getEtkinlikResmi() {
+        return etkinlikResmi;
+    }
+
+    public void setEtkinlikResmi(String etkinlikResmi) {
+        this.etkinlikResmi = etkinlikResmi;
+    }
 
     public String getEtkinlikAdi() {
         return etkinlikAdi;
