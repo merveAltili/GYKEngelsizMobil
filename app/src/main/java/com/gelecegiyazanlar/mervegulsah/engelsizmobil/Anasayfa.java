@@ -32,9 +32,7 @@ public class Anasayfa extends AppCompatActivity {
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
 
     }
-
-
-
+    
     @Override
     protected void onStart() {
         super.onStart();
