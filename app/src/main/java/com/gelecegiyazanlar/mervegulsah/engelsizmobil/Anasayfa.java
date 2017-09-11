@@ -11,21 +11,11 @@ import android.view.View;
 import android.widget.Button;
 
 public class Anasayfa extends AppCompatActivity {
- Button btnProfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anasayfa);
- btnProfil= (Button) findViewById(R.id.btnProfil);
-        btnProfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(Anasayfa.this,Profil.class);
-                startActivity(i);
-            }
-        });
-
     }
 
     @Override

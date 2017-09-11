@@ -34,7 +34,7 @@ public class Post extends AppCompatActivity {
     private Button mBtnEtkinlik;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
-    private  Uri mImageUri= null;
+    private  Uri mImageUri = null;
     private DatabaseReference mDatabase;
 
     @Override
