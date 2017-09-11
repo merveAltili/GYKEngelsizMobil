@@ -1,12 +1,15 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -22,12 +25,14 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
 
         public MyViewHolder (View itemView){
             super(itemView);
-            imgEtkinlik = (ImageView)itemView.findViewById(R.id.imgEtkinlik);
             txtEtkinlikAdi = (TextView)itemView.findViewById(R.id.txtEtkinlikAdi);
             txtEtkinlikİceriği = (TextView)itemView.findViewById(R.id.txtEtkinlikİcerigi);
             txtEtkinlikSaati = (TextView)itemView.findViewById(R.id.txtEtkinlikSaati);
             txtEtkinlikImge=(TextView)itemView.findViewById(R.id.txtEtkinlikImage);
-
+        }
+        public void setImage(Context ctx, String image) {
+            imgEtkinlik = (ImageView)itemView.findViewById(R.id.imgEtkinlik);
+            Picasso.with(ctx).load(image).into(imgEtkinlik);
         }
     }
 
@@ -48,6 +53,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
         holder.txtEtkinlikİceriği.setText(myEtkinlik.get(position).getEtkinlikİcerigi());
         holder.txtEtkinlikSaati.setText(myEtkinlik.get(position).getEtkinlikSaati());
         holder.txtEtkinlikImge.setText(myEtkinlik.get(position).getEtkinlikResmi());
+        holder.setImage(myEtkinlik.get(position).context,myEtkinlik.get(position).getEtkinlikResmi());
     }
 
     @Override
