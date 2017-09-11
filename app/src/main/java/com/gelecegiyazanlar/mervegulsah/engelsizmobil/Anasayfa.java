@@ -36,7 +36,7 @@ public class Anasayfa extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
-                    Intent loginIntent=new Intent(Anasayfa.this,KayitActivity.class);
+                    Intent loginIntent=new Intent(Anasayfa.this,Giris.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
                 }

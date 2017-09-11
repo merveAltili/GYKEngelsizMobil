@@ -121,7 +121,7 @@ public class KayitActivity extends AppCompatActivity {
 
                             reference.child(reference.push().getKey()).setValue(kullanici);
                                 Intent i = new Intent(getApplicationContext(), Giris.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                           i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
 
                             }
