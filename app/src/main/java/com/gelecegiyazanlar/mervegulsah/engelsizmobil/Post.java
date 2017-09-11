@@ -34,7 +34,7 @@ public class Post extends AppCompatActivity {
     private Button mBtnEtkinlik;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
-    private  Uri mImageUri= null;
+    private  Uri mImageUri = null;
     private DatabaseReference mDatabase;
 
     @Override
@@ -83,10 +83,14 @@ public class Post extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
-                          DatabaseReference newPost=mDatabase.push();
-                            newPost.child("etkinlikad").setValue(etkinlikAd);
-                            newPost.child("aciklama").setValue(aciklama);
-                            newPost.child("image").setValue(downloadUrl.toString());
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                          DatabaseReference newPost=database.getReference("Etkinlik");
+                            Etkinlik etkinlik = new Etkinlik();
+                            etkinlik.setEtkinlikAdi(etkinlikAd);
+                            etkinlik.setEtkinlikİcerigi(aciklama);
+                            etkinlik.setEtkinlikResmi(downloadUrl.toString());
+                            newPost.child(newPost.push().getKey()).setValue(etkinlik);
                             mProgress.dismiss();
                             startActivity(new Intent(Post.this,Anasayfa.class));
 

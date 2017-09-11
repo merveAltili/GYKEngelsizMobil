@@ -6,8 +6,15 @@ public class Etkinlik {
     String etkinlikAdi;
     String etkinlikİcerigi;
     String etkinlikSaati;
-    String etkinlikImage;
+    String etkinlikResmi;
 
+    public String getEtkinlikResmi() {
+        return etkinlikResmi;
+    }
+
+    public void setEtkinlikResmi(String etkinlikResmi) {
+        this.etkinlikResmi = etkinlikResmi;
+    }
 
     public String getEtkinlikAdi() {
         return etkinlikAdi;
@@ -24,14 +31,6 @@ public class Etkinlik {
     public void setEtkinlikİcerigi(String etkinlikİcerigi) {
         this.etkinlikİcerigi = etkinlikİcerigi;
     }
-    public String getEtkinlikImage() {
-        return etkinlikImage;
-    }
-
-    public void setEtkinlikImage(String etkinlikImage) {
-        this.etkinlikImage = etkinlikImage;
-    }
-
 
     public String getEtkinlikSaati() {
         return etkinlikSaati;

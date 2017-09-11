@@ -22,6 +22,7 @@
         android:layout_below="@+id/imgProfil"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
+        android:background="@drawable/input_outline"
         android:text="PUAN"
         android:textStyle="bold"/>
 
