@@ -12,8 +12,7 @@
         >
     <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:background="#0488d1">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imgEtkinlik"
@@ -27,12 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Etkinlik Adı"
-        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:textSize="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/txtEtkinlikSaati"
-        android:layout_marginEnd="83dp" />
+        android:layout_below="@+id/txtEtkinlikSaati"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/txtEtkinlikİcerigi"

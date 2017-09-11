@@ -35,14 +35,14 @@ public class Profile extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Etkinlik e1 = new Etkinlik();
+        /*Etkinlik e1 = new Etkinlik();
         e1.setEtkinlikAdi("Yardım");
         e1.setEtkinlikİcerigi("Yardım1");
         e1.setEtkinlikSaati("20:00");
         Etkinlik e2 = new Etkinlik();
         e2.setEtkinlikAdi("Yardim2");
         e2.setEtkinlikİcerigi("Yardım2");
-        e2.setEtkinlikSaati("08:00");
+        e2.setEtkinlikSaati("08:00");*/
 
         final ArrayList<Etkinlik> myEtkinlik = new ArrayList<>();
         //myEtkinlik.add(e1);
@@ -60,7 +60,8 @@ public class Profile extends AppCompatActivity {
                     etkinlik.setEtkinlikAdi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikAdi());
                     etkinlik.setEtkinlikİcerigi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikİcerigi());
                     myEtkinlik.add(etkinlik);
-
+                    EtkinlikAdapter etkinlikAdapter = new EtkinlikAdapter(myEtkinlik);
+                    mRecyclerView.setAdapter(etkinlikAdapter);
                 }
             }
 
@@ -70,7 +71,6 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        EtkinlikAdapter etkinlikAdapter = new EtkinlikAdapter(myEtkinlik);
-        mRecyclerView.setAdapter(etkinlikAdapter);
+
     }
 }

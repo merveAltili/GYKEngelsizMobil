@@ -1,6 +1,9 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
+import android.net.Uri;
+import android.net.wifi.ScanResult;
+
 public class Etkinlik {
 
     String etkinlikAdi;
@@ -8,13 +11,7 @@ public class Etkinlik {
     String etkinlikSaati;
     String etkinlikResmi;
 
-    public String getEtkinlikResmi() {
-        return etkinlikResmi;
-    }
 
-    public void setEtkinlikResmi(String etkinlikResmi) {
-        this.etkinlikResmi = etkinlikResmi;
-    }
 
     public String getEtkinlikAdi() {
         return etkinlikAdi;
