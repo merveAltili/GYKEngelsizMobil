@@ -47,7 +47,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
         holder.txtEtkinlikAdi.setText(myEtkinlik.get(position).getEtkinlikAdi());
         holder.txtEtkinlikİceriği.setText(myEtkinlik.get(position).getEtkinlikİcerigi());
         holder.txtEtkinlikSaati.setText(myEtkinlik.get(position).getEtkinlikSaati());
-        holder.txtEtkinlikImge.setText(myEtkinlik.get(position).getEtkinlikImage());
+        holder.txtEtkinlikImge.setText(myEtkinlik.get(position).getEtkinlikResmi());
     }
 
     @Override
