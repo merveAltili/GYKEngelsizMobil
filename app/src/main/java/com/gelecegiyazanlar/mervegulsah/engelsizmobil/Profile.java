@@ -45,6 +45,8 @@ public class Profile extends AppCompatActivity {
         e2.setEtkinlikSaati("08:00");
 
         final ArrayList<Etkinlik> myEtkinlik = new ArrayList<>();
+        //myEtkinlik.add(e1);
+        //myEtkinlik.add(e2);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myReference = database.getReference("Etkinlik");
         myReference.addValueEventListener(new ValueEventListener() {
@@ -54,6 +56,7 @@ public class Profile extends AppCompatActivity {
                 {
                     String key = data.getKey();
                     Etkinlik etkinlik = new Etkinlik();
+                    etkinlik.setEtkinlikSaati("08:00");
                     etkinlik.setEtkinlikAdi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikAdi());
                     etkinlik.setEtkinlikİcerigi(dataSnapshot.child(key).getValue(Etkinlik.class).getEtkinlikİcerigi());
                     myEtkinlik.add(etkinlik);
