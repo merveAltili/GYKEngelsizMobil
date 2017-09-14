@@ -93,23 +93,23 @@ public class Giris extends AppCompatActivity {
                                 {
                                     if(kullanici.getDernek_gönüllü().equals("Gönüllü"))
                                     {
-                                        Intent intocan = new Intent(Giris.this,Anasayfa.class);
-                                        intocan.putExtra("Kullanıcı Adı",kullanici.getKullaniciAdi());
-                                        intocan.putExtra("Şifre",kullanici.getSifre());
-                                        intocan.putExtra("Resim",kullanici.getResim());
-                                        intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
+                                        //intocan.putExtra("Kullanıcı Adı",kullanici.getKullaniciAdi());
+                                        //intocan.putExtra("Şifre",kullanici.getSifre());
+                                       // intocan.putExtra("Resim",kullanici.getResim());
+                                       // intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                         startActivity(intocan);
-                                        finish();
+                                        //finish();
                                     }
                                     else
                                     {
-                                        Intent intocan = new Intent(Giris.this,Anasayfa.class);
-                                        intocan.putExtra("Kullanici_Adi",kullanici.getKullaniciAdi());
-                                        intocan.putExtra("Sifre",kullanici.getSifre());
-                                        intocan.putExtra("Resim",kullanici.getResim());
-                                        intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
+                                        //intocan.putExtra("Kullanici_Adi",kullanici.getKullaniciAdi());
+                                        //intocan.putExtra("Sifre",kullanici.getSifre());
+                                        //intocan.putExtra("Resim",kullanici.getResim());
+                                       // intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                         startActivity(intocan);
-                                        finish();
+                                        //finish();
                                     }
 
                                 }

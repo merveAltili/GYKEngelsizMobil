@@ -159,9 +159,9 @@ public class Kayit extends AppCompatActivity {
                             });
 
                             Intent i = new Intent(getApplicationContext(), Giris.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                           // i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(i);
-                            finish();
+                            //finish();
                             }
                         else {
                             Toast.makeText(getApplicationContext(), "Lütfen şifreleri aynı giriniz.", Toast.LENGTH_SHORT).show();

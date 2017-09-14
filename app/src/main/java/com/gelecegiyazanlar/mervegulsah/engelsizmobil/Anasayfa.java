@@ -40,7 +40,7 @@ public class Anasayfa extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
                     Intent loginIntent=new Intent(Anasayfa.this,Giris.class);
-                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
                 }
             }
@@ -115,14 +115,14 @@ public class Anasayfa extends AppCompatActivity {
         }
         else if(item.getItemId() == R.id.action_profil){
             Intent into = new Intent(Anasayfa.this,Profil.class);
-            Bundle bundle = getIntent().getExtras();
+           /* Bundle bundle = getIntent().getExtras();
             Kullanici kullanici = new Kullanici();
             kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
             kullanici.setSifre(bundle.getString("Sifre"));
             kullanici.setResim(bundle.getString("Resim"));
             into.putExtra("Kullanici_Adi",kullanici.getIsim());
             into.putExtra("Sifre",kullanici.getSifre());
-            into.putExtra("Resim",kullanici.getResim());
+            into.putExtra("Resim",kullanici.getResim());*/
             startActivity(into);
         }
         return super.onOptionsItemSelected(item);
@@ -131,9 +131,9 @@ public class Anasayfa extends AppCompatActivity {
     private void logout() {
         mAuth.signOut();
         Intent into = new Intent(getApplicationContext(),Giris.class);
-        into.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        //into.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(into);
-        finish();
+        //finish();
     }
 }
 
