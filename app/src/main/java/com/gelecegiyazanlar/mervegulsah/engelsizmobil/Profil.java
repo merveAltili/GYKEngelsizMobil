@@ -67,7 +67,6 @@ public class Profil extends AppCompatActivity {
 
 
         final ArrayList<Kullanici> kullanicilar = new ArrayList<>();
-
        /* Bundle bundle = getIntent().getExtras();
         Kullanici kullanici = new Kullanici();
         kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
