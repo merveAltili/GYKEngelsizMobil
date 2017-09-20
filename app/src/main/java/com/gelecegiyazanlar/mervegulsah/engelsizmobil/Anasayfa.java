@@ -115,6 +115,7 @@ public class Anasayfa extends AppCompatActivity {
         }
         else if(item.getItemId() == R.id.action_profil){
             Intent into = new Intent(Anasayfa.this,Profil.class);
+
            /* Bundle bundle = getIntent().getExtras();
             Kullanici kullanici = new Kullanici();
             kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
