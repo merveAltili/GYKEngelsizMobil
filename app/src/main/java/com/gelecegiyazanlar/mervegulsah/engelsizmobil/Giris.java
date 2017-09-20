@@ -72,6 +72,8 @@ public class Giris extends AppCompatActivity {
                 final String kullaniciAdi = giriskullaniciad.getText().toString();
                 final String sifre = girissifre.getText().toString();
                 if (!kullaniciAdi.equals("") || !sifre.equals("")) {
+                    mProgress.setMessage("Giriş Yapılıyor...");
+                    mProgress.show();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Kullanıcılar");
                     reference.addValueEventListener(new ValueEventListener() {
@@ -93,6 +95,7 @@ public class Giris extends AppCompatActivity {
                                 {
                                     if(kullanici.getDernek_gönüllü().equals("Gönüllü"))
                                     {
+                                        mProgress.dismiss();
                                         Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
                                         //intocan.putExtra("Kullanıcı Adı",kullanici.getKullaniciAdi());
                                         //intocan.putExtra("Şifre",kullanici.getSifre());
@@ -103,12 +106,14 @@ public class Giris extends AppCompatActivity {
                                     }
                                     else
                                     {
+                                        mProgress.dismiss();
                                         Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
                                         //intocan.putExtra("Kullanici_Adi",kullanici.getKullaniciAdi());
                                         //intocan.putExtra("Sifre",kullanici.getSifre());
                                         //intocan.putExtra("Resim",kullanici.getResim());
                                        // intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                         startActivity(intocan);
+
                                         //finish();
                                     }
 
