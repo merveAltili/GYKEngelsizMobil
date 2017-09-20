@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "62529507772-v7aco7d4ojva4m03rn2q07mj8vf1hg5g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gelecegiyazanlar.mervegulsah.engelsizmobil",
+            "certificate_hash": "f25ecdf1634f33cf33b2003477ed149df7e4fccf"
+          }
+        },
+        {
           "client_id": "62529507772-gebekmggpm3fqqurccv8du0me05f7023.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

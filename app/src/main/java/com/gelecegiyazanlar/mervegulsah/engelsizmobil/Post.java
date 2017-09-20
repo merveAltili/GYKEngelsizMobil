@@ -91,6 +91,7 @@ public class Post extends AppCompatActivity {
                             etkinlik.setEtkinlikİcerigi(aciklama);
                             etkinlik.setEtkinlikResmi(downloadUrl.toString());
                             newPost.child(newPost.push().getKey()).setValue(etkinlik);
+
                             mProgress.dismiss();
                             startActivity(new Intent(Post.this,Anasayfa.class));
 
