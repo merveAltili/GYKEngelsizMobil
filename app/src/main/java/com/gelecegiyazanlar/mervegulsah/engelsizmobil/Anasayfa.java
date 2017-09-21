@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.squareup.picasso.Picasso;
@@ -32,8 +33,10 @@ public class Anasayfa extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseKatil;
+    private DatabaseReference mDatabaseCurrentKullanici;
     private FirebaseAuth mAuth;
     public ProgressDialog mProgress;
+    private Query mQueryCurrentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
 
@@ -56,6 +59,10 @@ public class Anasayfa extends AppCompatActivity {
 
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
+        String currentkullanciId=mAuth.getCurrentUser().getUid();
+       mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
+        mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
+
 
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
@@ -76,7 +83,7 @@ public class Anasayfa extends AppCompatActivity {
                 Etkinlik.class,
                 R.layout.etkinlik_row,
                 EtkinlikViewHolder.class,
-                mDatabase
+                mQueryCurrentUser
         ) {
             @Override
             protected void populateViewHolder(EtkinlikViewHolder viewHolder, Etkinlik model, int position) {
@@ -86,6 +93,7 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());
                 viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
                 viewHolder.setmKatil(post_key);
+                viewHolder.setUserName(model.getUsername());
 
 
 
@@ -181,6 +189,10 @@ public class Anasayfa extends AppCompatActivity {
         public void setAciklama(String aciklama){
             TextView e_aciklama=(TextView)mView.findViewById(R.id.etkinlik_aciklama);
             e_aciklama.setText(aciklama);
+        }
+        public void setUserName(String username){
+            TextView e_username=(TextView)mView.findViewById(R.id.post_username);
+            e_username.setText(username);
         }
         public void setImage(Context ctx, String image){
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);

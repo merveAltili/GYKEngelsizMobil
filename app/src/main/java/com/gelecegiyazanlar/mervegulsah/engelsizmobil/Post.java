@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,9 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import static com.gelecegiyazanlar.mervegulsah.engelsizmobil.R.id.edtKullaniciAdi;
+import static com.gelecegiyazanlar.mervegulsah.engelsizmobil.R.id.post_username;
 
 public class Post extends AppCompatActivity {
 
@@ -31,11 +38,15 @@ public class Post extends AppCompatActivity {
     private static final int GALERY_REQUEST=1;
     private EditText mEtkinlikAd;
     private EditText mAciklama;
+    private TextView mKullaniciAdi;
     private Button mBtnEtkinlik;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
     private  Uri mImageUri = null;
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentKullanici;
+    private DatabaseReference mDatabaseKullanici;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +54,16 @@ public class Post extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
 
+        mAuth=FirebaseAuth.getInstance();
+        mCurrentKullanici=mAuth.getCurrentUser();
+
+        mDatabaseKullanici=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar").child(mCurrentKullanici.getUid());
+
         mStorage= FirebaseStorage.getInstance().getReference();
         mDatabase=FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mEtkinlikAd=(EditText)findViewById(R.id.edtEtkinlikAd) ;
         mAciklama=(EditText)findViewById(R.id.edtAciklama);
+        mKullaniciAdi=(TextView)findViewById(R.id.post_username);
         mBtnEtkinlik=(Button)findViewById(R.id.btnEtkinlikOlustur);
         mSelectImage= (ImageButton) findViewById(R.id.imageSelect);
         mProgress=new ProgressDialog(this);
@@ -71,6 +88,7 @@ public class Post extends AppCompatActivity {
 
                 final String etkinlikAd = mEtkinlikAd.getText().toString().trim();
                 final String aciklama = mAciklama.getText().toString().trim();
+               // final String kullaniciAdi =mKullaniciAdi.getText().toString().trim() ;
 
                 if (!TextUtils.isEmpty(etkinlikAd) && !TextUtils.isEmpty(aciklama) && mImageUri != null) {
                     mProgress.setMessage("Etkinlik oluşturuluyor ...");
@@ -81,19 +99,48 @@ public class Post extends AppCompatActivity {
 
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            @SuppressWarnings("VisibleForTests") final Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                            final DatabaseReference newPost=mDatabase.push();
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                          DatabaseReference newPost=database.getReference("Etkinlik");
-                            Etkinlik etkinlik = new Etkinlik();
-                            etkinlik.setEtkinlikAdi(etkinlikAd);
-                            etkinlik.setEtkinlikİcerigi(aciklama);
-                            etkinlik.setEtkinlikResmi(downloadUrl.toString());
-                            newPost.child(newPost.push().getKey()).setValue(etkinlik);
+
+                            mDatabaseKullanici.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    newPost.child("etkinlikAdi").setValue(etkinlikAd);
+                                    newPost.child("etkinlikİcerigi").setValue(aciklama);
+                                    newPost.child("etkinlikResmi").setValue(downloadUrl.toString());
+                                    newPost.child("uid").setValue(mCurrentKullanici.getUid());
+                                   newPost.child("username").setValue(dataSnapshot.child("kullaniciAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                       @Override
+                                       public void onComplete(@NonNull Task<Void> task) {
+                                           if(task.isSuccessful()){
+                                               startActivity(new Intent(Post.this,Anasayfa.class));
+                                           }
+                                       }
+                                   });
+
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                           //DatabaseReference newPost=database.getReference("Etkinlik");
+                           //Etkinlik etkinlik = new Etkinlik();
+                           //etkinlik.setEtkinlikAdi(etkinlikAd);
+                           //etkinlik.setEtkinlikİcerigi(aciklama);
+                           //etkinlik.setEtkinlikResmi(downloadUrl.toString());
+                           //newPost.child(newPost.push().getKey()).setValue(etkinlik);
 
                             mProgress.dismiss();
-                            startActivity(new Intent(Post.this,Anasayfa.class));
+
 
                         }
                     });

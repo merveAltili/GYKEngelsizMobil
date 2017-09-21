@@ -7,14 +7,32 @@ import android.net.wifi.ScanResult;
 
 public class Etkinlik {
 
-    String etkinlikAdi;
-    String etkinlikİcerigi;
-    String etkinlikSaati;
-    String etkinlikResmi;
+    private String etkinlikAdi;
+    private String etkinlikİcerigi;
+    private String etkinlikSaati;
+    private String etkinlikResmi;
+    private String username;
     Context context;
 
     public Context getContext() {
         return context;
+    }
+
+    public Etkinlik(){
+
+
+    }
+    public Etkinlik(String etkinlikAdi,String etkinlikİcerigi,String etkinlikResmi,String username){
+        this.etkinlikAdi=etkinlikAdi;
+        this.etkinlikİcerigi=etkinlikİcerigi;
+        this.etkinlikResmi=etkinlikResmi;
+        this.username=username;
+    }
+    public String getUsername(){
+        return username;
+    }
+    public void setUsername(String username){
+        this.username=username;
     }
 
     public void setContext(Context context) {

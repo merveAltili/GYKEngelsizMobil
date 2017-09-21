@@ -96,7 +96,7 @@ public class Giris extends AppCompatActivity {
                                     if(kullanici.getDernek_gönüllü().equals("Gönüllü"))
                                     {
                                         mProgress.dismiss();
-                                        Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
+                                        Intent intocan = new Intent(Giris.this,Anasayfa.class);
                                         intocan.putExtra("Kullanıcı Adı",kullanici.getKullaniciAdi());
                                         intocan.putExtra("Şifre",kullanici.getSifre());
                                         intocan.putExtra("Resim",kullanici.getResim());
@@ -107,7 +107,7 @@ public class Giris extends AppCompatActivity {
                                     else
                                     {
                                         mProgress.dismiss();
-                                        Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
+                                        Intent intocan = new Intent(Giris.this,Anasayfa.class);
                                         intocan.putExtra("Kullanici_Adi",kullanici.getKullaniciAdi());
                                         intocan.putExtra("Sifre",kullanici.getSifre());
                                         intocan.putExtra("Resim",kullanici.getResim());
@@ -181,7 +181,7 @@ public class Giris extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-              Intent intocan = new Intent(getApplicationContext(),Anasayfa.class);
+              Intent intocan = new Intent(Giris.this,Anasayfa.class);
                 startActivity(intocan);
             } else {
                 // Google Sign In failed, update UI appropriately
