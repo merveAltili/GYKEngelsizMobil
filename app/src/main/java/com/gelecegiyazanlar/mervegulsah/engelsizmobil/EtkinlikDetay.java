@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,8 @@ public class EtkinlikDetay extends AppCompatActivity {
         mPost_key=getIntent().getExtras().getString("etkinlik_id");
         mEtkinlikIcegigi= (TextView) findViewById(R.id.etkinlik_detay_icerigi);
         mEtkinlikDetayImage= (ImageView) findViewById(R.id.etkinlik_detay_image);
+
+        Toast.makeText(EtkinlikDetay.this,mPost_key,Toast.LENGTH_LONG).show();
         mEtkinlikAd= (TextView) findViewById(R.id.etkinlik_detay_ad);
        // mEtkinlikbtn=(Button)findViewById(R.id.singleRemoveBtn);
 

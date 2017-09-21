@@ -93,6 +93,10 @@ public class Anasayfa extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                        // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
+
+                        Intent etkinlikDetay=new Intent(Anasayfa.this, EtkinlikDetay.class);
+                        etkinlikDetay.putExtra("etkinlik_id",post_key);
+                        startActivity(etkinlikDetay);
                     }
                 });
                 viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
