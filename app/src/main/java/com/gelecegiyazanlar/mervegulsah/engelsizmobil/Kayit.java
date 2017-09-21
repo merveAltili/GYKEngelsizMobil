@@ -43,7 +43,6 @@ public class Kayit extends AppCompatActivity {
     ImageButton btnResimEkle;
     ImageView imgProfilResmi;
     private StorageReference mStorage;
-    private FirebaseAuth mAuth;
     private ProgressDialog mProgress;
     private DatabaseReference mData;
     private static final int GALERY_REQUEST=1;
@@ -82,14 +81,13 @@ public class Kayit extends AppCompatActivity {
         btnKayıtOl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//kayit
                 final String kullaniciAdi = edtKullaniciAdi.getText().toString().trim() ;
                 final String isim = edtİsim.getText().toString().trim();
                 final String soyisim = edtSoyisim.getText().toString().trim();
                 final String mail = edtMail.getText().toString().trim();
                 final String telefon = edtTelefon.getText().toString().trim();
                 final String sifre = edtSifre.getText().toString().trim();
-
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference reference = database.getReference("Kullanıcılar");
                 reference.addValueEventListener(new ValueEventListener() {
