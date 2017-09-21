@@ -1,28 +1,57 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class Profil extends AppCompatActivity {
-
+    private RecyclerView mEtkinlikBlog;
+    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseKatil;
+    private DatabaseReference mDatabaseCurrentKullanici;
+    private FirebaseAuth mAuth;
+    public ProgressDialog mProgress;
+    private Query mQueryCurrentUser;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private boolean mKatilmaDurumu=false;
     RecyclerView recyclerEtkinlik,recyclerProfil;
     RecyclerView.LayoutManager LayoutManagerEtkinlik, LayoutManagerProfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
-
+        mAuth =FirebaseAuth.getInstance();
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()==null){
+                    Intent loginIntent=new Intent(Profil.this,Giris.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(loginIntent);
+                }
+            }
+        };
         recyclerEtkinlik = (RecyclerView)findViewById(R.id.recyclerEtkinlik);
         recyclerProfil = (RecyclerView) findViewById(R.id.recyclerProfil);
         LayoutManagerEtkinlik = new LinearLayoutManager(this);
@@ -61,20 +90,22 @@ public class Profil extends AppCompatActivity {
 
 
         final ArrayList<Kullanici> kullanicilar = new ArrayList<>();
-       /* Bundle bundle = getIntent().getExtras();
+      Bundle bundle = getIntent().getExtras();
         Kullanici kullanici = new Kullanici();
         kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
         kullanici.setSifre(bundle.getString("Sifre"));
         kullanici.setResim(bundle.getString("Resim"));
         kullanici.setContext(getApplicationContext());
-        kullanicilar.add(kullanici);*/
+        kullanicilar.add(kullanici);
 
         KullaniciAdapter kAdapter = new KullaniciAdapter(kullanicilar);
         recyclerProfil.setAdapter(kAdapter);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 }

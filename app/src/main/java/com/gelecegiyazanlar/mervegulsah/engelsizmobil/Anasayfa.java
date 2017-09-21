@@ -83,7 +83,7 @@ public class Anasayfa extends AppCompatActivity {
                 Etkinlik.class,
                 R.layout.etkinlik_row,
                 EtkinlikViewHolder.class,
-                mQueryCurrentUser
+                mDatabase
         ) {
             @Override
             protected void populateViewHolder(EtkinlikViewHolder viewHolder, Etkinlik model, int position) {
