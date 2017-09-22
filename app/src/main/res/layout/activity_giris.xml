@@ -11,18 +11,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="100dp"
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:tint="@color/white"
-            />
+            android:layout_marginTop="50dp"
+            android:src="@mipmap/engelsiz" />
+
         <EditText
             android:id="@+id/giriskullaniciad"
             android:drawableLeft="@drawable/ic_kullanici_24dp"
             android:drawableTint="@color/white"
             android:drawablePadding="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:background="@color/gri"
             android:textColorHint="@color/white"
             android:hint="Kulanıcı Adı"
