@@ -70,4 +70,6 @@ public class Etkinlik {
     public void setEtkinlikSaati(String etkinlikSaati) {
         this.etkinlikSaati = etkinlikSaati;
     }
+
+
 }
