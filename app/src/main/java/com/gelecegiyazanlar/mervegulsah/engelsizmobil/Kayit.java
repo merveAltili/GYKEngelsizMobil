@@ -40,13 +40,9 @@ public class Kayit extends AppCompatActivity {
     EditText edtKullaniciAdi,edtİsim,edtSoyisim,edtTelefon,edtMail,edtSifre;
     RadioButton rdoDernek,rdoGönüllü;
     Button btnKayıtOl;
-    ImageButton btnResimEkle;
-    ImageView imgProfilResmi;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
     private DatabaseReference mData;
-    private static final int GALERY_REQUEST=1;
-    private Uri mResimUri = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,18 +59,8 @@ public class Kayit extends AppCompatActivity {
         edtSifre.setTypeface(Typeface.DEFAULT);
         rdoDernek = (RadioButton)findViewById(R.id.rdoDernek);
         rdoGönüllü = (RadioButton)findViewById(R.id.rdoGönüllü);
-        btnResimEkle = (ImageButton)findViewById(R.id.btnResimEkle);
-        imgProfilResmi = (ImageView)findViewById(R.id.imgProfilResmi);
         mStorage= FirebaseStorage.getInstance().getReference();
 
-        btnResimEkle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALERY_REQUEST);
-            }
-        });
 
 
     btnKayıtOl = (Button)findViewById(R.id.btnKayıtOl);
@@ -129,37 +115,25 @@ public class Kayit extends AppCompatActivity {
                     else {
                         if (!sifre.equals("")) {
 
-
                             final Kullanici kullanici = new Kullanici();
-                            StorageReference filepath = mStorage.child("Profil resimleri").child(mResimUri.getLastPathSegment());
-                            filepath.putFile(mResimUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                    kullanici.setResim(downloadUrl.toString());
-                                    kullanici.setKullaniciAdi(kullaniciAdi);
-                                    kullanici.setIsim(isim);
-                                    kullanici.setSoyisim(soyisim);
-                                    kullanici.setMail(mail);
-                                    kullanici.setTelefon(telefon);
-                                    kullanici.setSifre(sifre);
-                                    if(rdoDernek.isChecked())
-                                    {
-                                        kullanici.setDernek_gönüllü("Dernek");
-                                    }
-                                    else
-                                    {
-                                        kullanici.setDernek_gönüllü("Gönüllü");
-                                    }
-                                    reference.child(reference.push().getKey()).setValue(kullanici);
-                                }
-                            });
+                            kullanici.setKullaniciAdi(kullaniciAdi);
+                            kullanici.setIsim(isim);
+                            kullanici.setSoyisim(soyisim);
+                            kullanici.setMail(mail);
+                            kullanici.setTelefon(telefon);
+                            kullanici.setSifre(sifre);
+                            if(rdoDernek.isChecked())
+                            {
+                                kullanici.setDernek_gönüllü("Dernek");
+                            }
+                            else
+                            {
+                                kullanici.setDernek_gönüllü("Gönüllü");
+                            }
+                            reference.child(reference.push().getKey()).setValue(kullanici);
 
                             Intent i = new Intent(getApplicationContext(), Giris.class);
-                           // i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(i);
-                            //finish();
                             }
                         else {
                             Toast.makeText(getApplicationContext(), "Lütfen şifreleri aynı giriniz.", Toast.LENGTH_SHORT).show();
@@ -189,14 +163,5 @@ public class Kayit extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GALERY_REQUEST && resultCode == RESULT_OK) {
-            mResimUri = data.getData();
-            Picasso.with(getApplicationContext()).load(mResimUri).into(imgProfilResmi);
-        }
-    }
 }
