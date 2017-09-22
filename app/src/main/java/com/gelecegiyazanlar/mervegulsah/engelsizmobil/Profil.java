@@ -91,16 +91,17 @@ public class Profil extends AppCompatActivity {
         });
 
 
-        final ArrayList<Kullanici> kullanicilar = new ArrayList<>();
+  final ArrayList<Kullanici> kullanicilar = new ArrayList<>();
+        /*
       Bundle bundle = getIntent().getExtras();
         Kullanici kullanici = new Kullanici();
         kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
         kullanici.setSifre(bundle.getString("Sifre"));
         kullanici.setResim(bundle.getString("Resim"));
         kullanici.setContext(getApplicationContext());
-        kullanicilar.add(kullanici);
+        kullanicilar.add(kullanici);*/
 
-        KullaniciAdapter kAdapter = new KullaniciAdapter(kullanicilar);
+       KullaniciAdapter kAdapter = new KullaniciAdapter(kullanicilar);
         recyclerProfil.setAdapter(kAdapter);
     }
 
