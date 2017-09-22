@@ -74,41 +74,5 @@ public class EtkinlikDetay extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        Intent intocan = new Intent();
-
-        if(item.getItemId()==R.id.action_logout){
-            logout();
-        }
-        if(item.getItemId()== R.id.action_add){
-            startActivity(new Intent(EtkinlikDetay.this,Post.class));
-        }
-        if(item.getItemId()== R.id.action_geri){
-            startActivity(new Intent(EtkinlikDetay.this,Anasayfa.class));
-        }
-        else if(item.getItemId() == R.id.action_profil){
-            Intent into = new Intent(EtkinlikDetay.this,Profil.class);
-
-         /* Bundle bundle = getIntent().getExtras();
-            Kullanici kullanici = new Kullanici();
-            kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
-            kullanici.setSifre(bundle.getString("Sifre"));
-            kullanici.setResim(bundle.getString("Resim"));
-            into.putExtra("Kullanici_Adi",kullanici.getIsim());
-            into.putExtra("Sifre",kullanici.getSifre());
-            into.putExtra("Resim",kullanici.getResim());*/
-            startActivity(into);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void logout() {
-        mAuth.signOut();
-        Intent into = new Intent(getApplicationContext(),Giris.class);
-        into.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(into);
-        finish();
-    }
 }
