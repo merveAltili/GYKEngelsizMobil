@@ -24,6 +24,7 @@
         android:text=""
         android:hint="Kullanıcı Adı"
         android:background="@color/gri"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:layout_alignParentTop="true" />
 
