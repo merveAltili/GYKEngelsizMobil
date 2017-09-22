@@ -35,8 +35,8 @@ public class Profil extends AppCompatActivity {
     private Query mQueryCurrentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
-    RecyclerView recyclerEtkinlik,recyclerProfil;
-    RecyclerView.LayoutManager LayoutManagerEtkinlik, LayoutManagerProfil;
+    RecyclerView recyclerEtkinlik,recyclerProfil,recyclerKullaniciAdi;
+    RecyclerView.LayoutManager LayoutManagerEtkinlik, LayoutManagerProfil,LayoutManagerKullaniciAdi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,16 +54,21 @@ public class Profil extends AppCompatActivity {
                 }
             }
         };
+        recyclerKullaniciAdi= (RecyclerView) findViewById(R.id.recyclerKullaniciAdi);
         recyclerEtkinlik = (RecyclerView)findViewById(R.id.recyclerEtkinlik);
         recyclerProfil = (RecyclerView) findViewById(R.id.recyclerProfil);
+        LayoutManagerKullaniciAdi=new LinearLayoutManager(this);
         LayoutManagerEtkinlik = new LinearLayoutManager(this);
         LayoutManagerProfil = new LinearLayoutManager(this);
 
         recyclerEtkinlik.setLayoutManager(LayoutManagerEtkinlik);
         recyclerProfil.setLayoutManager(LayoutManagerProfil);
+        recyclerKullaniciAdi.setLayoutManager(LayoutManagerKullaniciAdi);
 
         final ArrayList<Etkinlik> myEtkinlik = new ArrayList<>();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         DatabaseReference myReference = database.getReference("Etkinlik");
         myReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -84,11 +89,13 @@ public class Profil extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
 
 
   final ArrayList<Kullanici> kullanicilar = new ArrayList<>();
