@@ -24,11 +24,12 @@
         android:id="@+id/txtEtkinlikAdi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
         android:text="Etkinlik Adı"
         android:textStyle="bold"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:layout_below="@+id/txtEtkinlikSaati"
-        android:layout_centerHorizontal="true" />
+        />
 
     <TextView
         android:id="@+id/txtEtkinlikİcerigi"
@@ -36,7 +37,7 @@
         android:layout_height="wrap_content"
         android:text="İçerik"
         android:textSize="20dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/txtEtkinlikAdi"
         android:layout_alignStart="@+id/txtEtkinlikAdi"/>
 
