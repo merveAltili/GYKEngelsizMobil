@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/engellll"
@@ -25,13 +24,20 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".Anasayfa" />
         <activity android:name=".Post" />
         <activity android:name=".Profil" />
-        <activity android:name=".EtkinlikDetay"></activity>
+        <activity android:name=".EtkinlikDetay" />
+        <activity android:name=".OnGiris" android:theme="@style/AppTheme.LoginStyle">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
