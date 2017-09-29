@@ -31,13 +31,19 @@
         <activity android:name=".Post" />
         <activity android:name=".Profil" />
         <activity android:name=".EtkinlikDetay" />
-        <activity android:name=".OnGiris" android:theme="@style/AppTheme.LoginStyle">
+        <activity
+            android:name=".OnGiris"
+            android:theme="@style/AppTheme.LoginStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GirisKullanici"
+            android:theme="@style/AppTheme.LoginStyle" />
+        <activity android:name=".AnasayfaDernek"></activity>
     </application>
 
 </manifest>

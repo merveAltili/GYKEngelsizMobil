@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 
 public class Kayit extends AppCompatActivity {
     EditText edtKullaniciAdi,edtİsim,edtSoyisim,edtTelefon,edtMail,edtSifre;
-    RadioButton rdoDernek,rdoGönüllü;
     Button btnKayıtOl;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
@@ -57,8 +56,7 @@ public class Kayit extends AppCompatActivity {
         edtMail = (EditText)findViewById(R.id.edtMail);
         edtSifre = (EditText)findViewById(R.id.edtSifre);
         edtSifre.setTypeface(Typeface.DEFAULT);
-        rdoDernek = (RadioButton)findViewById(R.id.rdoDernek);
-        rdoGönüllü = (RadioButton)findViewById(R.id.rdoGönüllü);
+
         mStorage= FirebaseStorage.getInstance().getReference();
 
 
@@ -108,11 +106,7 @@ public class Kayit extends AppCompatActivity {
 
                     if(isValid(mail) == true)
                     {
-                    if(rdoDernek.isChecked() == false && rdoGönüllü.isChecked() == false)
-                    {
-                        Toast.makeText(getApplicationContext(),"Lütfen Dernek/Gönüllü seçimini yapınız.",Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+
                         if (!sifre.equals("")) {
 
                             final Kullanici kullanici = new Kullanici();
@@ -122,14 +116,7 @@ public class Kayit extends AppCompatActivity {
                             kullanici.setMail(mail);
                             kullanici.setTelefon(telefon);
                             kullanici.setSifre(sifre);
-                            if(rdoDernek.isChecked())
-                            {
-                                kullanici.setDernek_gönüllü("Dernek");
-                            }
-                            else
-                            {
-                                kullanici.setDernek_gönüllü("Gönüllü");
-                            }
+
                             reference.child(reference.push().getKey()).setValue(kullanici);
 
                             Intent i = new Intent(getApplicationContext(), Giris.class);
@@ -139,7 +126,7 @@ public class Kayit extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Lütfen şifreleri aynı giriniz.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }
+
                     else
                     {
                         Toast.makeText(getApplicationContext(),"Lütfen mail adresinizi doğru giriniz.",Toast.LENGTH_SHORT).show();

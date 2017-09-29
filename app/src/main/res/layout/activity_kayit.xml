@@ -123,34 +123,6 @@
         android:padding="10dp"
         android:layout_marginTop="10dp"/>
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edtSifre"
-        android:id="@+id/radioGroup">
-
-        <RadioButton
-            android:id="@+id/rdoDernek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Dernek"
-            android:textColor="@color/white"
-            android:textSize="18dp"/>
-
-        <RadioButton
-            android:id="@+id/rdoGönüllü"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Gönüllü"
-            android:textColor="@color/white"
-            android:textSize="18dp"/>
-    </RadioGroup>
-
     <Button
         android:id="@+id/btnKayıtOl"
         android:layout_width="match_parent"

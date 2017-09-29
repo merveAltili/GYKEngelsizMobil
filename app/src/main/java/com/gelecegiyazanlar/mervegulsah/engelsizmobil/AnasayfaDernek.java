@@ -1,13 +1,11 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,10 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.squareup.picasso.Picasso;
 
-public class Anasayfa extends AppCompatActivity {
+public class AnasayfaDernek extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseKatil;
@@ -38,19 +34,18 @@ public class Anasayfa extends AppCompatActivity {
     public ProgressDialog mProgress;
     private Query mQueryCurrentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private boolean mKatilmaDurumu=false;
+    private boolean mKatilmaDurumu= false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anasayfa);
-
+        setContentView(R.layout.activity_anasayfa_dernek);
         mAuth =FirebaseAuth.getInstance();
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
-                    Intent loginIntent=new Intent(Anasayfa.this,GirisKullanici.class);
+                    Intent loginIntent=new Intent(AnasayfaDernek.this,Giris.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
                 }
@@ -60,7 +55,7 @@ public class Anasayfa extends AppCompatActivity {
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
         String currentkullanciId=mAuth.getCurrentUser().getUid();
-       mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
+        mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
 
 
@@ -78,15 +73,15 @@ public class Anasayfa extends AppCompatActivity {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListener);
-        FirebaseRecyclerAdapter<Etkinlik,EtkinlikViewHolder> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, EtkinlikViewHolder>(
+        FirebaseRecyclerAdapter<Etkinlik,AnasayfaDernek.EtkinlikViewHolder2> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, AnasayfaDernek.EtkinlikViewHolder2>(
 
                 Etkinlik.class,
-                R.layout.etkinlik_row,
-                EtkinlikViewHolder.class,
+                R.layout.etkinlik_row2,
+                AnasayfaDernek.EtkinlikViewHolder2.class,
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(EtkinlikViewHolder viewHolder, Etkinlik model, int position) {
+            protected void populateViewHolder(AnasayfaDernek.EtkinlikViewHolder2 viewHolder, Etkinlik model, int position) {
                 final String post_key=getRef(position).getKey();
 
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
@@ -100,9 +95,9 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
+                        // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
 
-                        Intent etkinlikDetay=new Intent(Anasayfa.this, EtkinlikDetay.class);
+                        Intent etkinlikDetay=new Intent(AnasayfaDernek.this, EtkinlikDetay.class);
                         etkinlikDetay.putExtra("etkinlik_id",post_key);
                         startActivity(etkinlikDetay);
                     }
@@ -113,30 +108,30 @@ public class Anasayfa extends AppCompatActivity {
 
                         mKatilmaDurumu=true;
 
-                            mDatabaseKatil.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                        mDatabaseKatil.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    if (mKatilmaDurumu) {
+                                if (mKatilmaDurumu) {
 
 
-                                        if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())) {
-                                            mDatabaseKatil.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
-                                            mKatilmaDurumu = false;
+                                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())) {
+                                        mDatabaseKatil.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
+                                        mKatilmaDurumu = false;
 
-                                        } else {
-                                            mDatabaseKatil.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("Randomvalue");
-                                            mKatilmaDurumu = false;
-                                        }
+                                    } else {
+                                        mDatabaseKatil.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("Randomvalue");
+                                        mKatilmaDurumu = false;
                                     }
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
+                    }
 
                 });
             }
@@ -144,7 +139,7 @@ public class Anasayfa extends AppCompatActivity {
         mEtkinlikBlog.setAdapter(firebaseRecyclerAdapter);
     }
 
-    public static class EtkinlikViewHolder extends RecyclerView.ViewHolder{
+    public static class EtkinlikViewHolder2 extends RecyclerView.ViewHolder{
 
         View mView;
         ImageButton mKatil;
@@ -172,7 +167,7 @@ public class Anasayfa extends AppCompatActivity {
             });
         }
 
-        public EtkinlikViewHolder(View itemView) {
+        public EtkinlikViewHolder2(View itemView) {
             super(itemView);
             mView=itemView;
             mKatil=(ImageButton)mView.findViewById(R.id.btnKatil);
@@ -213,10 +208,11 @@ public class Anasayfa extends AppCompatActivity {
         if(item.getItemId()==R.id.action_logout){
             logout();
         }
-
-
+        if (item.getItemId() == R.id.action_add) {
+            startActivity(new Intent(AnasayfaDernek.this, Post.class));
+        }
         else if(item.getItemId() == R.id.action_profil){
-            Intent into = new Intent(Anasayfa.this,Profil.class);
+            Intent into = new Intent(AnasayfaDernek.this,Profil.class);
 
          /* Bundle bundle = getIntent().getExtras();
             Kullanici kullanici = new Kullanici();

@@ -14,13 +14,21 @@ public class OnGiris extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_giris);
-
+        btnKullanici= (Button) findViewById(R.id.btnKullanici);
         btnDernek= (Button) findViewById(R.id.btnDernek);
 
         btnDernek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(OnGiris.this,Giris.class);
+                startActivity(i);
+            }
+        });
+
+        btnKullanici.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(OnGiris.this,GirisKullanici.class);
                 startActivity(i);
             }
         });
