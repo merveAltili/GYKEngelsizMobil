@@ -204,14 +204,12 @@ public class Anasayfa extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         Intent intocan = new Intent();
 
         if(item.getItemId()==R.id.action_logout2){
             logout();
         }
-
-
+        
         else if(item.getItemId() == R.id.action_profil2){
             Intent into = new Intent(Anasayfa.this,Profil.class);
 
