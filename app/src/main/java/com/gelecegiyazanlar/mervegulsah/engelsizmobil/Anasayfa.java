@@ -62,11 +62,8 @@ public class Anasayfa extends AppCompatActivity {
         String currentkullanciId=mAuth.getCurrentUser().getUid();
        mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
-
-
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
-
         mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
@@ -201,7 +198,7 @@ public class Anasayfa extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu2,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -210,12 +207,12 @@ public class Anasayfa extends AppCompatActivity {
 
         Intent intocan = new Intent();
 
-        if(item.getItemId()==R.id.action_logout){
+        if(item.getItemId()==R.id.action_logout2){
             logout();
         }
 
 
-        else if(item.getItemId() == R.id.action_profil){
+        else if(item.getItemId() == R.id.action_profil2){
             Intent into = new Intent(Anasayfa.this,Profil.class);
 
          /* Bundle bundle = getIntent().getExtras();
@@ -233,7 +230,7 @@ public class Anasayfa extends AppCompatActivity {
 
     private void logout() {
         mAuth.signOut();
-        Intent into = new Intent(getApplicationContext(),Giris.class);
+        Intent into = new Intent(getApplicationContext(),GirisKullanici.class);
         into.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(into);
         finish();

@@ -62,7 +62,7 @@ public class AnasayfaDernek extends AppCompatActivity {
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
 
-        mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
+        mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list2);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
 
@@ -82,12 +82,12 @@ public class AnasayfaDernek extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(AnasayfaDernek.EtkinlikViewHolder2 viewHolder, Etkinlik model, int position) {
-                final String post_key=getRef(position).getKey();
+                final String post_key2=getRef(position).getKey();
 
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());
                 viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
-                viewHolder.setmKatil(post_key);
+                viewHolder.setmKatil(post_key2);
                 viewHolder.setUserName(model.getUsername());
 
 
@@ -98,7 +98,7 @@ public class AnasayfaDernek extends AppCompatActivity {
                         // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
 
                         Intent etkinlikDetay=new Intent(AnasayfaDernek.this, EtkinlikDetay.class);
-                        etkinlikDetay.putExtra("etkinlik_id",post_key);
+                        etkinlikDetay.putExtra("etkinlik_id",post_key2);
                         startActivity(etkinlikDetay);
                     }
                 });
@@ -115,12 +115,12 @@ public class AnasayfaDernek extends AppCompatActivity {
                                 if (mKatilmaDurumu) {
 
 
-                                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())) {
-                                        mDatabaseKatil.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
+                                    if (dataSnapshot.child(post_key2).hasChild(mAuth.getCurrentUser().getUid())) {
+                                        mDatabaseKatil.child(post_key2).child(mAuth.getCurrentUser().getUid()).removeValue();
                                         mKatilmaDurumu = false;
 
                                     } else {
-                                        mDatabaseKatil.child(post_key).child(mAuth.getCurrentUser().getUid()).setValue("Randomvalue");
+                                        mDatabaseKatil.child(post_key2).child(mAuth.getCurrentUser().getUid()).setValue("Randomvalue");
                                         mKatilmaDurumu = false;
                                     }
                                 }
@@ -170,7 +170,7 @@ public class AnasayfaDernek extends AppCompatActivity {
         public EtkinlikViewHolder2(View itemView) {
             super(itemView);
             mView=itemView;
-            mKatil=(ImageButton)mView.findViewById(R.id.btnKatil);
+            mKatil=(ImageButton)mView.findViewById(R.id.btnKatil2);
             mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
             mAuth=FirebaseAuth.getInstance();
 
@@ -178,19 +178,19 @@ public class AnasayfaDernek extends AppCompatActivity {
 
         }
         public void setEtkinlikAdi(String title){
-            TextView etkinlik_adi=(TextView)mView.findViewById(R.id.etkinlik_adi);
+            TextView etkinlik_adi=(TextView)mView.findViewById(R.id.etkinlik_adi2);
             etkinlik_adi.setText(title);
         }
         public void setAciklama(String aciklama){
-            TextView e_aciklama=(TextView)mView.findViewById(R.id.etkinlik_aciklama);
+            TextView e_aciklama=(TextView)mView.findViewById(R.id.etkinlik_aciklama2);
             e_aciklama.setText(aciklama);
         }
         public void setUserName(String username){
-            TextView e_username=(TextView)mView.findViewById(R.id.post_username);
+            TextView e_username=(TextView)mView.findViewById(R.id.post_username2);
             e_username.setText(username);
         }
         public void setImage(Context ctx, String image){
-            ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
+            ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image2);
             Picasso.with(ctx).load(image).into(e_image);
         }
     }
@@ -211,18 +211,10 @@ public class AnasayfaDernek extends AppCompatActivity {
         if (item.getItemId() == R.id.action_add) {
             startActivity(new Intent(AnasayfaDernek.this, Post.class));
         }
-        else if(item.getItemId() == R.id.action_profil){
+        if(item.getItemId() == R.id.action_profil){
             Intent into = new Intent(AnasayfaDernek.this,Profil.class);
 
-         /* Bundle bundle = getIntent().getExtras();
-            Kullanici kullanici = new Kullanici();
-            kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
-            kullanici.setSifre(bundle.getString("Sifre"));
-            kullanici.setResim(bundle.getString("Resim"));
-            into.putExtra("Kullanici_Adi",kullanici.getIsim());
-            into.putExtra("Sifre",kullanici.getSifre());
-            into.putExtra("Resim",kullanici.getResim());*/
-            startActivity(into);
+          startActivity(into);
         }
         return super.onOptionsItemSelected(item);
     }
