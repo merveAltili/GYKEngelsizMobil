@@ -73,7 +73,7 @@ public class GirisKullanici extends AppCompatActivity {
                     mProgress.setMessage("Giriş Yapılıyor...");
                     mProgress.show();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = database.getReference("Kullanicilar");
+                    DatabaseReference reference = database.getReference().child("Kullanıcılar");
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -86,7 +86,7 @@ public class GirisKullanici extends AppCompatActivity {
                                 kullanici.setIsim(dataSnapshot.child(key).getValue(Kullanici.class).getIsim());
                                 kullanici.setMail(dataSnapshot.child(key).getValue(Kullanici.class).getMail());
                                 kullanici.setSoyisim(dataSnapshot.child(key).getValue(Kullanici.class).getSoyisim());
-                                kullanici.setDernek_gönüllü(dataSnapshot.child(key).getValue(Kullanici.class).getDernek_gönüllü());
+                                //kullanici.setDernek_gönüllü(dataSnapshot.child(key).getValue(Kullanici.class).getDernek_gönüllü());
                                 kullanici.setResim(dataSnapshot.child(key).getValue(Kullanici.class).getResim());
                                 imgProfilResmi = kullanici.getResim();
                                 if (kullaniciAdi.equals(kullanici.getKullaniciAdi()) && sifre.equals(kullanici.getSifre())) {
@@ -95,8 +95,16 @@ public class GirisKullanici extends AppCompatActivity {
                                         Intent intocan = new Intent(GirisKullanici.this, Anasayfa.class);
                                         intocan.putExtra("Kullanıcı Adı", kullanici.getKullaniciAdi());
                                         intocan.putExtra("Şifre", kullanici.getSifre());
+                                        intocan.putExtra("Telefon", kullanici.getTelefon());
+                                        intocan.putExtra("Isim", kullanici.getIsim());
+                                        intocan.putExtra("Mail", kullanici.getMail());
                                         intocan.putExtra("Resim", kullanici.getResim());
-                                        intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        intocan.putExtra("Isim", kullanici.getIsim());
+                                        intocan.putExtra("Soyisim", kullanici.getSoyisim());
+
+
+
+                                      //  intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                         startActivity(intocan);
                                         finish();
 

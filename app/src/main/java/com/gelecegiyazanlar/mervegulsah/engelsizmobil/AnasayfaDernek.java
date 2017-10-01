@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,7 @@ public class AnasayfaDernek extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseKatil;
     private DatabaseReference mDatabaseCurrentKullanici;
+    private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth mAuth;
     public ProgressDialog mProgress;
     private Query mQueryCurrentUser;
@@ -51,6 +53,11 @@ public class AnasayfaDernek extends AppCompatActivity {
                 }
             }
         };
+        final FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("kullaniciAdi").child(
+                firebaseUser.getUid());
+
 
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
