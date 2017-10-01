@@ -59,9 +59,7 @@ public class Profil extends AppCompatActivity {
 
         edtKullaniciAdi2= (EditText) findViewById(R.id.giriskullaniciad2);
         txtKullaniciAdi= (EditText) findViewById(R.id.txtKullaniciAdi);
-        //DatabaseReference mchild=databaseReference.child("kullaniciAdi");
 
-         //      txtKullaniciAdi.setText(edtKullaniciAdi2.getText().toString() );
 
 
         mAuth =FirebaseAuth.getInstance();
@@ -130,9 +128,39 @@ public class Profil extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu2,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intocan = new Intent();
 
+        if(item.getItemId()==R.id.action_logout2){
+            logout();
+        }
+
+        else if(item.getItemId() == R.id.action_profil2){
+            Intent into = new Intent(Profil.this,Profil.class);
+
+         /* Bundle bundle = getIntent().getExtras();
+            Kullanici kullanici = new Kullanici();
+            kullanici.setKullaniciAdi(bundle.getString("Kullanici_Adi"));
+            kullanici.setSifre(bundle.getString("Sifre"));
+            kullanici.setResim(bundle.getString("Resim"));
+            into.putExtra("Kullanici_Adi",kullanici.getIsim());
+            into.putExtra("Sifre",kullanici.getSifre());
+            into.putExtra("Resim",kullanici.getResim());*/
+            startActivity(into);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        mAuth.signOut();
+        Intent into = new Intent(getApplicationContext(),GirisKullanici.class);
+        into.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(into);
+        finish();
+    }
 }

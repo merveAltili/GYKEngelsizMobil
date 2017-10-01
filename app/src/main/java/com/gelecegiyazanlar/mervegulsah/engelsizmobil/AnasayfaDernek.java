@@ -15,9 +15,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,17 +53,13 @@ public class AnasayfaDernek extends AppCompatActivity {
                 }
             }
         };
-        final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
-        final DatabaseReference databaseReference = firebaseDatabase.getReference("kullaniciAdi").child(
-                firebaseUser.getUid());
 
 
+        String currentkullanciId=mAuth.getCurrentUser().getUid();
+        mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
-        String currentkullanciId=mAuth.getCurrentUser().getUid();
         mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
-        mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
 
 
         mDatabase.keepSynced(true);
@@ -109,6 +105,7 @@ public class AnasayfaDernek extends AppCompatActivity {
                         startActivity(etkinlikDetay);
                     }
                 });
+
                 viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,12 +150,12 @@ public class AnasayfaDernek extends AppCompatActivity {
         DatabaseReference mDatabaseKatil;
         FirebaseAuth mAuth;
 
-        public void  setmKatil(final String post_key){
+        public void  setmKatil(final String post_key2){
 
             mDatabaseKatil.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())){
+                    if(dataSnapshot.child(post_key2).hasChild(mAuth.getCurrentUser().getUid())){
                         mKatil.setImageResource(R.drawable.ic_tik_kirmizi_24dp);
 
                     }else{
