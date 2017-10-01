@@ -54,13 +54,13 @@ public class AnasayfaDernek extends AppCompatActivity {
             }
         };
 
-
-        String currentkullanciId=mAuth.getCurrentUser().getUid();
-        mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
+        mAuth=FirebaseAuth.getInstance();
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
         mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
 
+        String currentkullanciId=mAuth.getCurrentUser().getUid();
+        mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
 
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
