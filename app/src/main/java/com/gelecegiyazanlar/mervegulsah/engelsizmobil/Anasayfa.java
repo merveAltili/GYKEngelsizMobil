@@ -40,6 +40,7 @@ public class Anasayfa extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
