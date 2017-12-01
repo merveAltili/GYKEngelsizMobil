@@ -128,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/radioGroup"
+        android:layout_below="@+id/edtSifre"
         android:text="Kayıt Ol"
         android:layout_marginTop="16dp"
         android:textColor="@color/white"

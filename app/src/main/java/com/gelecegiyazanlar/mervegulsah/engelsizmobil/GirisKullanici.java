@@ -41,7 +41,6 @@ public class GirisKullanici extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog mProgress;
     private DatabaseReference mData;
-    private String imgProfilResmi;
     TextView kayit;
     EditText giriskullaniciad, girissifre;
     Button girisbutton;
@@ -52,7 +51,7 @@ public class GirisKullanici extends AppCompatActivity {
         setContentView(R.layout.activity_giris_kullanici);
         mAuth = FirebaseAuth.getInstance();
 
-        mData = FirebaseDatabase.getInstance().getReference().child("kullaniciAdi");
+        mData = FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mData.keepSynced(true);
 
         mProgress = new ProgressDialog(this);
@@ -69,7 +68,7 @@ public class GirisKullanici extends AppCompatActivity {
             public void onClick(View v) {
                 final String kullaniciAdi = giriskullaniciad.getText().toString();
                 final String sifre = girissifre.getText().toString();
-                if (!kullaniciAdi.equals("") || !sifre.equals("")) {
+                if (!kullaniciAdi.equals(" ") || !sifre.equals(" ")) {
                     mProgress.setMessage("Giriş Yapılıyor...");
                     mProgress.show();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -86,9 +85,10 @@ public class GirisKullanici extends AppCompatActivity {
                                 kullanici.setIsim(dataSnapshot.child(key).getValue(Kullanici.class).getIsim());
                                 kullanici.setMail(dataSnapshot.child(key).getValue(Kullanici.class).getMail());
                                 kullanici.setSoyisim(dataSnapshot.child(key).getValue(Kullanici.class).getSoyisim());
+
                                 //kullanici.setDernek_gönüllü(dataSnapshot.child(key).getValue(Kullanici.class).getDernek_gönüllü());
-                                kullanici.setResim(dataSnapshot.child(key).getValue(Kullanici.class).getResim());
-                                imgProfilResmi = kullanici.getResim();
+                              //  kullanici.setResim(dataSnapshot.child(key).getValue(Kullanici.class).getResim());
+
                                 if (kullaniciAdi.equals(kullanici.getKullaniciAdi()) && sifre.equals(kullanici.getSifre())) {
 
                                         mProgress.dismiss();
@@ -101,6 +101,7 @@ public class GirisKullanici extends AppCompatActivity {
                                         intocan.putExtra("Resim", kullanici.getResim());
                                         intocan.putExtra("Isim", kullanici.getIsim());
                                         intocan.putExtra("Soyisim", kullanici.getSoyisim());
+
 
 
 

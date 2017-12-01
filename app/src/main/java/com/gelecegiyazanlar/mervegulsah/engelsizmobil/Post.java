@@ -88,6 +88,7 @@ public class Post extends AppCompatActivity {
 
                 final String etkinlikAd = mEtkinlikAd.getText().toString().trim();
                 final String aciklama = mAciklama.getText().toString().trim();
+
                // final String kullaniciAdi =mKullaniciAdi.getText().toString().trim() ;
 
                 if (!TextUtils.isEmpty(etkinlikAd) && !TextUtils.isEmpty(aciklama) && mImageUri != null) {

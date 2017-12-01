@@ -5,7 +5,10 @@ import android.content.Context;
 import android.net.Uri;
 
 public class Kullanici {
-    String kullaniciAdi,isim,soyisim,mail,telefon,sifre,dernek_gönüllü,resim,puan;
+    String kullaniciAdi,isim,soyisim,mail,telefon,sifre,resim,puan;
+
+
+
     Context context;
 
     public String getPuan() {
@@ -80,11 +83,6 @@ public class Kullanici {
         this.sifre = sifre;
     }
 
-    public String getDernek_gönüllü() {
-        return dernek_gönüllü;
-    }
 
-    public void setDernek_gönüllü(String dernek_gönüllü) {
-        this.dernek_gönüllü = dernek_gönüllü;
-    }
+
 }
