@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 
+import java.util.ArrayList;
+
 public class Etkinlik {
 
     private String etkinlikAdi;

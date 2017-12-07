@@ -1,5 +1,6 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,8 +11,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -41,46 +44,26 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Kayit extends AppCompatActivity {
-    EditText edtKullaniciAdi, edtİsim, edtSoyisim, edtTelefon, edtMail, edtSifre;
-    Button btnKayıtOl;
-    int number;
+public class Kayit extends Activity {
+    private EditText edtKullaniciAdi, edtİsim, edtSoyisim, edtTelefon, edtMail, edtSifre;
+    private Button btnKayıtOl;
+    private ImageButton mImageBtn;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseKullanici;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private StorageReference mStorage;
-    private ProgressDialog mProgress;
-    private DatabaseReference mData;
-    private DatabaseReference mDatabase;
-    private FirebaseUser mCurrentKullanici;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayit);
 
+         FirebaseDatabase database = FirebaseDatabase.getInstance();
+         DatabaseReference reference = database.getReference();
+        final DatabaseReference membref=reference.child("Kullanıcılar");
 
-        FirebaseDatabase database=FirebaseDatabase.getInstance();
-        DatabaseReference dtRef=database.getReference();
+        mAuth=mAuth.getInstance();
 
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentKullanici=mAuth.getCurrentUser();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() == null) {
-                    Intent loginIntent = new Intent(Kayit.this, GirisKullanici.class);
-                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(loginIntent);
-                }
-            }
-        };
-
-        mData = FirebaseDatabase.getInstance().getReference().child("Etkinlik");
-        mDatabaseKullanici = FirebaseDatabase.getInstance().getReference().child("kullaniciAdi");
-
-        mProgress = new ProgressDialog(this);
         edtKullaniciAdi = (EditText) findViewById(R.id.edtKullaniciAdi);
         edtİsim = (EditText) findViewById(R.id.edtİsim);
         edtSoyisim = (EditText) findViewById(R.id.edtSoyisim);
@@ -90,37 +73,54 @@ public class Kayit extends AppCompatActivity {
         edtSifre.setTypeface(Typeface.DEFAULT);
 
         mStorage = FirebaseStorage.getInstance().getReference();
-
-        Random random = new Random();
-        number = (random.nextInt(100) + 1);
-
         btnKayıtOl = (Button) findViewById(R.id.btnKayıtOl);
+
         btnKayıtOl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //kayit
-                final String kullaniciAdi = edtKullaniciAdi.getText().toString().trim() ;
-                final String isim = edtİsim.getText().toString().trim();
-                final String soyisim = edtSoyisim.getText().toString().trim();
-                final String mail = edtMail.getText().toString().trim();
-                final String telefon = edtTelefon.getText().toString().trim();
-                final String sifre = edtSifre.getText().toString().trim();
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                final DatabaseReference reference = database.getReference("Kullanıcılar");
-                reference.addValueEventListener(new ValueEventListener() {
+                final Kullanici k=new Kullanici();
+                k.setKullaniciAdi(edtKullaniciAdi.getText().toString());
+                k.setIsim(edtİsim.getText().toString());
+                k.setSoyisim(edtSoyisim.getText().toString());
+                k.setMail(edtMail.getText().toString());
+                k.setTelefon(edtTelefon.getText().toString());
+                k.setSifre(edtSifre.getText().toString());
+
+                Toast.makeText(Kayit.this,"Kayit Başarılı..",Toast.LENGTH_LONG).show();
+                final ProgressDialog progressDialog = ProgressDialog.show(Kayit.this,"Lütfen bekleyiniz..","İşlem Yapiliyor",true);
+
+
+                (mAuth.createUserWithEmailAndPassword(edtKullaniciAdi.getText().toString(), edtSifre.getText().toString()))
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressDialog.dismiss();
+                                if (task.isSuccessful()) {
+                                    mAuth.getCurrentUser().getUid();
+                                    membref.child(membref.push().getKey()).setValue(k);
+                                    SignIn();
+                                } else {
+                                      Log.e("ERROR", task.getException().toString());
+                                     // Toast.makeText(Kayit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+
+               membref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot data : dataSnapshot.getChildren())
                         {
                             String key = data.getKey();
-                            Kullanici KullaniciAdi = new Kullanici();
-                            KullaniciAdi.setKullaniciAdi(dataSnapshot.child(key).getValue(Kullanici.class).getKullaniciAdi().toString());
-                            String kAdi = KullaniciAdi.getKullaniciAdi().toString();
+                            Kullanici K = new Kullanici();
+                            K.setMail(dataSnapshot.child(key).getValue(Kullanici.class).getMail().toString());
+                            String kmail = K.getMail().toString();
 
-                            if(kullaniciAdi.equals(kAdi))
+                            if(TextUtils.isEmpty(edtMail.getText()))
                             {
                                 Toast.makeText(getApplicationContext(),"Lütfen kullanıcı adınızı değiştiriniz.",Toast.LENGTH_SHORT).show();
-                                edtKullaniciAdi.setText("");
+                                edtMail.setText("");
 
                             }
                         }
@@ -131,35 +131,37 @@ public class Kayit extends AppCompatActivity {
 
                     }
                 });
-                if(kullaniciAdi.equals("") || isim.equals("") || soyisim.equals("") || mail.equals("") || telefon.equals("") || sifre.equals(""))
+                if(TextUtils.isEmpty(edtKullaniciAdi.getText()) || TextUtils.isEmpty(edtİsim.getText()) ||
+                        TextUtils.isEmpty(edtSoyisim.getText()) ||TextUtils.isEmpty(edtMail.getText()) ||
+                        TextUtils.isEmpty(edtTelefon.getText()) || TextUtils.isEmpty(edtSifre.getText()))
                 {
                     Toast.makeText(getApplicationContext(),"Lütfen boş alanları doldurunuz.",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
 
-                    if(isValid(mail) == true)
+                    if(isValid(edtMail.getText().toString()) == true)
                     {
 
 
-                            if (!sifre.equals("")) {
+                        if (!TextUtils.isEmpty(edtSifre.getText())) {
 
-                                final Kullanici kullanici = new Kullanici();
-                                kullanici.setKullaniciAdi(kullaniciAdi);
-                                kullanici.setIsim(isim);
-                                kullanici.setSoyisim(soyisim);
-                                kullanici.setMail(mail);
-                                kullanici.setTelefon(telefon);
-                                kullanici.setSifre(sifre);
-                                reference.child(reference.push().getKey()).setValue(kullanici);
+                            final Kullanici kullanici = new Kullanici();
+                            kullanici.setKullaniciAdi(edtKullaniciAdi.getText().toString());
+                            kullanici.setIsim(edtİsim.getText().toString());
+                            kullanici.setSoyisim(edtSoyisim.getText().toString());
+                            kullanici.setMail(edtMail.getText().toString());
+                            kullanici.setTelefon(edtTelefon.getText().toString());
+                            kullanici.setSifre(edtSifre.getText().toString());
+                            membref.child(membref.push().getKey()).setValue(kullanici);
 
-                                Intent i = new Intent(getApplicationContext(), GirisKullanici.class);
-                                startActivity(i);
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(), "Lütfen şifreleri aynı giriniz.", Toast.LENGTH_SHORT).show();
-                            }
+                            Intent i = new Intent(getApplicationContext(), GirisKullanici.class);
+                            startActivity(i);
                         }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Lütfen şifreleri aynı giriniz.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
                     else
                     {
@@ -169,6 +171,27 @@ public class Kayit extends AppCompatActivity {
 
             }
         });
+    }
+    public void SignIn(){
+        final ProgressDialog progressDialog=ProgressDialog.show(Kayit.this,"Lütfen bekleyiniz..",
+                /*processing*/"işlem..",true);
+        (mAuth.signInWithEmailAndPassword(edtMail.getText().toString(),edtSifre.getText().toString())).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task){
+
+                        if(task.isSuccessful()){
+                            Toast.makeText(Kayit.this,"Giriş Başarılı",Toast.LENGTH_LONG).show();
+                            Intent i=new Intent(Kayit.this,Anasayfa.class);
+                            startActivity(i);
+
+                            } else {
+                                progressDialog.dismiss();
+                                Intent i=new Intent(Kayit.this,Anasayfa.class);
+                                startActivity(i);
+                            }
+                    }
+                });
     }
     public static boolean isValid(String email) {
 
@@ -183,6 +206,4 @@ public class Kayit extends AppCompatActivity {
             return false;
         }
     }
-
-
 }

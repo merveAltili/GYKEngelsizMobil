@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gelecegiyazanlar.mervegulsah.engelsizmobil.Profil">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,17 +17,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="166dp"
+        android:layout_height="170dp"
         android:layout_marginTop="1dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/profilresm"
+    <ImageButton
+        android:id="@+id/imgProfilResmi"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/face2" />
+        <TextView
+            android:id="@+id/txtPuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puan"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
 <Button
     android:layout_width="64dp"
@@ -61,34 +71,14 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="283dp"
     android:orientation="vertical"
     android:background="@color/white">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerKullaniciAdi2"
+        android:id="@+id/etkinlikler_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
-               <android.support.v7.widget.RecyclerView
-                   android:id="@+id/recyclerEtkinlik"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent">
-
-               </android.support.v7.widget.RecyclerView>
-
-               <android.support.v7.widget.RecyclerView
-                   android:id="@+id/recyclerProfil"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
-
-
-           <ImageView
-               android:id="@+id/imageView"
-               android:layout_width="match_parent"
-               android:layout_height="250dp"
-               android:background="@color/white"
-               android:scaleType="centerCrop" />
 
            <android.support.v7.widget.Toolbar
                android:layout_width="match_parent"
@@ -97,4 +87,5 @@
 
 </LinearLayout>
     </android.support.design.widget.AppBarLayout>
+
 </RelativeLayout>

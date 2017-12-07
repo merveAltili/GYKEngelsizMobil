@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class GirisKullanici extends AppCompatActivity {
+import org.w3c.dom.Text;
 
+public class GirisKullanici extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private ImageButton Mimggoogle;
     private static final String TAG = "Giris";
@@ -62,7 +64,7 @@ public class GirisKullanici extends AppCompatActivity {
         //  imgfacebook= (ImageButton) findViewById(R.id.imgfacebook);
         // imgtwitter= (ImageButton) findViewById(R.id.imgtwitter);
         Mimggoogle = (ImageButton) findViewById(R.id.imggoogle2);
-          kayit = (TextView) findViewById(R.id.edtkayit);
+        kayit = (TextView) findViewById(R.id.edtkayit);
         girisbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +73,23 @@ public class GirisKullanici extends AppCompatActivity {
                 if (!kullaniciAdi.equals(" ") || !sifre.equals(" ")) {
                     mProgress.setMessage("Giriş Yapılıyor...");
                     mProgress.show();
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                    mAuth.signInWithEmailAndPassword(kullaniciAdi,sifre)
+                            .addOnCompleteListener(GirisKullanici.this,new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if(task.isSuccessful()){
+                                                Intent i=new Intent(GirisKullanici.this,Anasayfa.class);
+                                                i.putExtra("Email",mAuth.getCurrentUser().getEmail());
+                                                startActivity(i);
+                                                finish();
+                                            }else{
+                                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                /*    FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference().child("Kullanıcılar");
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -87,27 +105,27 @@ public class GirisKullanici extends AppCompatActivity {
                                 kullanici.setSoyisim(dataSnapshot.child(key).getValue(Kullanici.class).getSoyisim());
 
                                 //kullanici.setDernek_gönüllü(dataSnapshot.child(key).getValue(Kullanici.class).getDernek_gönüllü());
-                              //  kullanici.setResim(dataSnapshot.child(key).getValue(Kullanici.class).getResim());
+                                //  kullanici.setResim(dataSnapshot.child(key).getValue(Kullanici.class).getResim());
 
                                 if (kullaniciAdi.equals(kullanici.getKullaniciAdi()) && sifre.equals(kullanici.getSifre())) {
 
-                                        mProgress.dismiss();
-                                        Intent intocan = new Intent(GirisKullanici.this, Anasayfa.class);
-                                        intocan.putExtra("Kullanıcı Adı", kullanici.getKullaniciAdi());
-                                        intocan.putExtra("Şifre", kullanici.getSifre());
-                                        intocan.putExtra("Telefon", kullanici.getTelefon());
-                                        intocan.putExtra("Isim", kullanici.getIsim());
-                                        intocan.putExtra("Mail", kullanici.getMail());
-                                        intocan.putExtra("Resim", kullanici.getResim());
-                                        intocan.putExtra("Isim", kullanici.getIsim());
-                                        intocan.putExtra("Soyisim", kullanici.getSoyisim());
+                                    mProgress.dismiss();
+                                    Intent intocan = new Intent(GirisKullanici.this, Anasayfa.class);
+                                    intocan.putExtra("Kullanıcı Adı", kullanici.getKullaniciAdi());
+                                    intocan.putExtra("Şifre", kullanici.getSifre());
+                                    intocan.putExtra("Telefon", kullanici.getTelefon());
+                                    intocan.putExtra("Isim", kullanici.getIsim());
+                                    intocan.putExtra("Mail", kullanici.getMail());
+                                    intocan.putExtra("Resim", kullanici.getResim());
+                                    intocan.putExtra("Isim", kullanici.getIsim());
+                                    intocan.putExtra("Soyisim", kullanici.getSoyisim());
 
 
 
 
-                                      //  intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                        startActivity(intocan);
-                                        finish();
+                                    //  intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(intocan);
+                                    finish();
 
 
                                 }
@@ -124,7 +142,7 @@ public class GirisKullanici extends AppCompatActivity {
                         // Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
                     } else {
                         //   Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
             }
         });
@@ -148,7 +166,7 @@ public class GirisKullanici extends AppCompatActivity {
             }
         });
 
-      kayit.setOnClickListener(new View.OnClickListener() {
+        kayit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(GirisKullanici.this,Kayit.class));
@@ -211,7 +229,9 @@ public class GirisKullanici extends AppCompatActivity {
                     }
                 });
     }
-
 }
+
+
+
 
 

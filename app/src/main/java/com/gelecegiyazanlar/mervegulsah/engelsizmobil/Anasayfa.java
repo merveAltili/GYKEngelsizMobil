@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -30,6 +31,7 @@ import com.squareup.picasso.Picasso;
 public class Anasayfa extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUsers;
     private DatabaseReference mDatabaseKatil;
     private DatabaseReference mDatabaseCurrentKullanici;
     private FirebaseDatabase firebaseDatabase;
@@ -45,6 +47,7 @@ public class Anasayfa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anasayfa);
         mAuth=FirebaseAuth.getInstance();
+
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -56,9 +59,10 @@ public class Anasayfa extends AppCompatActivity {
             }
         };
 
+
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
-
-
+        mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
+        mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
 
        mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
@@ -67,6 +71,7 @@ public class Anasayfa extends AppCompatActivity {
         mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
+
 
     }
 
@@ -84,7 +89,7 @@ public class Anasayfa extends AppCompatActivity {
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(EtkinlikViewHolder viewHolder, Etkinlik model, int position) {
+            protected void populateViewHolder(EtkinlikViewHolder viewHolder, final Etkinlik model, int position) {
               final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
@@ -125,7 +130,10 @@ public class Anasayfa extends AppCompatActivity {
                                             mKatilmaDurumu = false;
 
                                         } else {
-                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).setValue("Randomvalue");
+
+                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikAdi").setValue(model.getEtkinlikAdi());
+                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikResmi").setValue(model.getEtkinlikResmi());
+                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikIcerigi").setValue(model.getEtkinlikİcerigi());
                                             mKatilmaDurumu = false;
 
                                         }
@@ -144,6 +152,8 @@ public class Anasayfa extends AppCompatActivity {
         };
         mEtkinlikBlog.setAdapter(firebaseRecyclerAdapter);
     }
+
+
 
     public static class EtkinlikViewHolder extends RecyclerView.ViewHolder{
 
