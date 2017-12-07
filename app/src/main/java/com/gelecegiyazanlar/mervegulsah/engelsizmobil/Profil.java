@@ -84,7 +84,7 @@ public class Profil extends AppCompatActivity {
         };
 
         FirebaseUser user=mAuth.getCurrentUser();
-        mDatabase= FirebaseDatabase.getInstance().getReference().child("Katilan");
+        mDatabase= FirebaseDatabase.getInstance().getReference().child("Katilan").child(mAuth.getCurrentUser().getUid());
         mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
@@ -155,9 +155,7 @@ public class Profil extends AppCompatActivity {
                                         mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).removeValue();
                                         mKatilmaDurumu = false;
 
-                                    } else {
-                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).setValue("Randomvalue");
-                                        mKatilmaDurumu = false;
+                                    }else{
 
                                     }
                                 }
