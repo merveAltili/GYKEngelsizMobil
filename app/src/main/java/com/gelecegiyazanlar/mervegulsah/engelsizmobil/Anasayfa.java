@@ -41,7 +41,7 @@ public class Anasayfa extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +65,7 @@ public class Anasayfa extends AppCompatActivity {
         mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
 
-       mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
+        mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
         mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
@@ -90,7 +90,7 @@ public class Anasayfa extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(EtkinlikViewHolder viewHolder, final Etkinlik model, int position) {
-              final String post_key=getRef(position).getKey();
+                final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
 
@@ -104,7 +104,7 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
+                        // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
 
                         Intent etkinlikDetay=new Intent(Anasayfa.this, EtkinlikDetay.class);
                         etkinlikDetay.putExtra("etkinlik_id",post_key);
@@ -112,40 +112,40 @@ public class Anasayfa extends AppCompatActivity {
                     }
                 });
 
-                   viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
+                viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         mKatilmaDurumu=true;
 
                         mDatabaseKatil.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    if (mKatilmaDurumu) {
+                                if (mKatilmaDurumu) {
 
 
-                                        if (dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(post_key)) {
-                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).removeValue();
-                                            mKatilmaDurumu = false;
+                                    if (dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(post_key)) {
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).removeValue();
+                                        mKatilmaDurumu = false;
 
-                                        } else {
+                                    } else {
 
-                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikAdi").setValue(model.getEtkinlikAdi());
-                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikResmi").setValue(model.getEtkinlikResmi());
-                                            mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikIcerigi").setValue(model.getEtkinlikİcerigi());
-                                            mKatilmaDurumu = false;
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikAdi").setValue(model.getEtkinlikAdi());
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikResmi").setValue(model.getEtkinlikResmi());
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key).child("etkinlikİcerigi").setValue(model.getEtkinlikİcerigi());
+                                        mKatilmaDurumu = false;
 
-                                        }
                                     }
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
+                    }
 
                 });
             }
@@ -250,4 +250,3 @@ public class Anasayfa extends AppCompatActivity {
         finish();
     }
 }
-

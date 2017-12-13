@@ -15,13 +15,6 @@ public class Etkinlik {
     private String etkinlikResmi;
     private String username;
 
-    public String getKullanici_id() {
-        return kullanici_id;
-    }
-
-    public void setKullanici_id(String kullanici_id) {
-        this.kullanici_id = kullanici_id;
-    }
 
     private String kullanici_id;
     Context context;
@@ -47,6 +40,12 @@ public class Etkinlik {
     public void setUsername(String username){
         this.username=username;
     }
+    public String getEtkinlikİcerigi() {
+        return etkinlikİcerigi;
+    }
+
+    public void setEtkinlikİcerigi(String etkinlikİcerigi) {this.etkinlikİcerigi = etkinlikİcerigi;
+    }
 
     public void setContext(Context context) {
         this.context = context;
@@ -68,13 +67,8 @@ public class Etkinlik {
         this.etkinlikAdi = etkinlikAdi;
     }
 
-    public String getEtkinlikİcerigi() {
-        return etkinlikİcerigi;
-    }
 
-    public void setEtkinlikİcerigi(String etkinlikİcerigi) {
-        this.etkinlikİcerigi = etkinlikİcerigi;
-    }
+
 
     public String getEtkinlikSaati() {
         return etkinlikSaati;

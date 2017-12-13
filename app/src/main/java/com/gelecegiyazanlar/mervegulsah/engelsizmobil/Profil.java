@@ -125,35 +125,35 @@ public class Profil extends AppCompatActivity {
         });
 
 
-  FirebaseDatabase.getInstance().getReference().child("Katilan").child(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
-      @Override
-      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        FirebaseDatabase.getInstance().getReference().child("Katilan").child(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-          txtKulAdi.setText(mAuth.getCurrentUser().getDisplayName());
-      }
+                txtKulAdi.setText(mAuth.getCurrentUser().getDisplayName());
+            }
 
-      @Override
-      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-      }
+            }
 
-      @Override
-      public void onChildRemoved(DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-      }
+            }
 
-      @Override
-      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-      }
+            }
 
-      @Override
-      public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-      }
-  });
+            }
+        });
 
-}
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
