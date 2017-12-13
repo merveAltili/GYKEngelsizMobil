@@ -27,7 +27,7 @@ public class KullaniciAdapter extends RecyclerView.Adapter<KullaniciAdapter.MyVi
 
         public MyViewHolder(View itemView){
             super(itemView);
-            txtPuan = (TextView)itemView.findViewById(R.id.txtPuan);
+            //txtPuan = (TextView)itemView.findViewById(R.id.txtPuan);
         }
         public void setImage(Context ctx, String image)
         {

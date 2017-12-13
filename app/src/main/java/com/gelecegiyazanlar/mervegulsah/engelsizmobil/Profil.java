@@ -55,6 +55,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Profil extends AppCompatActivity {
+    private StorageReference mStorageRef;
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUsers;
@@ -66,6 +67,12 @@ public class Profil extends AppCompatActivity {
     private Query mQueryCurrentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
+    private ImageButton ivUser;
+    private static final int GALLERY_INTENT = 2;
+    private String CurrentImgPath="-";
+    private TextView txtKulAdi;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,7 @@ public class Profil extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged( @NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
                     Intent lIntent=new Intent(Profil.this,GirisKullanici.class);
                     lIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -85,10 +92,11 @@ public class Profil extends AppCompatActivity {
 
         FirebaseUser user=mAuth.getCurrentUser();
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Katilan").child(mAuth.getCurrentUser().getUid());
-        mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
+        mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar").child(mAuth.getCurrentUser().getUid());
         mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
 
+        txtKulAdi= (TextView) findViewById(R.id.txtKullaniciAdi);
         //mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
@@ -96,9 +104,75 @@ public class Profil extends AppCompatActivity {
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
 
+        mStorageRef= FirebaseStorage.getInstance().getReference();
+        ivUser=(ImageButton) findViewById(R.id.imgProfilResmi);
 
+
+        final StorageReference filepath = mStorageRef.child("Profil resimleri").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(ivUser.getContext()).load(uri.toString()).into(ivUser);
+            }
+        });
+        ivUser.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent,GALLERY_INTENT);
+            }
+        });
+
+
+  FirebaseDatabase.getInstance().getReference().child("Katilan").child(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+          txtKulAdi.setText(mAuth.getCurrentUser().getDisplayName());
+      }
+
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+      }
+
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+      }
+
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+  });
+
+}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
+            final Uri uri = data.getData();
+            final StorageReference filepath = mStorageRef.child("Profil resimleri").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            filepath.putFile(uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                            @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            CurrentImgPath = downloadUrl.toString();
+                            Picasso.with(ivUser.getContext()).load(CurrentImgPath).into(ivUser);
+                            Toast.makeText(Profil.this, "Yükleme Tamamlandı", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -270,4 +344,5 @@ public class Profil extends AppCompatActivity {
         startActivity(into);
         finish();
     }
+
 }
