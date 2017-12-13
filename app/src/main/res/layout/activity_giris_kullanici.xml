@@ -24,13 +24,14 @@
 
         <EditText
             android:id="@+id/giriskullaniciad2"
-            android:drawableLeft="@drawable/ic_kullanici_24dp"
+            android:drawableLeft="@drawable/ic_email_24dp"
             android:drawableTint="@color/white"
             android:drawablePadding="16dp"
             android:layout_marginTop="30dp"
             android:background="@color/gri"
             android:textColorHint="@color/white"
-            android:hint="Kulanıcı Adı"
+            android:inputType="textEmailAddress"
+            android:hint="Email"
             android:textColor="@color/white"
             android:padding="10dp"
             android:layout_width="match_parent"

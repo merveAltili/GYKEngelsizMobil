@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 
 public class Kullanici {
-    String kullaniciAdi,isim,soyisim,mail,telefon,sifre,resim,puan;
+    String kullaniciAdi,isim,soyisim,mail,telefon,sifre,resim,puan,kid;
 
 
 
@@ -18,6 +18,7 @@ public class Kullanici {
     public void setPuan(String puan) {
         this.puan = puan;
     }
+
 
     public Context getContext() {
         return context;
@@ -41,6 +42,13 @@ public class Kullanici {
 
     public void setKullaniciAdi(String kullaniciAdi) {
         this.kullaniciAdi = kullaniciAdi;
+    }
+    public String getKid() {
+        return kid;
+    }
+
+    public void setKid(String kid) {
+        this.kid = kid;
     }
 
     public String getIsim() {

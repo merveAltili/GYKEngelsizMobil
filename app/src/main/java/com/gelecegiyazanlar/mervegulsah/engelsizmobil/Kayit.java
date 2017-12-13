@@ -48,9 +48,19 @@ public class Kayit extends Activity {
     private EditText edtKullaniciAdi, edtİsim, edtSoyisim, edtTelefon, edtMail, edtSifre;
     private Button btnKayıtOl;
     private ImageButton mImageBtn;
-    private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private StorageReference mStorage;
+
+
+    private Button btnKayit,btnResmEkle;
+    private String userName;
+    private String userPassword;
+    private StorageReference mStorageRef;
+    private static final int GALLERY_INTENT = 2;
+    private FirebaseAuth mAuth;
+    private ImageView ivProfil;
+    private String CurrentImgPath="-";
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +81,8 @@ public class Kayit extends Activity {
         edtMail = (EditText) findViewById(R.id.edtMail);
         edtSifre = (EditText) findViewById(R.id.edtSifre);
         edtSifre.setTypeface(Typeface.DEFAULT);
+        userName=edtMail.getText().toString();
+        userPassword=edtSifre.getText().toString();
 
         mStorage = FirebaseStorage.getInstance().getReference();
         btnKayıtOl = (Button) findViewById(R.id.btnKayıtOl);
@@ -91,13 +103,13 @@ public class Kayit extends Activity {
                 final ProgressDialog progressDialog = ProgressDialog.show(Kayit.this,"Lütfen bekleyiniz..","İşlem Yapiliyor",true);
 
 
-                (mAuth.createUserWithEmailAndPassword(edtKullaniciAdi.getText().toString(), edtSifre.getText().toString()))
+                (mAuth.createUserWithEmailAndPassword(edtMail.getText().toString(), edtSifre.getText().toString()))
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    mAuth.getCurrentUser().getUid();
+                                    k.setKid(mAuth.getCurrentUser().getUid());
                                     membref.child(membref.push().getKey()).setValue(k);
                                     SignIn();
                                 } else {
@@ -107,67 +119,6 @@ public class Kayit extends Activity {
                             }
                         });
 
-               membref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot data : dataSnapshot.getChildren())
-                        {
-                            String key = data.getKey();
-                            Kullanici K = new Kullanici();
-                            K.setMail(dataSnapshot.child(key).getValue(Kullanici.class).getMail().toString());
-                            String kmail = K.getMail().toString();
-
-                            if(TextUtils.isEmpty(edtMail.getText()))
-                            {
-                                Toast.makeText(getApplicationContext(),"Lütfen kullanıcı adınızı değiştiriniz.",Toast.LENGTH_SHORT).show();
-                                edtMail.setText("");
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                if(TextUtils.isEmpty(edtKullaniciAdi.getText()) || TextUtils.isEmpty(edtİsim.getText()) ||
-                        TextUtils.isEmpty(edtSoyisim.getText()) ||TextUtils.isEmpty(edtMail.getText()) ||
-                        TextUtils.isEmpty(edtTelefon.getText()) || TextUtils.isEmpty(edtSifre.getText()))
-                {
-                    Toast.makeText(getApplicationContext(),"Lütfen boş alanları doldurunuz.",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-
-                    if(isValid(edtMail.getText().toString()) == true)
-                    {
-
-
-                        if (!TextUtils.isEmpty(edtSifre.getText())) {
-
-                            final Kullanici kullanici = new Kullanici();
-                            kullanici.setKullaniciAdi(edtKullaniciAdi.getText().toString());
-                            kullanici.setIsim(edtİsim.getText().toString());
-                            kullanici.setSoyisim(edtSoyisim.getText().toString());
-                            kullanici.setMail(edtMail.getText().toString());
-                            kullanici.setTelefon(edtTelefon.getText().toString());
-                            kullanici.setSifre(edtSifre.getText().toString());
-                            membref.child(membref.push().getKey()).setValue(kullanici);
-
-                            Intent i = new Intent(getApplicationContext(), GirisKullanici.class);
-                            startActivity(i);
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "Lütfen şifreleri aynı giriniz.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),"Lütfen mail adresinizi doğru giriniz.",Toast.LENGTH_SHORT).show();
-                    }
-                }
 
             }
         });
@@ -181,15 +132,37 @@ public class Kayit extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task){
 
                         if(task.isSuccessful()){
-                            Toast.makeText(Kayit.this,"Giriş Başarılı",Toast.LENGTH_LONG).show();
-                            Intent i=new Intent(Kayit.this,Anasayfa.class);
-                            startActivity(i);
 
+                            if(imageUri != null) {
+                                final StorageReference filepath = mStorageRef.child("Profile")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                filepath.putFile(imageUri)
+                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+
+                                                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                                Picasso.with(ivProfil.getContext()).load(downloadUrl.toString()).into(ivProfil);
+
+                                                progressDialog.dismiss();
+
+                                                Toast.makeText(Kayit.this,"Giriş Başarılı",Toast.LENGTH_LONG).show();
+                                                Intent i=new Intent(Kayit.this,Anasayfa.class);
+                                                startActivity(i);
+                                            }
+                                        });
                             } else {
                                 progressDialog.dismiss();
                                 Intent i=new Intent(Kayit.this,Anasayfa.class);
                                 startActivity(i);
                             }
+
+
+                        } else {
+                            Log.e("ERROR",task.getException().toString());
+                            Toast.makeText(Kayit.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }
@@ -206,4 +179,14 @@ public class Kayit extends Activity {
             return false;
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY_INTENT && resultCode== RESULT_OK ){
+            imageUri = data.getData();
+
+        }
+    }
 }
+
