@@ -57,7 +57,7 @@ public class Post extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mCurrentKullanici=mAuth.getCurrentUser();
 
-        mDatabaseKullanici=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar").child(mCurrentKullanici.getUid());
+        mDatabaseKullanici=FirebaseDatabase.getInstance().getReference().child("Dernekler").child(mAuth.getCurrentUser().getUid());
 
         mStorage= FirebaseStorage.getInstance().getReference();
         mDatabase=FirebaseDatabase.getInstance().getReference().child("Etkinlik");
@@ -104,18 +104,21 @@ public class Post extends AppCompatActivity {
 
                             final DatabaseReference newPost=mDatabase.push();
 
+                            final DatabaseReference newpost2=mDatabaseKullanici.push();
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
 
                             mDatabaseKullanici.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
+
                                     newPost.child("etkinlikAdi").setValue(etkinlikAd);
                                     newPost.child("etkinlikİcerigi").setValue(aciklama);
                                     newPost.child("etkinlikResmi").setValue(downloadUrl.toString());
                                     newPost.child("uid").setValue(mCurrentKullanici.getUid());
-                                   newPost.child("username").setValue(dataSnapshot.child("kullaniciAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                   newPost.child("username").setValue(dataSnapshot.child("dernekAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                        @Override
                                        public void onComplete(@NonNull Task<Void> task) {
                                            if(task.isSuccessful()){

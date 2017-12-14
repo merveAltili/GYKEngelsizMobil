@@ -162,15 +162,15 @@ public class Profil extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
-        FirebaseRecyclerAdapter<Etkinlik,Profil.EtkinlikViewHolder> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, Profil.EtkinlikViewHolder>(
+        FirebaseRecyclerAdapter<Etkinlik,Profil.EtkinlikViewHolder3> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, Profil.EtkinlikViewHolder3>(
 
                 Etkinlik.class,
-                R.layout.etkinlik_row,
-                Profil.EtkinlikViewHolder.class,
+                R.layout.profil_row,
+                Profil.EtkinlikViewHolder3.class,
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(Profil.EtkinlikViewHolder viewHolder, final Etkinlik model, int position) {
+            protected void populateViewHolder(Profil.EtkinlikViewHolder3 viewHolder, final Etkinlik model, int position) {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
@@ -229,7 +229,7 @@ public class Profil extends AppCompatActivity {
 
 
 
-    public static class EtkinlikViewHolder extends RecyclerView.ViewHolder{
+    public static class EtkinlikViewHolder3 extends RecyclerView.ViewHolder{
 
         View mView;
         ImageButton mKatil;
@@ -257,10 +257,10 @@ public class Profil extends AppCompatActivity {
             });
         }
 
-        public EtkinlikViewHolder(View itemView) {
+        public EtkinlikViewHolder3(View itemView) {
             super(itemView);
             mView=itemView;
-            mKatil=(ImageButton)mView.findViewById(R.id.btnKatil);
+            mKatil=(ImageButton)mView.findViewById(R.id.btnKatil3);
             mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
             mAuth=FirebaseAuth.getInstance();
 
@@ -268,19 +268,19 @@ public class Profil extends AppCompatActivity {
 
         }
         public void setEtkinlikAdi(String title){
-            TextView etkinlik_adi=(TextView)mView.findViewById(R.id.etkinlik_adi);
+            TextView etkinlik_adi=(TextView)mView.findViewById(R.id.etkinlik_adip);
             etkinlik_adi.setText(title);
         }
         public void setAciklama(String aciklama){
-            TextView e_aciklama=(TextView)mView.findViewById(R.id.etkinlik_aciklama);
+            TextView e_aciklama=(TextView)mView.findViewById(R.id.etkinlik_aciklamap);
             e_aciklama.setText(aciklama);
         }
         public void setUserName(String username){
-            TextView e_username=(TextView)mView.findViewById(R.id.post_username);
+            TextView e_username=(TextView)mView.findViewById(R.id.post_usernamep);
             e_username.setText(username);
         }
         public void setImage(Context ctx, String image){
-            ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
+            ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_imagep);
             Picasso.with(ctx).load(image).into(e_image);
         }
 

@@ -21,10 +21,11 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public ImageView imgEtkinlik;
-        public TextView txtEtkinlikAdi,txtEtkinlikİceriği,txtEtkinlikSaati,txtEtkinlikImge;
+        public TextView txtEtkinlikAdi,txtEtkinlikİceriği,txtEtkinlikSaati,txtEtkinlikImge,txtusername;
 
         public MyViewHolder (View itemView){
             super(itemView);
+            txtusername=(TextView)itemView.findViewById(R.id.txtusername);
             txtEtkinlikAdi = (TextView)itemView.findViewById(R.id.txtEtkinlikAdi);
             txtEtkinlikİceriği = (TextView)itemView.findViewById(R.id.txtEtkinlikİcerigi);
             txtEtkinlikSaati = (TextView)itemView.findViewById(R.id.txtEtkinlikSaati);
@@ -53,6 +54,7 @@ public class EtkinlikAdapter extends RecyclerView.Adapter<EtkinlikAdapter.MyView
         holder.txtEtkinlikİceriği.setText(myEtkinlik.get(position).getEtkinlikİcerigi());
         holder.txtEtkinlikSaati.setText(myEtkinlik.get(position).getEtkinlikSaati());
         holder.txtEtkinlikImge.setText(myEtkinlik.get(position).getEtkinlikResmi());
+        holder.txtusername.setText(myEtkinlik.get(position).getUsername());
         holder.setImage(myEtkinlik.get(position).context,myEtkinlik.get(position).getEtkinlikResmi());
     }
 

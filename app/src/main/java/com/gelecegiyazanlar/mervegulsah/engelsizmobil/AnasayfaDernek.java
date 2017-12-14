@@ -59,8 +59,8 @@ public class AnasayfaDernek extends AppCompatActivity {
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
         mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
 
-       // String currentkullanciId=mAuth.getCurrentUser().getUid();
-       // mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
+        // String currentkullanciId=mAuth.getCurrentUser().getUid();
+        // mQueryCurrentUser=mDatabaseCurrentKullanici.orderByChild("uid").equalTo(currentkullanciId);
 
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
@@ -218,7 +218,7 @@ public class AnasayfaDernek extends AppCompatActivity {
         if(item.getItemId() == R.id.action_profil){
             Intent into = new Intent(AnasayfaDernek.this,Profil.class);
 
-          startActivity(into);
+            startActivity(into);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -231,4 +231,3 @@ public class AnasayfaDernek extends AppCompatActivity {
         finish();
     }
 }
-

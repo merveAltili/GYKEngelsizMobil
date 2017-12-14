@@ -1,37 +1,37 @@
-package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
+        package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.ProgressDialog;
+        import android.content.Intent;
+        import android.graphics.Typeface;
+        import android.net.Uri;
+        import android.support.annotation.NonNull;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ImageButton;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+        import com.google.android.gms.auth.api.Auth;
+        import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+        import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+        import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+        import com.google.android.gms.common.ConnectionResult;
+        import com.google.android.gms.common.api.GoogleApiClient;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.AuthCredential;
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.GoogleAuthProvider;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
 
 public class Giris extends AppCompatActivity {
 
@@ -51,7 +51,7 @@ public class Giris extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mData = FirebaseDatabase.getInstance().getReference().child("dernekAdi");
+        mData = FirebaseDatabase.getInstance().getReference().child("Dernekler");
         mData.keepSynced(true);
         mProgress = new ProgressDialog(this);
         giriskullaniciad2 = (EditText) findViewById(R.id.giriskullaniciad);
@@ -60,8 +60,8 @@ public class Giris extends AppCompatActivity {
         girisbutton2 = (Button) findViewById(R.id.girisbutton);
         //  imgfacebook= (ImageButton) findViewById(R.id.imgfacebook);
         // imgtwitter= (ImageButton) findViewById(R.id.imgtwitter);
-      //  Mimggoogle = (ImageButton) findViewById(R.id.imggoogle);
-     //   kayit = (TextView) findViewById(R.id.edtkayit);
+        //  Mimggoogle = (ImageButton) findViewById(R.id.imggoogle);
+        //   kayit = (TextView) findViewById(R.id.edtkayit);
         girisbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,12 +84,12 @@ public class Giris extends AppCompatActivity {
                                 if (dernekAdi.equals(dernek.getDernekAdi()) && sifre.equals(dernek.getSifre()))
                                 {
                                     mProgress.dismiss();
-                                        Intent intocan = new Intent(Giris.this,AnasayfaDernek.class);
-                                        intocan.putExtra("Dernek Adi",dernek.getDernekAdi());
-                                        intocan.putExtra("Sifre",dernek.getSifre());
-                                        intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                        startActivity(intocan);
-                                        finish();
+                                    Intent intocan = new Intent(Giris.this,AnasayfaDernek.class);
+                                    intocan.putExtra("Dernek Adi",dernek.getDernekAdi());
+                                    intocan.putExtra("Sifre",dernek.getSifre());
+                                    intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(intocan);
+                                    finish();
 
                                 }
                             }
@@ -102,9 +102,9 @@ public class Giris extends AppCompatActivity {
                     });
                 } else {
                     if (dernekAdi.equals("")) {
-                       // Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
                     } else {
-                     //   Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
+                        //   Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

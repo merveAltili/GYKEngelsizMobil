@@ -4,8 +4,10 @@
     <color name="colorPrimaryDark">#0477bd</color>
     <color name="colorAccent">#9C2780</color>
     <color name="gri">#20f0eaea</color>
+    <color name="koyugri">#bf8c8c8c</color>
     <color name="white">#fdffffff</color>
     <color name="mor">#af45dd</color>
     <color name="blue">#457add</color>
     <color name="acikmavi">#9e457add</color>
+    <color name="yesil">#dd0aa60f</color>
 </resources>

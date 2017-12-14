@@ -10,6 +10,8 @@ public class Dernek {
     String dernekAdi;
     String sifre;
 
+
+
     public String getEtkinlik_id() {
         return etkinlik_id;
     }

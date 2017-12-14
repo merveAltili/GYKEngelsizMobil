@@ -201,9 +201,9 @@ public class Anasayfa extends AppCompatActivity {
             TextView e_aciklama=(TextView)mView.findViewById(R.id.etkinlik_aciklama);
             e_aciklama.setText(aciklama);
         }
-        public void setUserName(String username){
-            TextView e_username=(TextView)mView.findViewById(R.id.post_username);
-            e_username.setText(username);
+        public void setUserName(String dernekadii){
+            TextView dernekadi=(TextView)mView.findViewById(R.id.post_username);
+            dernekadi.setText(dernekadii);
         }
         public void setImage(Context ctx, String image){
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
