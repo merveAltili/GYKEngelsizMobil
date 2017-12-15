@@ -97,6 +97,7 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());
                 viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
+                viewHolder.setUserName(model.getUsername());
                 viewHolder.setmKatil(post_key);
                 viewHolder.setUserName(model.getUsername());
 
@@ -209,6 +210,7 @@ public class Anasayfa extends AppCompatActivity {
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
             Picasso.with(ctx).load(image).into(e_image);
         }
+
 
     }
     @Override

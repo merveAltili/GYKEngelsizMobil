@@ -47,6 +47,8 @@ public class Post extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentKullanici;
     private DatabaseReference mDatabaseKullanici;
+    private DatabaseReference mDataba;
+    Dernek dernek2 = new Dernek();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,27 @@ public class Post extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mCurrentKullanici=mAuth.getCurrentUser();
 
-        mDatabaseKullanici=FirebaseDatabase.getInstance().getReference().child("Dernekler").child(mAuth.getCurrentUser().getUid());
+        mDataba=FirebaseDatabase.getInstance().getReference().child("Dernekler");
+        mDataba.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String key2 = data.getKey();
+
+
+                    dernek2.setDernekAdi(dataSnapshot.child(key2).getValue(Dernek.class).getDernekAdi());
+
+                }
+                }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        mDatabaseKullanici=FirebaseDatabase.getInstance().getReference().child("Dernekler").child(mAuth.getCurrentUser().getUid()) ;
 
         mStorage= FirebaseStorage.getInstance().getReference();
         mDatabase=FirebaseDatabase.getInstance().getReference().child("Etkinlik");
@@ -114,28 +136,32 @@ public class Post extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                                    newPost.child("etkinlikAdi").setValue(etkinlikAd);
-                                    newPost.child("etkinlikİcerigi").setValue(aciklama);
-                                    newPost.child("etkinlikResmi").setValue(downloadUrl.toString());
-                                    newPost.child("uid").setValue(mCurrentKullanici.getUid());
-                                   newPost.child("username").setValue(dataSnapshot.child("dernekAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                       @Override
-                                       public void onComplete(@NonNull Task<Void> task) {
-                                           if(task.isSuccessful()){
-                                               startActivity(new Intent(Post.this,Anasayfa.class));
-                                           }
-                                       }
-                                   });
+                                        newPost.child("etkinlikAdi").setValue(etkinlikAd);
+                                        newPost.child("etkinlikİcerigi").setValue(aciklama);
+                                        newPost.child("etkinlikResmi").setValue(downloadUrl.toString());
+                                        newPost.child("uid").setValue(mCurrentKullanici.getUid());
+                                        newPost.child("username").setValue(dataSnapshot.child("dernekAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Intent i=new Intent(Post.this, Anasayfa.class);
+                                                    startActivity(i);
+                                                    i.putExtra("Dernek Adi",dernek2.getDernekAdi());
+                                                    i.putExtra("Sifre",dernek2.getSifre());
+                                                  }
+                                            }
+                                        });
 
 
+                                    }
 
-                                }
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
 
                                 }
                             });
+
                            //DatabaseReference newPost=database.getReference("Etkinlik");
                            //Etkinlik etkinlik = new Etkinlik();
                            //etkinlik.setEtkinlikAdi(etkinlikAd);

@@ -40,7 +40,7 @@ public class Giris extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog mProgress;
     private DatabaseReference mData;
-
+    private DatabaseReference mDatabaseKullanici;
     EditText giriskullaniciad2,girissifre2;
     Button  girisbutton2;
 
@@ -58,6 +58,10 @@ public class Giris extends AppCompatActivity {
         girissifre2 = (EditText) findViewById(R.id.girissifre);
         girissifre2.setTypeface(Typeface.DEFAULT);
         girisbutton2 = (Button) findViewById(R.id.girisbutton);
+        mDatabaseKullanici=FirebaseDatabase.getInstance().getReference().child("Dernekler");
+        final DatabaseReference newpost=mData.push();
+        final DatabaseReference newpost2=mDatabaseKullanici.push();
+
         //  imgfacebook= (ImageButton) findViewById(R.id.imgfacebook);
         // imgtwitter= (ImageButton) findViewById(R.id.imgtwitter);
         //  Mimggoogle = (ImageButton) findViewById(R.id.imggoogle);
@@ -65,8 +69,10 @@ public class Giris extends AppCompatActivity {
         girisbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String dernekAdi = giriskullaniciad2.getText().toString();
                 final String sifre = girissifre2.getText().toString();
+
                 if (!dernekAdi.equals("") || !sifre.equals("")) {
                     mProgress.setMessage("Giriş Yapılıyor...");
                     mProgress.show();
@@ -77,21 +83,41 @@ public class Giris extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot data : dataSnapshot.getChildren()) {
                                 String key = data.getKey();
+
                                 Dernek dernek = new Dernek();
+
                                 dernek.setDernekAdi(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
                                 dernek.setSifre(dataSnapshot.child(key).getValue(Dernek.class).getSifre());
-
-                                if (dernekAdi.equals(dernek.getDernekAdi()) && sifre.equals(dernek.getSifre()))
+                                if(!((dernekAdi.equals(dernek.getDernekAdi())) && (sifre.equals(dernek.getSifre()))))
                                 {
                                     mProgress.dismiss();
+
+                                }
+
+                              if (dernekAdi.equals(dernek.getDernekAdi()) && sifre.equals(dernek.getSifre()))
+                                {
+                                 //   d.setDernekAdi(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
+                                  //  mDatabaseKullanici.child( mDatabaseKullanici.push().getKey()).setValue(d);
+                                    mProgress.dismiss();
+
                                     Intent intocan = new Intent(Giris.this,AnasayfaDernek.class);
+
+
                                     intocan.putExtra("Dernek Adi",dernek.getDernekAdi());
                                     intocan.putExtra("Sifre",dernek.getSifre());
+
+                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("uid").setValue(mAuth.getCurrentUser().getUid()+dernekAdi);
+                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("dernekAdi").setValue(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
+                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("sifre").setValue(dataSnapshot.child(key).getValue(Dernek.class).getSifre());
                                     intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     startActivity(intocan);
                                     finish();
 
+
                                 }
+
+
+
                             }
                         }
 
@@ -99,12 +125,15 @@ public class Giris extends AppCompatActivity {
                         public void onCancelled(DatabaseError databaseError) {
 
                         }
+
                     });
-                } else {
-                    if (dernekAdi.equals("")) {
-                        // Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+                    if (dernekAdi.equals("") || sifre.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
                     } else {
-                        //   Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
+                          Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
