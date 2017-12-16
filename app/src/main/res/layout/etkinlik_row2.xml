@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/etkinlik_image2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="270dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_add_a_photo_white_24dp" />

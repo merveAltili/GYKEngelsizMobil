@@ -84,7 +84,7 @@ public class AnasayfaDernek extends AppCompatActivity {
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(AnasayfaDernek.EtkinlikViewHolder2 viewHolder, Etkinlik model, int position) {
+            protected void populateViewHolder(AnasayfaDernek.EtkinlikViewHolder2 viewHolder, final Etkinlik model, int position) {
                 final String post_key2=getRef(position).getKey();
 
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
@@ -119,12 +119,14 @@ public class AnasayfaDernek extends AppCompatActivity {
                                 if (mKatilmaDurumu) {
 
 
-                                    if (dataSnapshot.child(post_key2).hasChild(mAuth.getCurrentUser().getUid())) {
-                                        mDatabaseKatil.child(post_key2).child(mAuth.getCurrentUser().getUid()).removeValue();
+                                    if (dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(post_key2)) {
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key2).removeValue();
                                         mKatilmaDurumu = false;
 
                                     } else {
-                                        mDatabaseKatil.child(post_key2).child(mAuth.getCurrentUser().getUid()).setValue("Randomvalue");
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key2).child("etkinlikAdi").setValue(model.getEtkinlikAdi());
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key2).child("etkinlikResmi").setValue(model.getEtkinlikResmi());
+                                        mDatabaseKatil.child(mAuth.getCurrentUser().getUid()).child(post_key2).child("etkinlikİcerigi").setValue(model.getEtkinlikİcerigi());
                                         mKatilmaDurumu = false;
                                     }
                                 }
@@ -150,12 +152,12 @@ public class AnasayfaDernek extends AppCompatActivity {
         DatabaseReference mDatabaseKatil;
         FirebaseAuth mAuth;
 
-        public void  setmKatil(final String post_key2){
+        public void  setmKatil(final String kul_id2){
 
             mDatabaseKatil.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.child(post_key2).hasChild(mAuth.getCurrentUser().getUid())){
+                    if(dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(kul_id2)){
                         mKatil.setImageResource(R.drawable.ic_tik_kirmizi_24dp);
 
                     }else{

@@ -59,6 +59,7 @@ public class Profil extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUsers;
+    private DatabaseReference mDatabaseDernek;
     private DatabaseReference mDatabaseKatil;
     private FirebaseUser mCurrentKullanici;
     private FirebaseDatabase firebaseDatabase;
@@ -94,6 +95,8 @@ public class Profil extends AppCompatActivity {
         mDatabase.keepSynced(true);
         mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabaseUsers.keepSynced(true);
+        mDatabaseDernek=FirebaseDatabase.getInstance().getReference().child("Dernekler");
+        mDatabaseDernek.keepSynced(true);
         mDatabaseKatil = FirebaseDatabase.getInstance().getReference().child("Katilan");
 
         //mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
@@ -123,12 +126,43 @@ public class Profil extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_INTENT);
             }
         });
+
         mDatabaseUsers.orderByChild("kid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Kullanici u=dataSnapshot.getValue(Kullanici.class);
-                txtKullaniciAdi2.setText(u.getMail());
 
+               txtKullaniciAdi2.setText(u.getMail());
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mDatabaseDernek.orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Dernek d=dataSnapshot.getValue(Dernek.class);
+
+                txtKullaniciAdi2.setText(d.getDernekAdi()+" Derneği");
             }
 
             @Override
@@ -174,6 +208,7 @@ public class Profil extends AppCompatActivity {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
+
 
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());

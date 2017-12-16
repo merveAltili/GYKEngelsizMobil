@@ -144,7 +144,7 @@ public class Post extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Intent i=new Intent(Post.this, Anasayfa.class);
+                                                    Intent i=new Intent(Post.this, AnasayfaDernek.class);
                                                     startActivity(i);
                                                     i.putExtra("Dernek Adi",dernek2.getDernekAdi());
                                                     i.putExtra("Sifre",dernek2.getSifre());

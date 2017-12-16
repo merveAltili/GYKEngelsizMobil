@@ -106,9 +106,9 @@ public class Giris extends AppCompatActivity {
                                     intocan.putExtra("Dernek Adi",dernek.getDernekAdi());
                                     intocan.putExtra("Sifre",dernek.getSifre());
 
-                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("uid").setValue(mAuth.getCurrentUser().getUid()+dernekAdi);
-                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("dernekAdi").setValue(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
-                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("sifre").setValue(dataSnapshot.child(key).getValue(Dernek.class).getSifre());
+                                    mDatabaseKullanici.child(key).child("uid").setValue(mAuth.getCurrentUser().getUid());
+                                    mDatabaseKullanici.child(key).child("dernekAdi").setValue(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
+                                    mDatabaseKullanici.child(key).child("sifre").setValue(dataSnapshot.child(key).getValue(Dernek.class).getSifre());
                                     intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     startActivity(intocan);
                                     finish();
