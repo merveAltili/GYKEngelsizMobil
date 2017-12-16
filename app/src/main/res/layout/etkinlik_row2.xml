@@ -3,54 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp">
+    android:layout_margin="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/etkinlik_image2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_a_photo_white_24dp" />
+            android:layout_height="100dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/etkinlik_adi2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="Etkinlik Adını Buraya Gir"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/DernekProfilResmi2"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/post_username2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:text="TextView"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/etkinlik_adi2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="Etkinlik Adını Buraya Gir"
+                    android:textSize="12dp"
+                    />
+                <TextView
+                    android:id="@+id/etkinlik_aciklama2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="Açıklamayı buraya giriniz"
+                    android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/etkinlik_aciklama2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="Açıklamayı buraya giriniz"
-            android:textSize="16dp" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/post_username2"
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="TextView"
-            android:textSize="12dp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/etkinlik_image2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="65dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_add_a_photo_white_24dp" />
+
+
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            </LinearLayout>
 
             <ImageButton
                 android:layout_width="wrap_content"
