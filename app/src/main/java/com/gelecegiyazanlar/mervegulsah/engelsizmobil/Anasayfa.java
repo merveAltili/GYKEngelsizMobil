@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class Anasayfa extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mDatabaseKatil;
+    private DatabaseReference mDatabaseBegen;
     private DatabaseReference mDatabaseCurrentKullanici;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth mAuth;
@@ -40,6 +42,7 @@ public class Anasayfa extends AppCompatActivity {
     private Query mQueryCurrentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
+    private boolean mBegenmeDurumu=false;
 
 
     @Override
@@ -64,10 +67,11 @@ public class Anasayfa extends AppCompatActivity {
         mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
-
+        mDatabaseBegen=FirebaseDatabase.getInstance().getReference().child("Begenenler");
         mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
+        mDatabaseBegen.keepSynced(true);
         mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
@@ -100,6 +104,8 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.setUserName(model.getUsername());
                 viewHolder.setmKatil(post_key);
                 viewHolder.setUserName(model.getUsername());
+                viewHolder.setImage2(getApplicationContext(),model.getDernekResmi());
+                viewHolder.setmBegen(post_key);
 
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +116,36 @@ public class Anasayfa extends AppCompatActivity {
                         Intent etkinlikDetay=new Intent(Anasayfa.this, EtkinlikDetay.class);
                         etkinlikDetay.putExtra("etkinlik_id",post_key);
                         startActivity(etkinlikDetay);
+                    }
+                });
+                viewHolder.mBegen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBegenmeDurumu=true;
+                        mDatabaseBegen.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (mBegenmeDurumu) {
+                                    if (dataSnapshot.child(post_key).hasChild(mAuth.getCurrentUser().getUid())) {
+                                        mDatabaseBegen.child(post_key).child(mAuth.getCurrentUser().getUid()).removeValue();
+                                        mBegenmeDurumu = false;
+
+                                    } else {
+
+                                        mDatabaseBegen.child(post_key).child(mAuth.getCurrentUser().getUid()).child("etkinlikAdi").setValue(model.getEtkinlikAdi());
+                                        mDatabaseBegen.child(post_key).child(mAuth.getCurrentUser().getUid()).child("etkinlikResmi").setValue(model.getEtkinlikResmi());
+                                        mDatabaseBegen.child(post_key).child(mAuth.getCurrentUser().getUid()).child("etkinlikİcerigi").setValue(model.getEtkinlikİcerigi());
+                                        mBegenmeDurumu = false;
+
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 });
 
@@ -159,8 +195,8 @@ public class Anasayfa extends AppCompatActivity {
     public static class EtkinlikViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
-        ImageButton mKatil;
-        DatabaseReference mDatabaseKatil;
+        ImageButton mKatil,mBegen;
+        DatabaseReference mDatabaseKatil,mDatabaseBegen;
         FirebaseAuth mAuth;
 
         public void  setmKatil(final String kul_id){
@@ -183,15 +219,37 @@ public class Anasayfa extends AppCompatActivity {
                 }
             });
         }
+public void setmBegen(final String kul_id2){
+    mDatabaseBegen.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            if(dataSnapshot.child(kul_id2).hasChild(mAuth.getCurrentUser().getUid())){
+                mBegen.setImageResource(R.drawable.ic_kalp_ici_dolu_24dp);
 
+            }else{
+
+                mBegen.setImageResource(R.drawable.ic_kalp_ici_bos_24dp);
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
+}
         public EtkinlikViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
+            mBegen=(ImageButton)mView.findViewById(R.id.btnBegen);
             mKatil=(ImageButton)mView.findViewById(R.id.btnKatil);
             mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
+            mDatabaseBegen=FirebaseDatabase.getInstance().getReference().child("Begenenler");
             mAuth=FirebaseAuth.getInstance();
 
+            mBegen=(ImageButton)mView.findViewById(R.id.btnBegen);
             mDatabaseKatil.keepSynced(true);
+            mDatabaseBegen.keepSynced(true);
 
         }
         public void setEtkinlikAdi(String title){
@@ -209,6 +267,10 @@ public class Anasayfa extends AppCompatActivity {
         public void setImage(Context ctx, String image){
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
             Picasso.with(ctx).load(image).into(e_image);
+        }
+        public void setImage2(Context ctx2, String image2){
+            ImageView e_image2=(ImageView)mView.findViewById(R.id.btnDernekProfil1);
+            Picasso.with(ctx2).load(image2).into(e_image2);
         }
 
 

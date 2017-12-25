@@ -14,6 +14,20 @@ public class Etkinlik {
     private String etkinlikSaati;
     private String etkinlikResmi;
     private String username;
+    private String dernekResmi;
+
+    public String getDernekResmi() {
+        return dernekResmi;
+    }
+
+    public void setDernekResmi(String dernekResmi) {
+        this.dernekResmi = dernekResmi;
+    }
+
+
+
+
+
 
 
     private String kullanici_id;
@@ -33,7 +47,9 @@ public class Etkinlik {
         this.etkinlikResmi=etkinlikResmi;
         this.username=username;
         this.kullanici_id=kullanici_id;
+
     }
+
     public String getUsername(){
         return username;
     }

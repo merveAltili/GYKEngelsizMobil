@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -47,8 +48,10 @@ public class Post extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentKullanici;
     private DatabaseReference mDatabaseKullanici;
+    private DatabaseReference mDatabaseDernekEtkinlik;
     private DatabaseReference mDataba;
     Dernek dernek2 = new Dernek();
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,7 @@ public class Post extends AppCompatActivity {
 
         mStorage= FirebaseStorage.getInstance().getReference();
         mDatabase=FirebaseDatabase.getInstance().getReference().child("Etkinlik");
+        mDatabaseDernekEtkinlik=FirebaseDatabase.getInstance().getReference().child("DernekEtkinlik").child(mAuth.getCurrentUser().getUid());
         mEtkinlikAd=(EditText)findViewById(R.id.edtEtkinlikAd) ;
         mAciklama=(EditText)findViewById(R.id.edtAciklama);
         mKullaniciAdi=(TextView)findViewById(R.id.post_username);
@@ -116,7 +120,10 @@ public class Post extends AppCompatActivity {
                 if (!TextUtils.isEmpty(etkinlikAd) && !TextUtils.isEmpty(aciklama) && mImageUri != null) {
                     mProgress.setMessage("Etkinlik oluşturuluyor ...");
                     mProgress.show();
-                    StorageReference filepath = mStorage.child("Etkinlik resimleri").child(mImageUri.getLastPathSegment());
+                    mStorageRef = FirebaseStorage.getInstance().getReference();
+                    final StorageReference filepath = mStorage.child("Etkinlik resimleri").child(mImageUri.getLastPathSegment());
+
+
 
                     filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
@@ -125,6 +132,7 @@ public class Post extends AppCompatActivity {
                             @SuppressWarnings("VisibleForTests") final Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
                             final DatabaseReference newPost=mDatabase.push();
+                            final DatabaseReference newpostt=mDatabaseDernekEtkinlik.push();
 
                             final DatabaseReference newpost2=mDatabaseKullanici.push();
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -140,6 +148,8 @@ public class Post extends AppCompatActivity {
                                         newPost.child("etkinlikİcerigi").setValue(aciklama);
                                         newPost.child("etkinlikResmi").setValue(downloadUrl.toString());
                                         newPost.child("uid").setValue(mCurrentKullanici.getUid());
+                                        newPost.child("dernekResmi").setValue(dataSnapshot.child("dernekResmi").getValue());
+
                                         newPost.child("username").setValue(dataSnapshot.child("dernekAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -151,6 +161,23 @@ public class Post extends AppCompatActivity {
                                                   }
                                             }
                                         });
+                                    newpostt.child("etkinlikAdi").setValue(etkinlikAd);
+                                    newpostt.child("etkinlikİcerigi").setValue(aciklama);
+                                    newpostt.child("etkinlikResmi").setValue(downloadUrl.toString());
+                                    newpostt.child("uid").setValue(mCurrentKullanici.getUid());
+                                    newpostt.child("dernekResmi").setValue(dataSnapshot.child("dernekResmi").getValue());
+
+                                    newpostt.child("username").setValue(dataSnapshot.child("dernekAdi").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Intent i=new Intent(Post.this, AnasayfaDernek.class);
+                                                startActivity(i);
+                                                i.putExtra("Dernek Adi",dernek2.getDernekAdi());
+                                                i.putExtra("Sifre",dernek2.getSifre());
+                                            }
+                                        }
+                                    });
 
 
                                     }

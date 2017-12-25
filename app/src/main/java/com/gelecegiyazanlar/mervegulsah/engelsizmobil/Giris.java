@@ -1,37 +1,37 @@
-        package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
+package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
-        import android.app.ProgressDialog;
-        import android.content.Intent;
-        import android.graphics.Typeface;
-        import android.net.Uri;
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ImageButton;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.google.android.gms.auth.api.Auth;
-        import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-        import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-        import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-        import com.google.android.gms.common.ConnectionResult;
-        import com.google.android.gms.common.api.GoogleApiClient;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.AuthCredential;
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.GoogleAuthProvider;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Giris extends AppCompatActivity {
 
@@ -94,10 +94,10 @@ public class Giris extends AppCompatActivity {
 
                                 }
 
-                              if (dernekAdi.equals(dernek.getDernekAdi()) && sifre.equals(dernek.getSifre()))
+                                if (dernekAdi.equals(dernek.getDernekAdi()) && sifre.equals(dernek.getSifre()))
                                 {
-                                 //   d.setDernekAdi(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
-                                  //  mDatabaseKullanici.child( mDatabaseKullanici.push().getKey()).setValue(d);
+                                    //   d.setDernekAdi(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
+                                    //  mDatabaseKullanici.child( mDatabaseKullanici.push().getKey()).setValue(d);
                                     mProgress.dismiss();
 
                                     Intent intocan = new Intent(Giris.this,AnasayfaDernek.class);
@@ -106,9 +106,9 @@ public class Giris extends AppCompatActivity {
                                     intocan.putExtra("Dernek Adi",dernek.getDernekAdi());
                                     intocan.putExtra("Sifre",dernek.getSifre());
 
-                                    mDatabaseKullanici.child(key).child("uid").setValue(mAuth.getCurrentUser().getUid());
-                                    mDatabaseKullanici.child(key).child("dernekAdi").setValue(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
-                                    mDatabaseKullanici.child(key).child("sifre").setValue(dataSnapshot.child(key).getValue(Dernek.class).getSifre());
+                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("uid").setValue(mAuth.getCurrentUser().getUid());
+                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("dernekAdi").setValue(dataSnapshot.child(key).getValue(Dernek.class).getDernekAdi());
+                                    mDatabaseKullanici.child(mAuth.getCurrentUser().getUid()).child("sifre").setValue(dataSnapshot.child(key).getValue(Dernek.class).getSifre());
                                     intocan.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     startActivity(intocan);
                                     finish();
@@ -133,7 +133,7 @@ public class Giris extends AppCompatActivity {
                     if (dernekAdi.equals("") || sifre.equals("")) {
                         Toast.makeText(getApplicationContext(), "Lütfen kullanıcı adınızı giriniz.", Toast.LENGTH_SHORT).show();
                     } else {
-                          Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Lütfen şifrenizi giriniz.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

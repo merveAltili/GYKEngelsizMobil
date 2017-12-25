@@ -4,20 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.health.PidHealthStats;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,12 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.internal.zzbjp;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,23 +34,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
+public class ProfilDernek extends AppCompatActivity {
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class Profil extends AppCompatActivity {
     private StorageReference mStorageRef;
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
-    private DatabaseReference mDatabaseUsers;
-    private DatabaseReference mDatabaseDernek;
+    private DatabaseReference mDatabaseUsers2;
+    private DatabaseReference mDatabaseDernek2;
     private DatabaseReference mDatabaseKullanici2;
     private DatabaseReference mDatabaseKatil;
     private FirebaseUser mCurrentKullanici;
@@ -72,19 +53,17 @@ public class Profil extends AppCompatActivity {
     private ImageButton ivUser;
     private static final int GALLERY_INTENT = 2;
     private String CurrentImgPath = "-";
-    private EditText txtKullaniciAdi2;
-
-
+    private EditText txtKullaniciAdi3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profil);
+        setContentView(R.layout.activity_profil_dernek);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
-                    Intent lIntent = new Intent(Profil.this, GirisKullanici.class);
+                    Intent lIntent = new Intent(ProfilDernek.this, GirisKullanici.class);
                     lIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(lIntent);
                 }
@@ -92,29 +71,29 @@ public class Profil extends AppCompatActivity {
         };
 
         FirebaseUser user = mAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Katilan").child(mAuth.getCurrentUser().getUid());
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("DernekEtkinlik").child(mAuth.getCurrentUser().getUid());
         mDatabase.keepSynced(true);
-        mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
-        mDatabaseUsers.keepSynced(true);
-        mDatabaseDernek=FirebaseDatabase.getInstance().getReference().child("Dernekler");
-        mDatabaseDernek.keepSynced(true);
+        mDatabaseUsers2=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
+        mDatabaseUsers2.keepSynced(true);
+        mDatabaseDernek2=FirebaseDatabase.getInstance().getReference().child("Dernekler");
+        mDatabaseDernek2.keepSynced(true);
         mDatabaseKatil = FirebaseDatabase.getInstance().getReference().child("Katilan");
 
         //mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
 
-        txtKullaniciAdi2= (EditText) findViewById(R.id.txtKullaniciAdi2);
+        txtKullaniciAdi3= (EditText) findViewById(R.id.txtKullaniciAdi3);
         mDatabaseKatil.keepSynced(true);
         mEtkinlikBlog = (RecyclerView) findViewById(R.id.etkinlikler_list);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        ivUser = (ImageButton) findViewById(R.id.imgProfilResmi);
+        ivUser = (ImageButton) findViewById(R.id.imgProfilResmi2);
 
         mDatabaseKullanici2=FirebaseDatabase.getInstance().getReference().child("Dernekler").child(mAuth.getCurrentUser().getUid()) ;
 
 
-        final StorageReference filepath = mStorageRef.child("Profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        final StorageReference filepath = mStorageRef.child("Profil resimleri").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -133,15 +112,13 @@ public class Profil extends AppCompatActivity {
 
         });
 
-        mDatabaseUsers.orderByChild("kid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+
+        mDatabaseDernek2.orderByChild("uid").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Kullanici u=dataSnapshot.getValue(Kullanici.class);
-
-
-                txtKullaniciAdi2.setText(u.getMail());
-
-
+                Dernek d=dataSnapshot.getValue(Dernek.class);
+                //  mDatabaseDernek.child(mAuth.getCurrentUser().getUid()).child("dernekProfil").setValue(FirebaseStorage.getInstance().getReference().child("Profil resimleri").getDownloadUrl().toString());
+                txtKullaniciAdi3.setText(d.getDernekAdi()+" Derneği");
             }
 
             @Override
@@ -165,6 +142,7 @@ public class Profil extends AppCompatActivity {
             }
         });
 
+
     }
 
 
@@ -174,15 +152,15 @@ public class Profil extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
-        FirebaseRecyclerAdapter<Etkinlik,Profil.EtkinlikViewHolder3> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, Profil.EtkinlikViewHolder3>(
+        FirebaseRecyclerAdapter<Etkinlik,ProfilDernek.EtkinlikViewHolder4> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Etkinlik, ProfilDernek.EtkinlikViewHolder4>(
 
                 Etkinlik.class,
                 R.layout.profil_row,
-                Profil.EtkinlikViewHolder3.class,
+                ProfilDernek.EtkinlikViewHolder4.class,
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(Profil.EtkinlikViewHolder3 viewHolder, final Etkinlik model, int position) {
+            protected void populateViewHolder(ProfilDernek.EtkinlikViewHolder4 viewHolder, final Etkinlik model, int position) {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
@@ -200,7 +178,7 @@ public class Profil extends AppCompatActivity {
                     public void onClick(View v) {
                         // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
 
-                        Intent etkinlikDetay=new Intent(Profil.this, EtkinlikDetay.class);
+                        Intent etkinlikDetay=new Intent(ProfilDernek.this, EtkinlikDetay.class);
                         etkinlikDetay.putExtra("etkinlik_id",post_key);
                         startActivity(etkinlikDetay);
                     }
@@ -242,7 +220,7 @@ public class Profil extends AppCompatActivity {
 
 
 
-    public static class EtkinlikViewHolder3 extends RecyclerView.ViewHolder{
+    public static class EtkinlikViewHolder4 extends RecyclerView.ViewHolder{
 
         View mView;
         ImageButton mKatil;
@@ -270,7 +248,7 @@ public class Profil extends AppCompatActivity {
             });
         }
 
-        public EtkinlikViewHolder3(View itemView) {
+        public EtkinlikViewHolder4(View itemView) {
             super(itemView);
             mView=itemView;
             mKatil=(ImageButton)mView.findViewById(R.id.btnKatil3);
@@ -314,7 +292,7 @@ public class Profil extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_profil2) {
 
-            Intent into = new Intent(Profil.this, Profil.class);
+            Intent into = new Intent(ProfilDernek.this, ProfilDernek.class);
 
          /* Bundle bundle = getIntent().getExtras();
             Kullanici kullanici = new Kullanici();
@@ -344,21 +322,20 @@ public class Profil extends AppCompatActivity {
         if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
             final Uri uri = data.getData();
 
-            final StorageReference filepath = mStorageRef.child("Profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            final StorageReference filepath = mStorageRef.child("Profil resimleri").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             filepath.putFile(uri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
                             @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            final DatabaseReference newPost2=mDatabaseUsers.push();
-                         // mDatabaseUsers.child().child("kullaniciResmi").setValue(downloadUrl.toString());
+                            final DatabaseReference newPost2=mDatabaseDernek2.push();
+                            mDatabaseDernek2.child(mAuth.getCurrentUser().getUid()).child("dernekResmi").setValue(downloadUrl.toString());
                             CurrentImgPath = downloadUrl.toString();
                             Picasso.with(ivUser.getContext()).load(CurrentImgPath).into(ivUser);
 
-
-                            Toast.makeText(Profil.this, "Yükleme Tamamlandı", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ProfilDernek.this, "Yükleme Tamamlandı", Toast.LENGTH_LONG).show();
                         }
                     });
         }
     }
-}
+    }

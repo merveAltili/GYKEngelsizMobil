@@ -58,7 +58,7 @@ public class Kayit extends Activity {
     private StorageReference mStorageRef;
     private static final int GALLERY_INTENT = 2;
     private FirebaseAuth mAuth;
-    private ImageView ivProfil;
+    private ImageButton ivProfil;
     private String CurrentImgPath="-";
     private Uri imageUri;
 
@@ -84,86 +84,109 @@ public class Kayit extends Activity {
         userName=edtMail.getText().toString();
         userPassword=edtSifre.getText().toString();
 
+        ivProfil=(ImageButton) findViewById(R.id.imgResim1);
         mStorage = FirebaseStorage.getInstance().getReference();
         btnKayıtOl = (Button) findViewById(R.id.btnKayıtOl);
+
 
         btnKayıtOl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //kayit
-                final Kullanici k=new Kullanici();
-                k.setKullaniciAdi(edtKullaniciAdi.getText().toString());
-                k.setIsim(edtİsim.getText().toString());
-                k.setSoyisim(edtSoyisim.getText().toString());
-                k.setMail(edtMail.getText().toString());
-                k.setTelefon(edtTelefon.getText().toString());
-                k.setSifre(edtSifre.getText().toString());
-
-                Toast.makeText(Kayit.this,"Kayit Başarılı..",Toast.LENGTH_LONG).show();
-                final ProgressDialog progressDialog = ProgressDialog.show(Kayit.this,"Lütfen bekleyiniz..","İşlem Yapiliyor",true);
 
 
+final Kullanici k2=new Kullanici();
+
+                Toast.makeText(Kayit.this, "Kayit Başarılı..", Toast.LENGTH_LONG).show();
+                final ProgressDialog progressDialog = ProgressDialog.show(Kayit.this, "Lütfen bekleyiniz..", "İşlem Yapiliyor", true);
                 (mAuth.createUserWithEmailAndPassword(edtMail.getText().toString(), edtSifre.getText().toString()))
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    k.setKid(mAuth.getCurrentUser().getUid());
-                                    membref.child(membref.push().getKey()).setValue(k);
+
+                                    k2.setKid(mAuth.getCurrentUser().getUid());
                                     SignIn();
                                 } else {
-                                      Log.e("ERROR", task.getException().toString());
-                                     // Toast.makeText(Kayit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    Log.e("ERROR", task.getException().toString());
+                                    // Toast.makeText(Kayit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
+
                         });
+        }
 
+        });
 
+        ivProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
             }
         });
     }
     public void SignIn(){
         final ProgressDialog progressDialog=ProgressDialog.show(Kayit.this,"Lütfen bekleyiniz..",
-                /*processing*/"işlem..",true);
+                /*processing*/"işlem yapılıyor ...",true);
         (mAuth.signInWithEmailAndPassword(edtMail.getText().toString(),edtSifre.getText().toString())).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>(){
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task){
 
-                        if(task.isSuccessful()){
+        if(task.isSuccessful()){
 
-                            if(imageUri != null) {
-                                final StorageReference filepath = mStorageRef.child("Profile")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        if(imageUri!=null){
+            mStorageRef = FirebaseStorage.getInstance().getReference();
+final StorageReference filepath=mStorageRef.child("Profile")
+        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                                filepath.putFile(imageUri)
-                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+        filepath.putFile(imageUri)
+        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+@Override
+public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot){
 
-                                                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                                Picasso.with(ivProfil.getContext()).load(downloadUrl.toString()).into(ivProfil);
+@SuppressWarnings("VisibleForTests") Uri downloadUrl=taskSnapshot.getDownloadUrl();
+    final Kullanici k = new Kullanici();
+    k.setKullaniciAdi(edtKullaniciAdi.getText().toString());
+    k.setIsim(edtİsim.getText().toString());
+    k.setSoyisim(edtSoyisim.getText().toString());
+    k.setMail(edtMail.getText().toString());
+    k.setTelefon(edtTelefon.getText().toString());
+    k.setSifre(edtSifre.getText().toString());
+    k.setKid(mAuth.getCurrentUser().getUid());
+    k.setResim(downloadUrl.toString());
 
-                                                progressDialog.dismiss();
+    final DatabaseReference membref=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
 
-                                                Toast.makeText(Kayit.this,"Giriş Başarılı",Toast.LENGTH_LONG).show();
-                                                Intent i=new Intent(Kayit.this,Anasayfa.class);
-                                                startActivity(i);
-                                            }
-                                        });
-                            } else {
-                                progressDialog.dismiss();
-                                Intent i=new Intent(Kayit.this,Anasayfa.class);
-                                startActivity(i);
-                            }
+    membref.child(membref.push().getKey()).setValue(k);
 
 
-                        } else {
-                            Log.e("ERROR",task.getException().toString());
-                            Toast.makeText(Kayit.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    }
+        Picasso.with(ivProfil.getContext()).load(downloadUrl.toString()).into(ivProfil);
+
+
+        progressDialog.dismiss();
+
+        Toast.makeText(Kayit.this,"Giriş Başarılı ",Toast.LENGTH_LONG).show();
+        Intent i=new Intent(Kayit.this,Anasayfa.class);
+        startActivity(i);
+        }
+        });
+        }else{
+        progressDialog.dismiss();
+        Intent i=new Intent(Kayit.this,Anasayfa.class);
+        startActivity(i);
+        }
+
+
+        }else{
+        Log.e("ERROR",task.getException().toString());
+        Toast.makeText(Kayit.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+        }
+        }
+
                 });
     }
     public static boolean isValid(String email) {
@@ -179,6 +202,7 @@ public class Kayit extends Activity {
             return false;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -189,4 +213,5 @@ public class Kayit extends Activity {
         }
     }
 }
+
 

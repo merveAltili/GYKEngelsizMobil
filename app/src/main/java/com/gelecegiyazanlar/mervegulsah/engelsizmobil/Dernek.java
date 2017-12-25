@@ -10,6 +10,16 @@ public class Dernek {
     String dernekAdi;
     String sifre;
 
+    public String getDernekProfil() {
+        return dernekProfil;
+    }
+
+    public void setDernekProfil(String dernekProfil) {
+        this.dernekProfil = dernekProfil;
+    }
+
+    String dernekProfil;
+
 
 
     public String getEtkinlik_id() {

@@ -9,14 +9,14 @@
 
     <ImageButton
         android:id="@+id/imageSelect"
-        android:layout_width="368dp"
+        android:layout_width="400dp"
         android:layout_height="250dp"
         android:adjustViewBounds="true"
         android:background="@color/gri"
+        android:layout_marginLeft="5dp"
         android:scaleType="centerCrop"
         app:srcCompat="@mipmap/ic_add_a_photo_white_24dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="3dp" />
+       />
 
 
     <EditText

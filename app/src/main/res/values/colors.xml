@@ -5,9 +5,11 @@
     <color name="colorAccent">#9C2780</color>
     <color name="gri">#20f0eaea</color>
     <color name="koyugri">#bf8c8c8c</color>
-    <color name="white">#fdffffff</color>
+    <color name="white">#fdfcf9f9</color>
     <color name="mor">#af45dd</color>
     <color name="blue">#457add</color>
     <color name="acikmavi">#9e457add</color>
     <color name="yesil">#dd0aa60f</color>
+    <color name="acikgri">#bfdadada</color>
+    <color name="black">#bf0b0b0b</color>
 </resources>

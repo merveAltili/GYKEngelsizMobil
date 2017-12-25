@@ -92,6 +92,7 @@ public class AnasayfaDernek extends AppCompatActivity {
                 viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
                 viewHolder.setmKatil(post_key2);
                 viewHolder.setUserName(model.getUsername());
+               viewHolder.setImage2(getApplicationContext(),model.getDernekResmi());
 
 
 
@@ -106,7 +107,7 @@ public class AnasayfaDernek extends AppCompatActivity {
                     }
                 });
 
-                viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
+             /*   viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -139,7 +140,7 @@ public class AnasayfaDernek extends AppCompatActivity {
                         });
                     }
 
-                });
+                });*/
             }
         };
         mEtkinlikBlog.setAdapter(firebaseRecyclerAdapter);
@@ -158,11 +159,11 @@ public class AnasayfaDernek extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(kul_id2)){
-                        mKatil.setImageResource(R.drawable.ic_tik_kirmizi_24dp);
+                    //    mKatil.setImageResource(R.drawable.ic_tik_kirmizi_24dp);
 
                     }else{
 
-                        mKatil.setImageResource(R.drawable.ic_tik_24dp);
+                     //   mKatil.setImageResource(R.drawable.ic_tik_24dp);
                     }
                 }
 
@@ -199,6 +200,10 @@ public class AnasayfaDernek extends AppCompatActivity {
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image2);
             Picasso.with(ctx).load(image).into(e_image);
         }
+       public void setImage2(Context ctx2, String image2){
+            ImageView e_image2=(ImageButton)mView.findViewById(R.id.btnDernekProfil);
+            Picasso.with(ctx2).load(image2).into(e_image2);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -218,7 +223,7 @@ public class AnasayfaDernek extends AppCompatActivity {
             startActivity(new Intent(AnasayfaDernek.this, Post.class));
         }
         if(item.getItemId() == R.id.action_profil){
-            Intent into = new Intent(AnasayfaDernek.this,Profil.class);
+            Intent into = new Intent(AnasayfaDernek.this,ProfilDernek.class);
 
             startActivity(into);
         }
