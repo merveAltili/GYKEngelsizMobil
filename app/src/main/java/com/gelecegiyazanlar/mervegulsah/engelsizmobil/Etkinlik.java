@@ -24,12 +24,6 @@ public class Etkinlik {
         this.dernekResmi = dernekResmi;
     }
 
-
-
-
-
-
-
     private String kullanici_id;
     Context context;
 

@@ -1,33 +1,36 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.QuickContactBadge;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.ProgressDialog;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.support.annotation.NonNull;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.EditText;
+        import android.widget.ImageButton;
+        import android.widget.ImageView;
+        import android.widget.QuickContactBadge;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+        import com.firebase.ui.database.FirebaseRecyclerAdapter;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.Query;
+        import com.google.firebase.database.ValueEventListener;
+        import com.squareup.picasso.Picasso;
+
+        import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Anasayfa extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
@@ -35,6 +38,7 @@ public class Anasayfa extends AppCompatActivity {
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mDatabaseKatil;
     private DatabaseReference mDatabaseBegen;
+    private DatabaseReference mDatabaseYorum;
     private DatabaseReference mDatabaseCurrentKullanici;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth mAuth;
@@ -43,6 +47,9 @@ public class Anasayfa extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu=false;
     private boolean mBegenmeDurumu=false;
+    private boolean mYorumDurumu=false;
+    private ImageButton mYorumGonder,mYorum;
+    private EditText mEdtYorum;
 
 
     @Override
@@ -68,15 +75,18 @@ public class Anasayfa extends AppCompatActivity {
         mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
         mDatabaseBegen=FirebaseDatabase.getInstance().getReference().child("Begenenler");
+        mDatabaseYorum=FirebaseDatabase.getInstance().getReference().child("Yorumlar");
         mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
         mDatabaseBegen.keepSynced(true);
+        mDatabaseYorum.keepSynced(true);
         mEtkinlikBlog= (RecyclerView) findViewById(R.id.etkinlik_list);
         mEtkinlikBlog.setHasFixedSize(true);
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
-
-
+        mYorum=(ImageButton)findViewById(R.id.btnYorumYap);
+        mYorumGonder=(ImageButton)findViewById(R.id.imageBtnYorum);
+        mEdtYorum=(EditText)findViewById(R.id.edtyorum);
     }
 
     @Override
@@ -106,6 +116,7 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.setUserName(model.getUsername());
                 viewHolder.setImage2(getApplicationContext(),model.getDernekResmi());
                 viewHolder.setmBegen(post_key);
+                viewHolder.setmYorum(post_key);
 
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +159,54 @@ public class Anasayfa extends AppCompatActivity {
                         });
                     }
                 });
+
+                viewHolder.mYorum.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+        EditText edt=(EditText)findViewById(R.id.edtyorum);
+        ImageButton img=(ImageButton)findViewById(R.id.imageBtnYorum);
+                        edt.setVisibility(View.VISIBLE);
+                        img.setVisibility(View.VISIBLE);
+
+                    }
+                });
+
+viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        mYorumDurumu=true;
+
+        mDatabaseYorum.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                EditText edt=(EditText)findViewById(R.id.edtyorum);
+                String edtyrm = edt.getText().toString().trim();
+                Yorumlar y=new Yorumlar();
+                y.setYorum(edtyrm);
+                if (mYorumDurumu) {
+                   if (dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(post_key)){
+                       // mDatabaseYorum.child(mAuth.getCurrentUser().getUid()).child(post_key).removeValue();
+                        mYorumDurumu = false;
+
+                    } else {
+                       mDatabaseYorum.child(mAuth.getCurrentUser().getUid()).child(post_key).child("yorum").setValue(y.getYorum());
+
+                       mYorumDurumu = false;
+
+                   }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+});
 
                 viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -195,9 +254,32 @@ public class Anasayfa extends AppCompatActivity {
     public static class EtkinlikViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
-        ImageButton mKatil,mBegen;
-        DatabaseReference mDatabaseKatil,mDatabaseBegen;
+        ImageButton mKatil,mBegen,mYorum,mYorumGonder;
+        EditText mEdtYorum;
+        DatabaseReference mDatabaseKatil,mDatabaseBegen,mDatabaseYorum;
         FirebaseAuth mAuth;
+
+        public void  setmYorum(final String kul_id){
+
+            mDatabaseYorum.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(kul_id)){
+                        mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
+
+                    }else{
+
+                        mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
         public void  setmKatil(final String kul_id){
 
@@ -219,37 +301,41 @@ public class Anasayfa extends AppCompatActivity {
                 }
             });
         }
-public void setmBegen(final String kul_id2){
-    mDatabaseBegen.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            if(dataSnapshot.child(kul_id2).hasChild(mAuth.getCurrentUser().getUid())){
-                mBegen.setImageResource(R.drawable.ic_kalp_ici_dolu_24dp);
+        public void setmBegen(final String kul_id2){
+            mDatabaseBegen.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child(kul_id2).hasChild(mAuth.getCurrentUser().getUid())){
+                        mBegen.setImageResource(R.drawable.ic_kalp_ici_dolu_24dp);
 
-            }else{
+                    }else{
 
-                mBegen.setImageResource(R.drawable.ic_kalp_ici_bos_24dp);
-            }
+                        mBegen.setImageResource(R.drawable.ic_kalp_ici_bos_24dp);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    });
-}
         public EtkinlikViewHolder(View itemView) {
             super(itemView);
             mView=itemView;
             mBegen=(ImageButton)mView.findViewById(R.id.btnBegen);
             mKatil=(ImageButton)mView.findViewById(R.id.btnKatil);
+            mYorum=(ImageButton)mView.findViewById(R.id.btnYorumYap);
+            mYorumGonder=(ImageButton)mView.findViewById(R.id.imageBtnYorum);
             mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
+            mDatabaseYorum=FirebaseDatabase.getInstance().getReference().child("Yorumlar");
             mDatabaseBegen=FirebaseDatabase.getInstance().getReference().child("Begenenler");
             mAuth=FirebaseAuth.getInstance();
-
+            mEdtYorum=(EditText)mView.findViewById(R.id.edtyorum);
             mBegen=(ImageButton)mView.findViewById(R.id.btnBegen);
             mDatabaseKatil.keepSynced(true);
             mDatabaseBegen.keepSynced(true);
+            mDatabaseYorum.keepSynced(true);
 
         }
         public void setEtkinlikAdi(String title){
@@ -269,7 +355,7 @@ public void setmBegen(final String kul_id2){
             Picasso.with(ctx).load(image).into(e_image);
         }
         public void setImage2(Context ctx2, String image2){
-            ImageView e_image2=(ImageView)mView.findViewById(R.id.btnDernekProfil1);
+            ImageView e_image2=(CircleImageView)mView.findViewById(R.id.btndernekprofil1);
             Picasso.with(ctx2).load(image2).into(e_image2);
         }
 

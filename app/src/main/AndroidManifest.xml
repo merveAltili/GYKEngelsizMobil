@@ -50,7 +50,8 @@
             android:name=".GirisKullanici"
             android:theme="@style/AppTheme.LoginStyle" />
         <activity android:name=".AnasayfaDernek" />
-        <activity android:name=".ProfilDernek"></activity>
+        <activity android:name=".ProfilDernek" />
+        <activity android:name=".YorumKullanici"></activity>
     </application>
 
 </manifest>

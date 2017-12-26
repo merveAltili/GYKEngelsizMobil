@@ -14,11 +14,24 @@
     android:layout_width="match_parent"
     android:layout_height="113dp">
 
-     <ImageButton
-         android:layout_width="50dp"
-         android:layout_height="50dp"
-         android:id="@+id/btndernekprofil1"/>
-    <ImageView
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="5">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/btndernekprofil3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="0.5dp"/>
+
+
+        </RelativeLayout>
+
+        <ImageView
         android:id="@+id/imgEtkinlik"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -32,7 +45,6 @@
         android:text="Etkinlik Adı"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_below="@+id/txtEtkinlikSaati"
         />
 
     <TextView

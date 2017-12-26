@@ -69,7 +69,7 @@ public class Profil extends AppCompatActivity {
     private Query mQueryCurrentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean mKatilmaDurumu = false;
-    private ImageButton ivUser;
+    private CircleImageView ivUser;
     private static final int GALLERY_INTENT = 2;
     private String CurrentImgPath = "-";
     private EditText txtKullaniciAdi2;
@@ -109,7 +109,7 @@ public class Profil extends AppCompatActivity {
         mEtkinlikBlog.setLayoutManager(new LinearLayoutManager(this));
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        ivUser = (ImageButton) findViewById(R.id.imgProfilResmi);
+        ivUser = (CircleImageView) findViewById(R.id.imgProfilResmi);
 
         mDatabaseKullanici2=FirebaseDatabase.getInstance().getReference().child("Dernekler").child(mAuth.getCurrentUser().getUid()) ;
 
@@ -186,7 +186,6 @@ public class Profil extends AppCompatActivity {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
-
 
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());
@@ -277,6 +276,7 @@ public class Profil extends AppCompatActivity {
             mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
             mAuth=FirebaseAuth.getInstance();
 
+            CircleImageView profileImage;
             mDatabaseKatil.keepSynced(true);
 
         }
@@ -293,7 +293,7 @@ public class Profil extends AppCompatActivity {
             e_username.setText(username);
         }
         public void setImage(Context ctx, String image){
-            ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_imagep);
+            ImageView e_image=(ImageView) mView.findViewById(R.id.etkinlik_imagep);
             Picasso.with(ctx).load(image).into(e_image);
         }
 

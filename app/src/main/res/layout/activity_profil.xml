@@ -16,17 +16,26 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/imgProfilResmi"
-                    android:layout_width="120dp"
-                    android:layout_height="130dp" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="150dp"
+                    android:layout_weight="25">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgProfilResmi"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerVertical="true"
+                        app:civ_border_color="@color/black"
+                        app:civ_border_width="0.5dp"/>
+
+
+                </RelativeLayout>
 
             </LinearLayout>
             <LinearLayout

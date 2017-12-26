@@ -26,6 +26,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AnasayfaDernek extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
     private DatabaseReference mDatabase;
@@ -201,7 +203,7 @@ public class AnasayfaDernek extends AppCompatActivity {
             Picasso.with(ctx).load(image).into(e_image);
         }
        public void setImage2(Context ctx2, String image2){
-            ImageView e_image2=(ImageButton)mView.findViewById(R.id.btnDernekProfil);
+            ImageView e_image2=(CircleImageView)mView.findViewById(R.id.btndernekprofil);
             Picasso.with(ctx2).load(image2).into(e_image2);
         }
     }

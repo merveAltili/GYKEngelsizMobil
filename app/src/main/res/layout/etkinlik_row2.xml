@@ -16,10 +16,22 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btnDernekProfil"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="5">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/btndernekprofil"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    app:civ_border_color="@color/black"
+                    app:civ_border_width="0.5dp"/>
+
+
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
