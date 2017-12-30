@@ -6,23 +6,23 @@
     android:layout_height="match_parent"
     tools:context="com.gelecegiyazanlar.mervegulsah.engelsizmobil.YorumKullanici">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/yorumlar_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/white">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/yorumlar_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
 
 
-        </LinearLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

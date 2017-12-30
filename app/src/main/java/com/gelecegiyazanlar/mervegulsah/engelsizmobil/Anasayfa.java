@@ -17,6 +17,7 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
         import android.widget.ImageView;
         import android.widget.QuickContactBadge;
         import android.widget.TextView;
+        import android.widget.TimePicker;
         import android.widget.Toast;
 
 
@@ -29,6 +30,12 @@ package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
         import com.google.firebase.database.Query;
         import com.google.firebase.database.ValueEventListener;
         import com.squareup.picasso.Picasso;
+
+        import net.danlew.android.joda.JodaTimeAndroid;
+
+        import org.joda.time.DateTime;
+
+        import java.sql.Time;
 
         import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -103,7 +110,7 @@ public class Anasayfa extends AppCompatActivity {
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(EtkinlikViewHolder viewHolder, final Etkinlik model, int position) {
+            protected void populateViewHolder(EtkinlikViewHolder viewHolder, final Etkinlik model, final int position) {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
@@ -185,18 +192,24 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                //newPost.child("kullaniciResmi").setValue();
                 newPost.child("kullaniciAdi").setValue(dataSnapshot.child("kullaniciAdi").getValue());
                 newPost.child("yorum").setValue(yorum);
-             //   newPost.child("saat").setValue()
-
-
+                Intent i=new Intent(Anasayfa.this,YorumKullanici.class);
+                i.putExtra("etkinlik_id2",post_key);
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(i);
+                finish();
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+
     }
 });
 

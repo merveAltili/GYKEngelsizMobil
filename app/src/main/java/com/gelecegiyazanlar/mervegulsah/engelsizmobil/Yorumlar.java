@@ -20,15 +20,15 @@ public class Yorumlar {
 
     }
     public String getYorum() {
-        return yorum;
+        return yorumc;
     }
 
-    public void setYorum(String yorum) {
-        this.yorum = yorum;
+    public void setYorum(String yoruma) {
+        this.yorumc = yoruma;
     }
 
-    private String yorum;
+    private String yorumc;
     public Yorumlar(String yorum) {
-        this.yorum = yorum;
+        this.yorumc = yorum;
     }
 }
