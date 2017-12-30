@@ -161,7 +161,7 @@ public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot){
 
     final DatabaseReference membref=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
 
-    membref.child(membref.push().getKey()).setValue(k);
+    membref.child(mAuth.getCurrentUser().getUid()).setValue(k);
 
 
         Picasso.with(ivProfil.getContext()).load(downloadUrl.toString()).into(ivProfil);

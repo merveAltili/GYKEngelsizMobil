@@ -39,7 +39,7 @@ public class YorumKullanici extends AppCompatActivity {
     private ImageButton btnYorum;
     private ProgressDialog mProgress;
     private EditText yorumAciklama;
-
+    private String mPost_key2=null;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
@@ -53,22 +53,20 @@ public class YorumKullanici extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
-                    Intent lIntent = new Intent(YorumKullanici.this, GirisKullanici.class);
+                    Intent lIntent = new Intent(YorumKullanici.this, Anasayfa.class);
                     lIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(lIntent);
                 }
             }
         };
-
+        mPost_key2=getIntent().getExtras().getString("etkinlik_id2");
         FirebaseUser user = mAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Yorum");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Yorumlar").child(mPost_key2).child(mAuth.getCurrentUser().getUid());
         mDatabase.keepSynced(true);
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabaseUsers.keepSynced(true);
         mDatabaseEtkinlik = FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseEtkinlik.keepSynced(true);
-        mDatabaseKatil = FirebaseDatabase.getInstance().getReference().child("Katilan");
-        mDatabaseYorumYap = FirebaseDatabase.getInstance().getReference().child("Yorumlar");
 
 
         //mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
@@ -85,30 +83,9 @@ btnYorum=(ImageButton)findViewById(R.id.imageBtnYorum);
 
         mDatabaseKullanici2 = FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         final DatabaseReference newPost = mDatabase.push();
-       /* btnYorum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDatabaseEtkinlik.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                      //  final String yorum = yorumAciklama.getText().toString().trim();
 
-              //        mDatabase.child(mAuth.getCurrentUser().getUid()).child("yorum").setValue(yorum);
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-
-
-        });*/
     }
-  /*  @Override
+   @Override
     protected void onStart() {
         super.onStart();
 
@@ -125,19 +102,11 @@ btnYorum=(ImageButton)findViewById(R.id.imageBtnYorum);
             protected void populateViewHolder(YorumKullanici.EtkinlikViewHolder4 viewHolder, final Yorumlar model, int position) {
                 final String post_key3 = getRef(position).getKey();
 
-                viewHolder.setmYorumYap(post_key3);
+            //    viewHolder.setmYorumYap(post_key3);
                 viewHolder.setYorumAciklama(model.getYorum());
 
 
 
-                viewHolder.mYorumYap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Toast.makeText(Anasayfa.this,post_key,Toast.LENGTH_LONG).show();
-
-                      mDatabaseYorumYap.child(post_key3).child(mAuth.getCurrentUser().getUid()).child("yorum").setValue(model.getYorum());
-                    }
-                });
             }
         };
         mEtkinlikBlog.setAdapter(firebaseRecyclerAdapter);
@@ -146,10 +115,10 @@ btnYorum=(ImageButton)findViewById(R.id.imageBtnYorum);
 public static class EtkinlikViewHolder4 extends RecyclerView.ViewHolder{
 
     View mView;
-    ImageButton mYorumBegen,mYorumYap;
-    DatabaseReference mDatabaseBegen,mDatabaseYorumYap;
+    ImageButton mYorumBegen;
+    DatabaseReference mDatabaseBegen,mDatabase;
     FirebaseAuth mAuth;
-
+/*
     public void  setmYorumYap(final String kul_id){
 
         mDatabaseYorumYap.addValueEventListener(new ValueEventListener() {
@@ -169,28 +138,28 @@ public static class EtkinlikViewHolder4 extends RecyclerView.ViewHolder{
 
             }
         });
-    }
+    }*/
 
 
     public EtkinlikViewHolder4(View itemView) {
         super(itemView);
         mView=itemView;
         mYorumBegen=(ImageButton)mView.findViewById(R.id.btnYorumBegen);
-        mYorumYap=(ImageButton)mView.findViewById(R.id.imageBtnYorum);
-        mDatabaseYorumYap.keepSynced(true);
-        mDatabaseBegen.keepSynced(true);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Yorumlar");
 
         mDatabaseBegen=FirebaseDatabase.getInstance().getReference().child("YorumBegen");
-        mDatabaseYorumYap=FirebaseDatabase.getInstance().getReference().child("Yorumlar");
+        mDatabaseBegen.keepSynced(true);
+mDatabase.keepSynced(true);
         mAuth=FirebaseAuth.getInstance();
 
         CircleImageView profileImage;
 
     }
     public void setYorumAciklama(String title){
-        TextView yorumAciklama=(EditText) mView.findViewById(R.id.yorum_aciklama);
+        TextView yorumAciklama=(TextView) mView.findViewById(R.id.yorum_aciklama);
         yorumAciklama.setText(title);
     }
+    /*
    public void setUserName(String username){
         TextView e_username=(TextView)mView.findViewById(R.id.kullanici_ismi);
         e_username.setText(username);
@@ -198,9 +167,9 @@ public static class EtkinlikViewHolder4 extends RecyclerView.ViewHolder{
     public void setImage(Context ctx, String image){
         ImageView e_image=(ImageView) mView.findViewById(R.id.kullanici_resmi);
         Picasso.with(ctx).load(image).into(e_image);
-    }
+    }*/
 
-}*/
+}
   /*
    @Override
     public boolean onCreateOptionsMenu(Menu menu) {

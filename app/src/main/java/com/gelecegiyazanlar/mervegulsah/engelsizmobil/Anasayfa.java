@@ -107,7 +107,7 @@ public class Anasayfa extends AppCompatActivity {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
-
+              final  Yorumlar y=new Yorumlar();
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());
                 viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
@@ -117,6 +117,7 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.setImage2(getApplicationContext(),model.getDernekResmi());
                 viewHolder.setmBegen(post_key);
                 viewHolder.setmYorum(post_key);
+
 
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -175,27 +176,18 @@ public class Anasayfa extends AppCompatActivity {
 viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        mYorumDurumu=true;
+        mEdtYorum=(EditText)findViewById(R.id.edtyorum);
 
-        mDatabaseYorum.addValueEventListener(new ValueEventListener() {
+      final DatabaseReference newPost=mDatabaseYorum.child(post_key).child(mAuth.getCurrentUser().getUid()).push();
+
+        final String yorum = mEdtYorum.getText().toString().trim();
+        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                EditText edt=(EditText)findViewById(R.id.edtyorum);
-                String edtyrm = edt.getText().toString().trim();
-                Yorumlar y=new Yorumlar();
-                y.setYorum(edtyrm);
-                if (mYorumDurumu) {
-                   if (dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(post_key)){
-                       // mDatabaseYorum.child(mAuth.getCurrentUser().getUid()).child(post_key).removeValue();
-                        mYorumDurumu = false;
 
-                    } else {
-                       mDatabaseYorum.child(mAuth.getCurrentUser().getUid()).child(post_key).child("yorum").setValue(y.getYorum());
-
-                       mYorumDurumu = false;
-
-                   }
-                }
+                newPost.child("kullaniciAdi").setValue(dataSnapshot.child("kullaniciAdi").getValue());
+                newPost.child("yorum").setValue(yorum);
+             //   newPost.child("saat").setValue()
 
 
             }
@@ -264,12 +256,12 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
             mDatabaseYorum.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(kul_id)){
-                        mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
+                    if(dataSnapshot.child(kul_id).hasChild(mAuth.getCurrentUser().getUid())){
+                       mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
 
                     }else{
 
-                        mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
+                       mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
                     }
                 }
 
@@ -301,6 +293,7 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
                 }
             });
         }
+
         public void setmBegen(final String kul_id2){
             mDatabaseBegen.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -350,6 +343,7 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
             TextView dernekadi=(TextView)mView.findViewById(R.id.post_username);
             dernekadi.setText(dernekadii);
         }
+
         public void setImage(Context ctx, String image){
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
             Picasso.with(ctx).load(image).into(e_image);
