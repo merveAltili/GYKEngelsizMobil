@@ -202,8 +202,8 @@ public class AnasayfaDernek extends AppCompatActivity {
             ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image2);
             Picasso.with(ctx).load(image).into(e_image);
         }
-       public void setImage2(Context ctx2, String image2){
-            ImageView e_image2=(CircleImageView)mView.findViewById(R.id.btndernekprofil);
+        public void setImage2(Context ctx2, String image2){
+            CircleImageView e_image2=(CircleImageView)mView.findViewById(R.id.btndernekprofil);
             Picasso.with(ctx2).load(image2).into(e_image2);
         }
     }

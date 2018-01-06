@@ -7,6 +7,7 @@ import android.content.Context;
  */
 
 public class Yorumlar {
+    private String yorum;
     Context context;
 
     public Context getContext() {
@@ -20,15 +21,15 @@ public class Yorumlar {
 
     }
     public String getYorum() {
-        return yorumc;
+        return yorum;
     }
 
     public void setYorum(String yoruma) {
-        this.yorumc = yoruma;
+        this.yorum = yoruma;
     }
 
-    private String yorumc;
+
     public Yorumlar(String yorum) {
-        this.yorumc = yorum;
+        this.yorum = yorum;
     }
 }

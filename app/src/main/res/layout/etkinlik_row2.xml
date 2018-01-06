@@ -15,7 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -32,29 +35,33 @@
 
 
             </RelativeLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <TextView
-                android:id="@+id/post_username2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="5dp"
-                android:text="TextView"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/post_username2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="5dp"
+                    android:text="TextView"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/etkinlik_adi2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
                     android:text="Etkinlik Adını Buraya Gir"
-                    android:textSize="12dp"
-                    />
+                    android:textSize="12dp" />
+
                 <TextView
                     android:id="@+id/etkinlik_aciklama2"
                     android:layout_width="match_parent"

@@ -77,6 +77,7 @@ public class Anasayfa extends AppCompatActivity {
         };
 
 
+
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabaseUsers.keepSynced(true);
@@ -124,6 +125,7 @@ public class Anasayfa extends AppCompatActivity {
                 viewHolder.setImage2(getApplicationContext(),model.getDernekResmi());
                 viewHolder.setmBegen(post_key);
                 viewHolder.setmYorum(post_key);
+
 
 
 
@@ -185,17 +187,21 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         mEdtYorum=(EditText)findViewById(R.id.edtyorum);
 
-      final DatabaseReference newPost=mDatabaseYorum.child(post_key).child(mAuth.getCurrentUser().getUid()).push();
 
         final String yorum = mEdtYorum.getText().toString().trim();
         mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+
+
+                final DatabaseReference newPost=mDatabaseYorum.child(post_key).child(mAuth.getCurrentUser().getUid()).push();
                 //newPost.child("kullaniciResmi").setValue();
                 newPost.child("kullaniciAdi").setValue(dataSnapshot.child("kullaniciAdi").getValue());
                 newPost.child("yorum").setValue(yorum);
+
                 Intent i=new Intent(Anasayfa.this,YorumKullanici.class);
+                i.putExtra("yorum",y.getYorum());
                 i.putExtra("etkinlik_id2",post_key);
                 i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(i);
@@ -210,9 +216,9 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
         });
 
 
+
     }
 });
-
                 viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -362,7 +368,7 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
             Picasso.with(ctx).load(image).into(e_image);
         }
         public void setImage2(Context ctx2, String image2){
-            ImageView e_image2=(CircleImageView)mView.findViewById(R.id.btndernekprofil1);
+            CircleImageView e_image2=(CircleImageView)mView.findViewById(R.id.btndernekprofil1);
             Picasso.with(ctx2).load(image2).into(e_image2);
         }
 

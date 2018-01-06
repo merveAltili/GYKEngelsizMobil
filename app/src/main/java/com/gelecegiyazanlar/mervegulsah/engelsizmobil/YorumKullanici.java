@@ -47,7 +47,7 @@ public class YorumKullanici extends AppCompatActivity {
     private boolean mYorumDurumu=false;
     private ImageButton mYorumGonder,mYorum;
     private EditText mEdtYorum;
-    private String mPost_key2=null;
+    public String mPost_key2=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +57,9 @@ public class YorumKullanici extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
-                    Intent loginIntent=new Intent(YorumKullanici.this,Anasayfa.class);
-                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(loginIntent);
+                    Intent loginIntent2=new Intent(YorumKullanici.this,Anasayfa.class);
+                    loginIntent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(loginIntent2);
                 }
             }
         };
@@ -98,13 +98,13 @@ public class YorumKullanici extends AppCompatActivity {
                 mDatabaseYorum
         ) {
             @Override
-            protected void populateViewHolder(YorumKullanici.EtkinlikViewHolder3 viewHolder, final Yorumlar model, final int position) {
+            protected void populateViewHolder(YorumKullanici.EtkinlikViewHolder3 viewHolder,  Yorumlar model2, final int position) {
                 final String post_key = getRef(position).getKey();
 
                 Kullanici kul = new Kullanici();
                 final Yorumlar y = new Yorumlar();
-                viewHolder.setKullaniciAd(kul.getKullaniciAdi());
-                viewHolder.setYorumAciklama(model.getYorum());
+             //  viewHolder.setKullaniciAd(kul.getKullaniciAdi());
+                viewHolder.setYorumAciklama(model2.getYorum());
                 //   viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
 
 
@@ -120,7 +120,7 @@ public class YorumKullanici extends AppCompatActivity {
         EditText mEdtYorum;
         DatabaseReference mDatabaseKatil,mDatabaseBegen,mDatabaseYorum;
         FirebaseAuth mAuth;
-        private String mPost_key2=null;
+
 
 
 
@@ -144,10 +144,10 @@ public class YorumKullanici extends AppCompatActivity {
             mDatabaseYorum.keepSynced(true);
 
         }
-        public void setKullaniciAd(String title){
+      /*  public void setKullaniciAd(String title){
             TextView kul_ad=(TextView)mView.findViewById(R.id.kullanici_ismi);
             kul_ad.setText(title);
-        }
+        }*/
         public void setYorumAciklama(String aciklama){
             TextView y_aciklama=(TextView)mView.findViewById(R.id.yorum_aciklama);
             y_aciklama.setText(aciklama);
