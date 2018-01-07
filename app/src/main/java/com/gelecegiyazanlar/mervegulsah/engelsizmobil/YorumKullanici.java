@@ -48,6 +48,7 @@ public class YorumKullanici extends AppCompatActivity {
     private ImageButton mYorumGonder,mYorum;
     private EditText mEdtYorum;
     public String mPost_key2=null;
+    public String mPost_key1=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +65,14 @@ public class YorumKullanici extends AppCompatActivity {
             }
         };
         mPost_key2=getIntent().getExtras().getString("etkinlik_id2");
+        mPost_key1=getIntent().getExtras().getString("yorum");
 
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Etkinlik");
         mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabaseUsers.keepSynced(true);
         mDatabaseKatil=FirebaseDatabase.getInstance().getReference().child("Katilan");
         mDatabaseBegen=FirebaseDatabase.getInstance().getReference().child("Begenenler");
-        mDatabaseYorum=FirebaseDatabase.getInstance().getReference().child("Yorumlar");
+        mDatabaseYorum=FirebaseDatabase.getInstance().getReference().child("Yorumlar").child(mPost_key2).child(mAuth.getCurrentUser().getUid());
         mDatabaseCurrentKullanici= FirebaseDatabase.getInstance().getReference().child("Kullanıcılar");
         mDatabase.keepSynced(true);
         mDatabaseKatil.keepSynced(true);
@@ -90,7 +92,7 @@ public class YorumKullanici extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
-        FirebaseRecyclerAdapter<Yorumlar, YorumKullanici.EtkinlikViewHolder3> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Yorumlar, YorumKullanici.EtkinlikViewHolder3>(
+        FirebaseRecyclerAdapter<Yorumlar, EtkinlikViewHolder3> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Yorumlar, EtkinlikViewHolder3>(
 
                 Yorumlar.class,
                 R.layout.yorum_row,
@@ -98,7 +100,7 @@ public class YorumKullanici extends AppCompatActivity {
                 mDatabaseYorum
         ) {
             @Override
-            protected void populateViewHolder(YorumKullanici.EtkinlikViewHolder3 viewHolder,  Yorumlar model2, final int position) {
+            protected void populateViewHolder(EtkinlikViewHolder3 viewHolder,  Yorumlar model2, final int position) {
                 final String post_key = getRef(position).getKey();
 
                 Kullanici kul = new Kullanici();
