@@ -196,7 +196,7 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
 
 
                 final DatabaseReference newPost=mDatabaseYorum.child(post_key).child(mAuth.getCurrentUser().getUid()).push();
-                //newPost.child("kullaniciResmi").setValue();
+                newPost.child("resim").setValue(dataSnapshot.child("resim").getValue());
                 newPost.child("kullaniciAdi").setValue(dataSnapshot.child("kullaniciAdi").getValue());
                 newPost.child("yorum").setValue(yorum);
 

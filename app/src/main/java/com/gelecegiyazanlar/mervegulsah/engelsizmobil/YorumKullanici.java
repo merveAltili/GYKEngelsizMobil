@@ -58,7 +58,7 @@ public class YorumKullanici extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
-                    Intent loginIntent2=new Intent(YorumKullanici.this,Anasayfa.class);
+                    Intent loginIntent2=new Intent(YorumKullanici.this,GirisKullanici.class);
                     loginIntent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent2);
                 }
@@ -105,9 +105,10 @@ public class YorumKullanici extends AppCompatActivity {
 
                 Kullanici kul = new Kullanici();
                 final Yorumlar y = new Yorumlar();
-             //  viewHolder.setKullaniciAd(kul.getKullaniciAdi());
+              viewHolder.setKullaniciAd(model2.getKullaniciAdi());
                 viewHolder.setYorumAciklama(model2.getYorum());
-                //   viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
+
+                  viewHolder.setImage(getApplicationContext(),model2.getResim());
 
 
             }
@@ -146,20 +147,20 @@ public class YorumKullanici extends AppCompatActivity {
             mDatabaseYorum.keepSynced(true);
 
         }
-      /*  public void setKullaniciAd(String title){
+      public void setKullaniciAd(String title){
             TextView kul_ad=(TextView)mView.findViewById(R.id.kullanici_ismi);
             kul_ad.setText(title);
-        }*/
+        }
         public void setYorumAciklama(String aciklama){
             TextView y_aciklama=(TextView)mView.findViewById(R.id.yorum_aciklama);
             y_aciklama.setText(aciklama);
         }
 
 
-   /*     public void setImage(Context ctx, String image){
-            ImageView e_image=(ImageView)mView.findViewById(R.id.etkinlik_image);
+      public void setImage(Context ctx, String image){
+          CircleImageView e_image=(CircleImageView)mView.findViewById(R.id.kullanici_resmi);
             Picasso.with(ctx).load(image).into(e_image);
-        }*/
+        }
 
 
 
