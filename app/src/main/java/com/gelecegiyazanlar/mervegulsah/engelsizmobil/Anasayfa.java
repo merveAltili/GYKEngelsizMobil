@@ -1,43 +1,44 @@
 package com.gelecegiyazanlar.mervegulsah.engelsizmobil;
 
 
-        import android.app.ProgressDialog;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.EditText;
-        import android.widget.ImageButton;
-        import android.widget.ImageView;
-        import android.widget.QuickContactBadge;
-        import android.widget.TextView;
-        import android.widget.TimePicker;
-        import android.widget.Toast;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.QuickContactBadge;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 
-        import com.firebase.ui.database.FirebaseRecyclerAdapter;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.Query;
-        import com.google.firebase.database.ValueEventListener;
-        import com.squareup.picasso.Picasso;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
-        import net.danlew.android.joda.JodaTimeAndroid;
+import net.danlew.android.joda.JodaTimeAndroid;
 
-        import org.joda.time.DateTime;
+import org.joda.time.DateTime;
 
-        import java.sql.Time;
+import java.sql.Time;
 
-        import de.hdodenhof.circleimageview.CircleImageView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Anasayfa extends AppCompatActivity {
     private RecyclerView mEtkinlikBlog;
@@ -115,7 +116,7 @@ public class Anasayfa extends AppCompatActivity {
                 final String post_key=getRef(position).getKey();
 
                 Kullanici kul=new Kullanici();
-              final  Yorumlar y=new Yorumlar();
+                final  Yorumlar y=new Yorumlar();
                 viewHolder.setEtkinlikAdi(model.getEtkinlikAdi());
                 viewHolder.setAciklama(model.getEtkinlikİcerigi());
                 viewHolder.setImage(getApplicationContext(),model.getEtkinlikResmi());
@@ -174,51 +175,51 @@ public class Anasayfa extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-        EditText edt=(EditText)findViewById(R.id.edtyorum);
-        ImageButton img=(ImageButton)findViewById(R.id.imageBtnYorum);
+                        EditText edt=(EditText)findViewById(R.id.edtyorum);
+                        ImageButton img=(ImageButton)findViewById(R.id.imageBtnYorum);
                         edt.setVisibility(View.VISIBLE);
                         img.setVisibility(View.VISIBLE);
 
                     }
                 });
 
-viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        mEdtYorum=(EditText)findViewById(R.id.edtyorum);
+                viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mEdtYorum=(EditText)findViewById(R.id.edtyorum);
 
 
-        final String yorum = mEdtYorum.getText().toString().trim();
-        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-                final DatabaseReference newPost=mDatabaseYorum.child(post_key).child(mAuth.getCurrentUser().getUid()).push();
-                newPost.child("resim").setValue(dataSnapshot.child("resim").getValue());
-                newPost.child("kullaniciAdi").setValue(dataSnapshot.child("kullaniciAdi").getValue());
-                newPost.child("yorum").setValue(yorum);
-
-                Intent i=new Intent(Anasayfa.this,YorumKullanici.class);
-                i.putExtra("yorum",y.getYorum());
-                i.putExtra("etkinlik_id2",post_key);
-                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(i);
-                finish();
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                        final String yorum = mEdtYorum.getText().toString().trim();
+                        mDatabaseUsers.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
 
 
-    }
-});
+                                final DatabaseReference newPost=mDatabaseYorum.child(post_key).child(mAuth.getCurrentUser().getUid()).push();
+                                newPost.child("resim").setValue(dataSnapshot.child("resim").getValue());
+                                newPost.child("kullaniciAdi").setValue(dataSnapshot.child("kullaniciAdi").getValue());
+                                newPost.child("yorum").setValue(yorum);
+
+                                Intent i=new Intent(Anasayfa.this,YorumKullanici.class);
+                                i.putExtra("yorum",y.getYorum());
+                                i.putExtra("etkinlik_id2",post_key);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                startActivity(i);
+                                finish();
+                            }
+
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+                    }
+                });
                 viewHolder.mKatil.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -276,11 +277,11 @@ viewHolder.mYorumGonder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.child(kul_id).hasChild(mAuth.getCurrentUser().getUid())){
-                       mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
+                        mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
 
                     }else{
 
-                       mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
+                        mYorum.setImageResource(R.drawable.ic_chat_ici_bos24dp);
                     }
                 }
 

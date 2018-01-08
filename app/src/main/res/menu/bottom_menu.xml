@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/ic_house"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:enabled="true"
+        android:title="house"
+        app:showAsAction="ifRoom"
+        ></item>
+    <item android:id="@+id/ic_like"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:enabled="true"
+        android:title="like"
+        app:showAsAction="ifRoom"
+        ></item>
+    <item android:id="@+id/ic_profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:enabled="true"
+        android:title="profile"
+        app:showAsAction="ifRoom"
+        ></item>
+</menu>
